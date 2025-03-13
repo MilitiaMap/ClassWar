@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California Counties Map</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: Arial, sans-serif;
+        }
+        #map {
+            height: 800px;
+            width: 100%;
+        }
+        .map-title {
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f8f8;
+            margin: 0;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="map-title">California Counties</h1>
+    <div id="map"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([37.8, -120.5], 6);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // GeoJSON for California counties
+        fetch('https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/california-counties.geojson')
+            .then(response => response.json())
+            .then(data => {
+                // Add GeoJSON layer with county styling
+                L.geoJSON(data, {
+                    style: function() {
+                        return {
+                            color: '#3388ff',
+                            weight: 2,
+                            opacity: 1,
+                            fillOpacity: 0.1,
+                            fillColor: '#3388ff'
+                        };
+                    },
+                    onEachFeature: function(feature, layer) {
+                        // Add popup with county name when clicked
+                        if (feature.properties && feature.properties.name) {
+                            layer.bindPopup(feature.properties.name + " County");
+                        }
+                        
+                        // Highlight county on hover
+                        layer.on({
+                            mouseover: function(e) {
+                                const layer = e.target;
+                                layer.setStyle({
+                                    weight: 3,
+                                    fillOpacity: 0.3
+                                });
+                            },
+                            mouseout: function(e) {
+                                const layer = e.target;
+                                layer.setStyle({
+                                    weight: 2,
+                                    fillOpacity: 0.1
+                                });
+                            }
+                        });
+                    }
+                }).addTo(map);
+            })
+            .catch(error => {
+                console.error('Error loading GeoJSON:', error);
+                // If there's an error, add a basic California outline
+                const californiaOutline = L.polygon([
+                    [42.0, -124.4], // Northwest corner
+                    [42.0, -120.0], // Northeast corner
+                    [39.0, -114.6], // East central
+                    [35.0, -114.6], // Southeast
+                    [32.5, -114.8], // Southern border
+                    [32.5, -117.1], // Southwest corner
+                    [33.5, -118.5], // Southern coast
+                    [34.4, -120.5], // Central coast
+                    [35.8, -121.8], // Central coast
+                    [38.0, -123.0], // Northern central coast
+                    [40.0, -124.2], // Northern coast
+                    [41.0, -124.3]  // Northern coast
+                ], {
+                    color: '#3388ff',
+                    weight: 3,
+                    fillColor: '#3388ff',
+                    fillOpacity: 0.1
+                }).addTo(map);
+                
+                californiaOutline.bindPopup("California (County boundaries failed to load)");
+            });
+    </script>
+</body>
+</html>
