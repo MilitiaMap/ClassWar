@@ -24,13 +24,64 @@
         
         <div id="map" class="w-3/4 h-96 mb-8 relative"></div> <!-- Map container -->
 
-        <br>
-        
         <!-- Fullscreen button -->
         <button id="fullscreen-btn" class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white p-1 px-2 rounded-full border-2 border-white h-10 w-10 flex justify-center items-center">
-            <i class="fas fa-expand-arrows-alt text-3xl"></i> <!-- Fullscreen Icon -->
+            <i class="fas fa-expand-arrows-alt text-xl"></i> <!-- Fullscreen Icon -->
         </button>
     </header>
+
+    <!-- Cards Section -->
+    <section class="container mx-auto px-4 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Updates Card -->
+            <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold text-orange-500 mb-4">Updates</h2>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="TrumpCanadaGreeland.html" class="block p-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+                                <i class="fas fa-map-marked-alt text-orange-500 mr-2"></i>
+                                Trump Canada Greeland Map
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Info Card -->
+            <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold text-orange-500 mb-4">Information</h2>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="infamousfigures.html" class="block p-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+                                <i class="fas fa-users text-orange-500 mr-2"></i>
+                                Infamous Figures
+                            </a>
+                        </li>
+                        <li>
+                            <a href="millionaire.html" class="block p-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+                                <i class="fas fa-money-bill-wave text-orange-500 mr-2"></i>
+                                Millionaire Data
+                            </a>
+                        </li>
+                        <li>
+                            <a href="nrxlist.html" class="block p-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+                                <i class="fas fa-list text-orange-500 mr-2"></i>
+                                NRX List
+                            </a>
+                        </li>
+                        <li>
+                            <a href="wealthdistribution.html" class="block p-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+                                <i class="fas fa-chart-pie text-orange-500 mr-2"></i>
+                                Wealth Distribution
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer class="bg-gray-800 text-center text-gray-400 py-4">    
         <p>&copy; 2025 The Resistance</p>
@@ -46,18 +97,19 @@
 
         var overlays = {};
 
-        // Load the list of GeoJSON files from the JSON file (file_list.json in the same directory)
-        fetch('file_list.json')  // Fetch the JSON list from the file in the base directory
+        // Load the list of GeoJSON files from the JSON file
+        fetch('file_list.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Unable to load file list');
                 }
-                return response.json();  // Parse the JSON
+                return response.json();
             })
             .then(files => {
                 // Loop through the list of files and load each one
-                files.forEach(function(file) {
-                    loadGeoJSON(file);
+                files.forEach(function(fileObj) {
+                    // Now expecting objects with url and name properties
+                    loadGeoJSON(fileObj.url, fileObj.name);
                 });
             })
             .catch(error => {
@@ -65,12 +117,12 @@
                 alert('Failed to load GeoJSON file list.');
             });
 
-        // Function to load a GeoJSON file with error handling
-        function loadGeoJSON(file) {
-            fetch(file)
+        // Updated function to load a GeoJSON file with name support
+        function loadGeoJSON(url, name) {
+            fetch(url)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('File not found or unable to load: ' + file);
+                        throw new Error('File not found or unable to load: ' + url);
                     }
                     return response.json();
                 })
@@ -83,14 +135,15 @@
                         }
                     }).addTo(map);
 
-                    overlays[file] = geoLayer;
+                    // Use the provided name for the layer control
+                    overlays[name || url] = geoLayer;
 
                     // Add layer control
                     L.control.layers(null, overlays).addTo(map);
                 })
                 .catch(error => {
-                    console.error('Error loading GeoJSON file:', file, error);
-                    alert('Failed to load GeoJSON file: ' + file); // Display a user-friendly alert
+                    console.error('Error loading GeoJSON file:', url, error);
+                    alert('Failed to load GeoJSON file: ' + (name || url));
                 });
         }
 
