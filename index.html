@@ -16,144 +16,97 @@
 <body class="bg-gray-900 text-white font-sans">
     <!-- Hero Section -->
     <header class="flex flex-col justify-center items-center min-h-screen text-center bg-gray-800 py-10 relative">
-        <!-- Logo Section (FontAwesome Fist Icon) -->
         <div class="mb-6">
-            <i class="fas fa-fist-raised text-6xl text-orange-500"></i> <!-- Fist Icon from FontAwesome -->
+            <i class="fas fa-fist-raised text-6xl text-orange-500"></i>
         </div>
         <h1 class="text-5xl font-bold text-white mb-4">Join the Resistance</h1>
         <p class="text-lg text-gray-400 mb-8">Find your mission, support the cause</p>
         
-        <!-- Map Container (Positioned within Hero) -->
-        <div id="map" class="w-3/4 h-96 mb-8 relative"></div> <!-- Set the width to 75% -->
-        <button id="fullscreen-btn" class="absolute bottom-5 right-5 bg-orange-500 text-white py-2 px-4 rounded-full">
-            Fullscreen
-        </button> <!-- Fullscreen button -->
-        <button id="close-fullscreen-btn" class="absolute top-5 right-5 bg-red-500 text-white py-2 px-4 rounded-full hidden">
-            Close
-        </button> <!-- Close button (hidden by default) -->
+        <div id="map" class="w-3/4 h-96 mb-8 relative"></div> <!-- Map container -->
+        
+        <!-- Fullscreen button -->
+        <button id="fullscreen-btn" class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white p-1 px-2 rounded-full border-2 border-white h-10 w-10 flex justify-center items-center">
+            <i class="fas fa-expand-arrows-alt text-3xl"></i> <!-- Fullscreen Icon -->
+        </button>
     </header>
 
-    <!-- Links Section (Cards) -->
-    <section class="container mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="card bg-gray-800 text-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
-            <h2 class="text-2xl font-semibold mb-3">Updates:</h2>
-            <a href="TrumpCanadaGreeland.html" class="text-orange-500 font-semibold hover:underline">Trump on Canada and Greenland - March 8th</a><br>
-        </div>
-        
-        <div class="card bg-gray-800 text-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
-            <h2 class="text-2xl font-semibold mb-3">Maps:</h2>
-            <a href="cali.html" class="text-orange-500 font-semibold hover:underline">California Counties with Detention Facilities</a>
-        </div>
-
-        <div class="card bg-gray-800 text-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
-            <h2 class="text-2xl font-semibold mb-3">Misc:</h2>
-            <a href="millionaire.html" class="text-orange-500 font-semibold hover:underline">Millionaire Stats</a><br>
-            <a href="wealthdistribution.html" class="text-orange-500 font-semibold hover:underline">Global Millionaire Wealth Distribution</a><br>  
-            <a href="infamousfigures.html" class="text-orange-500 font-semibold hover:underline">Infamous Figures and Their Affiliations</a><br>             
-        </div>
-    </section>
-
-    <center>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/FVWCCmtJ46A?si=jtFLKGmJ3D7ju154" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </center><br><br>
-    
-    <!-- Footer Section -->
     <footer class="bg-gray-800 text-center text-gray-400 py-4">    
         <p>&copy; 2025 The Resistance</p>
     </footer>
 
     <!-- Map JavaScript -->
     <script>
-        // Initialize the map with the US centered
-        var map = L.map('map').setView([37.0902, -95.7129], 4);  // Coordinates for the center of the US, zoomed out
+        var map = L.map('map').setView([37.0902, -95.7129], 4);
 
-        // Add a tile layer (background map)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Add a marker to the map as an example
-        var marker = L.marker([37.0902, -95.7129]).addTo(map);
-        marker.bindPopup("<b>US Center</b><br>This is the center of the United States.").openPopup();
+        var overlays = {};
 
-        // Fullscreen functionality for the map itself
+        // Load the list of GeoJSON files from the JSON file (file_list.json in the same directory)
+        fetch('file_list.json')  // Fetch the JSON list from the file in the base directory
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Unable to load file list');
+                }
+                return response.json();  // Parse the JSON
+            })
+            .then(files => {
+                // Loop through the list of files and load each one
+                files.forEach(function(file) {
+                    loadGeoJSON(file);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading file list:', error);
+                alert('Failed to load GeoJSON file list.');
+            });
+
+        // Function to load a GeoJSON file with error handling
+        function loadGeoJSON(file) {
+            fetch(file)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('File not found or unable to load: ' + file);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var geoLayer = L.geoJSON(data, {
+                        style: {
+                            color: 'blue',
+                            weight: 2,
+                            opacity: 0.6
+                        }
+                    }).addTo(map);
+
+                    overlays[file] = geoLayer;
+
+                    // Add layer control
+                    L.control.layers(null, overlays).addTo(map);
+                })
+                .catch(error => {
+                    console.error('Error loading GeoJSON file:', file, error);
+                    alert('Failed to load GeoJSON file: ' + file); // Display a user-friendly alert
+                });
+        }
+
+        // Fullscreen functionality
         document.getElementById('fullscreen-btn').addEventListener('click', function() {
             var mapContainer = document.getElementById('map');
-            var closeBtn = document.getElementById('close-fullscreen-btn');
             if (!mapContainer.classList.contains('fullscreen')) {
-                // Enter fullscreen mode for the map
                 if (mapContainer.requestFullscreen) {
                     mapContainer.requestFullscreen();
-                } else if (mapContainer.mozRequestFullScreen) { // Firefox
-                    mapContainer.mozRequestFullScreen();
-                } else if (mapContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                    mapContainer.webkitRequestFullscreen();
-                } else if (mapContainer.msRequestFullscreen) { // IE/Edge
-                    mapContainer.msRequestFullscreen();
                 }
                 mapContainer.classList.add('fullscreen');
-                this.textContent = 'Exit Fullscreen';
-                closeBtn.classList.remove('hidden'); // Show the close button
             } else {
-                // Exit fullscreen mode
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
-                } else if (document.mozCancelFullScreen) { // Firefox
-                    document.mozCancelFullScreen();
-                } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) { // IE/Edge
-                    document.msExitFullscreen();
                 }
                 mapContainer.classList.remove('fullscreen');
-                this.textContent = 'Fullscreen';
-                closeBtn.classList.add('hidden'); // Hide the close button
-            }
-        });
-
-        // Close the map fullscreen mode when the close button is clicked
-        document.getElementById('close-fullscreen-btn').addEventListener('click', function() {
-            var mapContainer = document.getElementById('map');
-            var fullscreenBtn = document.getElementById('fullscreen-btn');
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) { // Firefox
-                document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) { // IE/Edge
-                document.msExitFullscreen();
-            }
-            mapContainer.classList.remove('fullscreen');
-            fullscreenBtn.textContent = 'Fullscreen';
-            this.classList.add('hidden'); // Hide the close button
-        });
-
-        // Exit fullscreen when pressing the 'Esc' key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                var mapContainer = document.getElementById('map');
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.mozCancelFullScreen) { // Firefox
-                    document.mozCancelFullScreen();
-                } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) { // IE/Edge
-                    document.msExitFullscreen();
-                }
-                mapContainer.classList.remove('fullscreen');
-                document.getElementById('fullscreen-btn').textContent = 'Fullscreen';
-                document.getElementById('close-fullscreen-btn').classList.add('hidden');
             }
         });
     </script>
-
-    <!-- Styles for Fullscreen -->
-    <style>
-        #map.fullscreen {
-            z-index: 9999; /* Ensure the map is on top when fullscreen */
-        }
-    </style>
 </body>
 </html>
