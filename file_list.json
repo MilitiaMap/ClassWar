@@ -1,4 +1,4 @@
 [
-    "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.geojson",
-    "https://www2.census.gov/geo/tiger/2021/GENZ/21/500k/states.geojson"
+    "https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/us-states.geojson",
+    "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_1_states_provinces.geojson"
 ]
