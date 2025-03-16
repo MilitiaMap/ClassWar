@@ -299,15 +299,6 @@
         }
 
         // Load GeoJSON files
-        fetch('data.geojson')
-            .then(response => response.json())
-            .then(data => {
-                L.geoJSON(data, {
-                    pointToLayer: pointToLayer,
-                    onEachFeature: onEachFeature
-                }).addTo(map);
-            });
-
         fetch('dox.geojson')
             .then(response => response.json())
             .then(data => {
