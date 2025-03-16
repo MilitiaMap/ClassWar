@@ -8,16 +8,23 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome CDN -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- Leaflet CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body class="bg-gray-900 text-white font-sans">
     <!-- Hero Section -->
-    <header class="flex flex-col justify-center items-center min-h-screen text-center bg-gray-800 py-10">
+    <header class="flex flex-col justify-center items-center min-h-screen text-center bg-gray-800 py-10 relative">
         <!-- Logo Section (FontAwesome Fist Icon) -->
         <div class="mb-6">
             <i class="fas fa-fist-raised text-6xl text-orange-500"></i> <!-- Fist Icon from FontAwesome -->
         </div>
         <h1 class="text-5xl font-bold text-white mb-4">Join the Resistance</h1>
         <p class="text-lg text-gray-400 mb-8">Find your mission, support the cause</p>
+        
+        <!-- Map Container (Positioned within Hero) -->
+        <div id="map" class="w-full h-96 mb-8"></div> <!-- Set a fixed height for the map -->
     </header>
 
     <!-- Links Section (Cards) -->
@@ -48,5 +55,20 @@
     <footer class="bg-gray-800 text-center text-gray-400 py-4">    
         <p>&copy; 2025 The Resistance</p>
     </footer>
+
+    <!-- Map JavaScript -->
+    <script>
+        // Initialize the map with the US centered
+        var map = L.map('map').setView([37.0902, -95.7129], 4);  // Coordinates for the center of the US, zoomed out
+
+        // Add a tile layer (background map)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add a marker to the map as an example
+        var marker = L.marker([37.0902, -95.7129]).addTo(map);
+        marker.bindPopup("<b>US Center</b><br>This is the center of the United States.").openPopup();
+    </script>
 </body>
 </html>
