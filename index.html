@@ -24,7 +24,13 @@
         <p class="text-lg text-gray-400 mb-8">Find your mission, support the cause</p>
         
         <!-- Map Container (Positioned within Hero) -->
-        <div id="map" class="w-full h-96 mb-8"></div> <!-- Set a fixed height for the map -->
+        <div id="map" class="w-3/4 h-96 mb-8 relative"></div> <!-- Set the width to 75% -->
+        <button id="fullscreen-btn" class="absolute bottom-5 right-5 bg-orange-500 text-white py-2 px-4 rounded-full">
+            Fullscreen
+        </button> <!-- Fullscreen button -->
+        <button id="close-fullscreen-btn" class="absolute top-5 right-5 bg-red-500 text-white py-2 px-4 rounded-full hidden">
+            Close
+        </button> <!-- Close button (hidden by default) -->
     </header>
 
     <!-- Links Section (Cards) -->
@@ -69,6 +75,85 @@
         // Add a marker to the map as an example
         var marker = L.marker([37.0902, -95.7129]).addTo(map);
         marker.bindPopup("<b>US Center</b><br>This is the center of the United States.").openPopup();
+
+        // Fullscreen functionality for the map itself
+        document.getElementById('fullscreen-btn').addEventListener('click', function() {
+            var mapContainer = document.getElementById('map');
+            var closeBtn = document.getElementById('close-fullscreen-btn');
+            if (!mapContainer.classList.contains('fullscreen')) {
+                // Enter fullscreen mode for the map
+                if (mapContainer.requestFullscreen) {
+                    mapContainer.requestFullscreen();
+                } else if (mapContainer.mozRequestFullScreen) { // Firefox
+                    mapContainer.mozRequestFullScreen();
+                } else if (mapContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                    mapContainer.webkitRequestFullscreen();
+                } else if (mapContainer.msRequestFullscreen) { // IE/Edge
+                    mapContainer.msRequestFullscreen();
+                }
+                mapContainer.classList.add('fullscreen');
+                this.textContent = 'Exit Fullscreen';
+                closeBtn.classList.remove('hidden'); // Show the close button
+            } else {
+                // Exit fullscreen mode
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { // Firefox
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { // IE/Edge
+                    document.msExitFullscreen();
+                }
+                mapContainer.classList.remove('fullscreen');
+                this.textContent = 'Fullscreen';
+                closeBtn.classList.add('hidden'); // Hide the close button
+            }
+        });
+
+        // Close the map fullscreen mode when the close button is clicked
+        document.getElementById('close-fullscreen-btn').addEventListener('click', function() {
+            var mapContainer = document.getElementById('map');
+            var fullscreenBtn = document.getElementById('fullscreen-btn');
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) { // Firefox
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { // IE/Edge
+                document.msExitFullscreen();
+            }
+            mapContainer.classList.remove('fullscreen');
+            fullscreenBtn.textContent = 'Fullscreen';
+            this.classList.add('hidden'); // Hide the close button
+        });
+
+        // Exit fullscreen when pressing the 'Esc' key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                var mapContainer = document.getElementById('map');
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { // Firefox
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { // IE/Edge
+                    document.msExitFullscreen();
+                }
+                mapContainer.classList.remove('fullscreen');
+                document.getElementById('fullscreen-btn').textContent = 'Fullscreen';
+                document.getElementById('close-fullscreen-btn').classList.add('hidden');
+            }
+        });
     </script>
+
+    <!-- Styles for Fullscreen -->
+    <style>
+        #map.fullscreen {
+            z-index: 9999; /* Ensure the map is on top when fullscreen */
+        }
+    </style>
 </body>
 </html>
