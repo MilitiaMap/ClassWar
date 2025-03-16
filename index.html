@@ -26,8 +26,20 @@
         #map {
             width: 75%;
             height: 24rem;
-            margin-bottom: 2rem;
-            position: relative;
+            margin: 2rem auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .layer-toggle {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -75,13 +87,28 @@
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
+
+        var dataLayer = L.layerGroup().addTo(map);
+        var doxLayer = L.layerGroup().addTo(map);
         
-        fetch('data.geojson')
-            .then(response => response.json())
-            .then(data => {
-                L.geoJSON(data).addTo(map);
-            })
-            .catch(error => console.error('Error loading GeoJSON:', error));
+        function loadGeoJson(url, layer) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    L.geoJSON(data).addTo(layer);
+                })
+                .catch(error => console.error('Error loading GeoJSON:', error));
+        }
+        
+        loadGeoJson('data.geojson', dataLayer);
+        loadGeoJson('dox.geojson', doxLayer);
+        
+        var overlayMaps = {
+            "Data Points": dataLayer,
+            "Dox Points": doxLayer
+        };
+        
+        L.control.layers(null, overlayMaps).addTo(map);
     </script>
 </body>
 </html>
