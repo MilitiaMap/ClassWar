@@ -8,10 +8,6 @@
     <!-- FontAwesome CDN -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     
-    <!-- Leaflet CSS and JS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    
     <style>
         /* Base styles */
         body {
@@ -28,11 +24,10 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-height: 50vh;
             text-align: center;
             background-color: #1f2937; /* bg-gray-800 */
             padding: 2.5rem 0;
-            position: relative;
         }
         
         .icon-container {
@@ -54,37 +49,6 @@
         header p {
             font-size: 1.125rem;
             color: #9ca3af; /* text-gray-400 */
-            margin-bottom: 2rem;
-        }
-        
-        /* Map styles */
-        #map {
-            width: 75%;
-            height: 24rem;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-        
-        #fullscreen-btn {
-            position: absolute;
-            bottom: 1.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #f97316; /* bg-orange-500 */
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
-            border: 2px solid white;
-            height: 2.5rem;
-            width: 2.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-        
-        #fullscreen-btn i {
-            font-size: 1.25rem;
         }
         
         /* Cards section */
@@ -138,10 +102,6 @@
             margin-bottom: 0.75rem;
         }
         
-        .link-list li:last-child {
-            margin-bottom: 0;
-        }
-        
         .link-item {
             display: block;
             padding: 0.75rem;
@@ -178,13 +138,6 @@
         </div>
         <h1>Join the Resistance</h1>
         <p>Find your mission, support the cause</p>
-        
-        <div id="map"></div> <!-- Map container -->
-
-        <!-- Fullscreen button -->
-        <button id="fullscreen-btn">
-            <i class="fas fa-expand-arrows-alt"></i> <!-- Fullscreen Icon -->
-        </button>
     </header>
 
     <!-- Cards Section -->
@@ -234,6 +187,12 @@
                                 Wealth Distribution
                             </a>
                         </li>
+                        <li>
+                            <a href="Accelerationism101.html" class="link-item">
+                                <i class="fas fa-bolt"></i>
+                                Accelerationism 101
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -243,46 +202,5 @@
     <footer>
         <p>&copy; 2025 The Resistance</p>
     </footer>
-
-    <script>
-        // Initialize map
-        var map = L.map('map').setView([40, -95], 4);
-        
-        // Add tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-        
-        // Add some markers
-        var locations = [
-            {name: "New York", lat: 40.7128, lng: -74.0060},
-            {name: "Los Angeles", lat: 34.0522, lng: -118.2437},
-            {name: "Chicago", lat: 41.8781, lng: -87.6298},
-            {name: "Toronto", lat: 43.6532, lng: -79.3832},
-            {name: "Mexico City", lat: 19.4326, lng: -99.1332}
-        ];
-        
-        // Add markers
-        locations.forEach(function(loc) {
-            L.marker([loc.lat, loc.lng])
-                .bindPopup("<b>" + loc.name + "</b><br>Resistance Point")
-                .addTo(map);
-        });
-        
-        // Fullscreen button functionality
-        document.getElementById('fullscreen-btn').addEventListener('click', function() {
-            var mapElement = document.getElementById('map');
-            
-            if (mapElement.requestFullscreen) {
-                mapElement.requestFullscreen();
-            } else if (mapElement.mozRequestFullScreen) {
-                mapElement.mozRequestFullScreen();
-            } else if (mapElement.webkitRequestFullscreen) {
-                mapElement.webkitRequestFullscreen();
-            } else if (mapElement.msRequestFullscreen) {
-                mapElement.msRequestFullscreen();
-            }
-        });
-    </script>
 </body>
 </html>
