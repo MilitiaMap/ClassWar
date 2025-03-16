@@ -1,3 +1,4 @@
 [
-    "json1.geojson"
+    "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.geojson",
+    "https://www2.census.gov/geo/tiger/2021/GENZ/21/500k/states.geojson"
 ]
