@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neo-Reactionary & Dark Enlightenment Cheat Sheet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-size: 0.85rem;
+        }
+        .content-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        @media (max-width: 768px) {
+            .content-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 p-6">
+
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <div class="content-section">
+            <!-- Left Side - NRx Overview -->
+            <div class="space-y-4">
+                <h2 class="text-xl font-bold text-red-600 mb-4">Neo-Reactionary (NRx) & The Dark Enlightenment</h2>
+
+                <div class="space-y-2">
+                    <h3 class="font-semibold text-lg">Core Philosophy</h3>
+                    <p>NRx is an anti-democratic, anti-egalitarian, and pro-hierarchy political and philosophical movement. It advocates for the acceleration of capitalism and technological systems to collapse liberal democracy, and ultimately replace it with a new, elite-led order. The Dark Enlightenment criticizes Enlightenment values (reason, progress, equality) and suggests that society is inherently hierarchical, not egalitarian.</p>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="font-semibold text-lg">Key Concepts</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>Anti-Democracy:</strong> The rejection of democracy and the idea that human nature is inherently unequal, making egalitarian systems a failure.</li>
+                        <li><strong>Technological Acceleration:</strong> The belief that accelerating technological progress will lead to societal collapse, creating room for elite technocratic rule.</li>
+                        <li><strong>Monarchical/Aristocratic Rule:</strong> Favoring a return to traditional hierarchies (monarchies, aristocracies) or an authoritarian elite rule over mass democracy.</li>
+                        <li><strong>Anti-Enlightenment:</strong> The rejection of Enlightenment values like universal human rights, equality, and liberalism, claiming they have led to societal decay.</li>
+                    </ul>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="font-semibold text-lg">Main Goals</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Re-establish hierarchical systems and power structures.</li>
+                        <li>Challenge democracy and egalitarianism in favor of meritocracy and elite control.</li>
+                        <li>Promote technological advancement as a tool for societal transformation and elite consolidation of power.</li>
+                    </ul>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="font-semibold text-lg">Key Themes</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>Technological Elitism:</strong> Advocating for the concentration of power in the hands of the "technocratic elite" who can manage complex systems.</li>
+                        <li><strong>Hierarchy Over Equality:</strong> Belief in the natural inequality of human beings, and that societal structures should reflect this reality.</li>
+                        <li><strong>Post-Democratic Society:</strong> The call for a society that moves beyond democracy, embracing either a form of monarchy or technocracy.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Side - Key Figures -->
+            <div class="space-y-4">
+                <h2 class="text-xl font-bold text-red-600 mb-4">Key Thinkers & Figures</h2>
+
+                <div class="space-y-2">
+                    <h3 class="font-semibold text-lg">Nick Land (The Father of NRx)</h3>
+                    <p><strong>Moniker:</strong> The "Dark Lord" of NRx. Land is considered the intellectual founder of the Neo-Reactionary movement. His philosophy blends accelerationism and techno-futurism, advocating for the collapse of the state and democracy, and the rise of an elite ruling class capable of controlling technological forces.</p>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="font-semibold text-lg">Michael Anissimov</h3>
+                    <p><strong>Moniker:</strong> "The Aristocrat". Anissimov is known for promoting the concept of "Neo-Reaction" as an alternative to both democracy and socialism. He envisions a future society ruled by a "new aristocracy" of technological elites.</p>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="font-semibold text-lg">Mencius Moldbug (Curtis Yarvin)</h3>
+                    <p><strong>Moniker:</strong> "The Philosopher King". Moldbug is an influential figure in NRx, advocating for a return to monarchy as the best form of governance. He critiques the current system of democracy and promotes a system of "neocameralism," where corporations would effectively govern as monarchs.</p>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="font-semibold text-lg">Peter Thiel</h3>
+                    <p><strong>Moniker:</strong> "The Silicon Overlord". Thiel, a tech billionaire and early supporter of accelerationism, is seen as an influential figure in NRx circles. While not directly part of the intellectual movement, his beliefs in elitism, capitalism, and technocracy align with NRx principles.</p>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="font-semibold text-lg">Hans Hermann-Hoppe</h3>
+                    <p><strong>Moniker:</strong> "The Libertarian Authoritarian". Hoppe is known for his work on the concept of "anarcho-capitalism" and his critique of democracy. He argues for a society based on voluntary hierarchy, where property rights are the foundation of social order. His work heavily influences the NRx movement’s anti-democratic stance.</p>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="font-semibold text-lg">Others</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>Alexander Dugin:</strong> The Russian philosopher and political theorist closely associated with NRx ideas, particularly regarding a return to traditionalism and anti-liberalism.</li>
+                        <li><strong>Vince Garton:</strong> A theorist associated with neo-reactionary thought, advocating for elite rule and the acceleration of societal collapse to rebuild order.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
