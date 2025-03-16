@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,100 +16,292 @@
     <style>
         /* Base styles */
         body {
-            background-color: #111827;
+            background-color: #111827; /* bg-gray-900 */
             color: #ffffff;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
         
+        /* Header section */
+        header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            background-color: #1f2937; /* bg-gray-800 */
+            padding: 2.5rem 0;
+            position: relative;
+        }
+        
+        .icon-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        .icon-container i {
+            font-size: 3.75rem;
+            color: #f97316; /* text-orange-500 */
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+        
+        header p {
+            font-size: 1.125rem;
+            color: #9ca3af; /* text-gray-400 */
+            margin-bottom: 2rem;
+        }
+        
         /* Map styles */
         #map {
             width: 75%;
             height: 24rem;
-            margin: 2rem auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+            position: relative;
         }
         
-        .layer-toggle {
+        #fullscreen-btn {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(0, 0, 0, 0.7);
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f97316; /* bg-orange-500 */
             color: white;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 14px;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            border: 2px solid white;
+            height: 2.5rem;
+            width: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        #fullscreen-btn i {
+            font-size: 1.25rem;
+        }
+        
+        /* Cards section */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .cards-section {
+            padding: 4rem 1rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .card {
+            background-color: #1f2937; /* bg-gray-800 */
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f97316; /* text-orange-500 */
+            margin-bottom: 1rem;
+        }
+        
+        .link-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .link-list li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .link-list li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .link-item {
+            display: block;
+            padding: 0.75rem;
+            background-color: #374151; /* bg-gray-700 */
+            border-radius: 0.5rem;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .link-item:hover {
+            background-color: #4b5563; /* bg-gray-600 */
+        }
+        
+        .link-item i {
+            color: #f97316; /* text-orange-500 */
+            margin-right: 0.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #1f2937; /* bg-gray-800 */
+            text-align: center;
+            color: #9ca3af; /* text-gray-400 */
+            padding: 1rem 0;
         }
     </style>
 </head>
 <body>
+    <!-- Hero Section -->
     <header>
+        <div class="icon-container">
+            <i class="fas fa-fist-raised"></i>
+        </div>
         <h1>Join the Resistance</h1>
         <p>Find your mission, support the cause</p>
-        <div id="map"></div>
+        
+        <div id="map"></div> <!-- Map container -->
+
+        <!-- Fullscreen button -->
+        <button id="fullscreen-btn">
+            <i class="fas fa-expand-arrows-alt"></i> <!-- Fullscreen Icon -->
+        </button>
     </header>
 
+    <!-- Cards Section -->
     <section class="cards-section container">
         <div class="grid">
+            <!-- Updates Card -->
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title">Updates</h2>
                     <ul class="link-list">
                         <li>
                             <a class='link-item' href='/trumpcanadagreeland'>
-                                <i class="fas fa-globe"></i>
+                                <i class="fas fa-map-marked-alt"></i>
                                 Trump Canada Greeland Map
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
+            
+            <!-- Info Card -->
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title">Information</h2>
                     <ul class="link-list">
-                        <li><a class='link-item' href='/infamousfigures'><i class="fas fa-user-secret"></i> Infamous Figures</a></li>
-                        <li><a class='link-item' href='/millionaire'><i class="fas fa-dollar-sign"></i> Millionaire Data</a></li>
-                        <li><a class='link-item' href='/nrxlist'><i class="fas fa-list-alt"></i> NRX List</a></li>
-                        <li><a class='link-item' href='/wealthdistribution'><i class="fas fa-chart-bar"></i> Wealth Distribution</a></li>
-                        <li><a class='link-item' href='/Accelerationism101'><i class="fas fa-bolt"></i> Accelerationism 101</a></li>
-                        <li><a class='link-item' href='/AccelerationismNRx'><i class="fas fa-bolt"></i> Accelerationism (NRx)</a></li>
-                        <li><a class='link-item' href='/AccelerationismLAcc'><i class="fas fa-bolt"></i> Accelerationism (L/Acc)</a></li>
+                        <li>
+                            <a class='link-item' href='/infamousfigures'>
+                                <i class="fas fa-users"></i>
+                                Infamous Figures
+                            </a>
+                        </li>
+                        <li>
+                            <a class='link-item' href='/millionaire'>
+                                <i class="fas fa-money-bill-wave"></i>
+                                Millionaire Data
+                            </a>
+                        </li>
+                        <li>
+                            <a class='link-item' href='/nrxlist'>
+                                <i class="fas fa-list"></i>
+                                NRX List
+                            </a>
+                        </li>
+                        <li>
+                            <a class='link-item' href='/wealthdistribution'>
+                                <i class="fas fa-chart-pie"></i>
+                                Wealth Distribution
+                            </a>
+                        </li>
+                        <li>
+                            <a class='link-item' href='/Accelerationism101'>
+                                <i class="fas fa-chart-pie"></i>
+                                Accelerationism 101
+                            </a>
+                        </li>
+                        <li>
+                            <a class='link-item' href='/AccelerationismNRx'>
+                                <i class="fas fa-chart-pie"></i>
+                                Accelerationism(NRx)
+                            </a>
+                        </li>
+                        <li>
+                            <a class='link-item' href='/AccelerationismLAcc'>
+                                <i class="fas fa-chart-pie"></i>
+                                Accelerationism(L/Acc)
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <script>
-        var map = L.map('map').setView([40, -95], 4);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
+    <footer>
+        <p>&copy; 2025 The Resistance</p>
+    </footer>
 
-        var dataLayer = L.layerGroup().addTo(map);
-        var doxLayer = L.layerGroup().addTo(map);
+    <script>
+        // Initialize map
+        var map = L.map('map').setView([40, -95], 4);
         
-        function loadGeoJson(url, layer) {
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    L.geoJSON(data).addTo(layer);
-                })
-                .catch(error => console.error('Error loading GeoJSON:', error));
-        }
+        // Add tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
         
-        loadGeoJson('data.geojson', dataLayer);
-        loadGeoJson('dox.geojson', doxLayer);
+        // Add some markers
+        var locations = [
+            {name: "New York", lat: 40.7128, lng: -74.0060},
+            {name: "Los Angeles", lat: 34.0522, lng: -118.2437},
+            {name: "Chicago", lat: 41.8781, lng: -87.6298},
+            {name: "Toronto", lat: 43.6532, lng: -79.3832},
+            {name: "Mexico City", lat: 19.4326, lng: -99.1332}
+        ];
         
-        var overlayMaps = {
-            "Data Points": dataLayer,
-            "Dox Points": doxLayer
-        };
+        // Add markers
+        locations.forEach(function(loc) {
+            L.marker([loc.lat, loc.lng])
+                .bindPopup("<b>" + loc.name + "</b><br>Resistance Point")
+                .addTo(map);
+        });
         
-        L.control.layers(null, overlayMaps).addTo(map);
+        // Fullscreen button functionality
+        document.getElementById('fullscreen-btn').addEventListener('click', function() {
+            var mapElement = document.getElementById('map');
+            
+            if (mapElement.requestFullscreen) {
+                mapElement.requestFullscreen();
+            } else if (mapElement.mozRequestFullScreen) {
+                mapElement.mozRequestFullScreen();
+            } else if (mapElement.webkitRequestFullscreen) {
+                mapElement.webkitRequestFullscreen();
+            } else if (mapElement.msRequestFullscreen) {
+                mapElement.msRequestFullscreen();
+            }
+        });
     </script>
 </body>
 </html>
