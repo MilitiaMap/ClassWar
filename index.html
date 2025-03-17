@@ -18,15 +18,7 @@
 
 
     <!-- Standard Favicon Links -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="manifest" href="site.webmanifest">
-     <!-- Add a mask icon for Safari -->
-    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#f97316">
-    <meta name="msapplication-TileColor" content="#1f2937">
-    <meta name="theme-color" content="#1f2937">
-
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 
     <style>
         /* Base styles */
@@ -165,7 +157,7 @@
             border-radius: 0.5rem;
             color: white;
             text-decoration: none;
-            transition: background-color 0.3s;
+            transition: background-color: 0.3s;
         }
 
         .link-item:hover {
@@ -206,7 +198,7 @@
         .leaflet-control-layers label {
             display: block;
             padding: 0.5rem;
-            transition: background-color 0.3s;
+            transition: background-color: 0.3s;
             cursor: pointer;
         }
 
@@ -425,7 +417,7 @@
     var federalPrisonLayer = L.layerGroup();
 
      // --- Load GeoJSON files and add to layers ---
-    fetch('dox.geojson')
+    fetch('/maps/dox.geojson')  // <--- Changed path
         .then(response => response.json())
         .then(data => {
             L.geoJSON(data, {
@@ -435,7 +427,7 @@
             doxLayer.addTo(map);
         });
 
-    fetch('MilitaryBases.geojson')
+    fetch('/maps/MilitaryBases.geojson')  // <--- Changed path
         .then(response => response.json())
         .then(data => {
             L.geoJSON(data, {
@@ -445,24 +437,24 @@
              militaryLayer.addTo(map);
         });
 
-    fetch('StatePrisons.geojson')
+    fetch('/maps/StatePrisons.geojson')  // <--- Changed path
         .then(response => response.json())
         .then(data => {
             L.geoJSON(data, {
-                pointToLayer: pointToLayerStatePrison, // Use the correct pointToLayer
-                onEachFeature: onEachFeature          //  (optional, if popups differ)
+                pointToLayer: pointToLayerStatePrison,
+                onEachFeature: onEachFeature
             }).addTo(statePrisonLayer);
-            // statePrisonLayer.addTo(map); // Don't add to map by default
+            // statePrisonLayer.addTo(map);
         });
 
-    fetch('FederalPrisons.geojson')
+    fetch('/maps/FederalPrisons.geojson')  // <--- Changed path
         .then(response => response.json())
         .then(data => {
             L.geoJSON(data, {
-                pointToLayer: pointToLayerFederalPrison, // Correct pointToLayer
-                onEachFeature: onEachFeature          // (optional)
+                pointToLayer: pointToLayerFederalPrison,
+                onEachFeature: onEachFeature
             }).addTo(federalPrisonLayer);
-            // federalPrisonLayer.addTo(map); // Don't add to map by default
+            // federalPrisonLayer.addTo(map);
         });
 
 
@@ -471,8 +463,8 @@
     var overlays = {
         "Dox Data": doxLayer,
         "Military Bases": militaryLayer,
-        "State Prisons": statePrisonLayer,  // Add state prisons
-        "Federal Prisons": federalPrisonLayer // Add federal prisons
+        "State Prisons": statePrisonLayer,
+        "Federal Prisons": federalPrisonLayer
     };
 
     L.control.layers(baseLayers, overlays, {collapsed: false}).addTo(map);
