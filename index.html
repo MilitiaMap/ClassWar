@@ -286,79 +286,88 @@
     </section>
 
     <footer>
-        <p>&copy; 2025 The Resistance</p>
+        <p>© 2025 The Resistance</p>
     </footer>
 
-<script>
-    // Initialize map
-    var map = L.map('map').setView([40, -95], 4);
-    
-    // Add tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-    
-    // Function to style GeoJSON points
-    function pointToLayer(feature, latlng) {
-        return L.marker(latlng, {
-            icon: L.divIcon({
+    <script>
+        // Initialize map
+        var map = L.map('map').setView([40, -95], 4);
+
+        // Add tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Function to create icons.  We'll use different icons for different layers.
+        function createIcon(iconClass) {
+            return L.divIcon({
                 className: 'custom-icon', // Custom class for FontAwesome icon
-                html: '<i class="fas fa-user" style="color: #f97316; font-size: 1.5rem;"></i>', // FontAwesome icon HTML
+                html: `<i class="${iconClass}" style="color: #f97316; font-size: 1.5rem;"></i>`, // FontAwesome icon HTML
                 iconSize: [25, 41], // size of the icon
                 iconAnchor: [12, 41] // point of the icon which will correspond to marker's location
-            })
-        });
-    }
-
-    // Function to bind popup content
-    function onEachFeature(feature, layer) {
-        var popupContent = `
-            <strong>${feature.properties.name}</strong><br>
-            Role: ${feature.properties.role}<br>
-            Contributions: ${feature.properties.contributions}<br>
-            Location: ${feature.properties.location}<br>
-            Online: <a href="https://${feature.properties.online}" target="_blank">${feature.properties.online}</a><br>
-            Associations: ${feature.properties.associations}<br>
-            Companies: ${feature.properties.companies || 'N/A'}<br>
-            Scandals: ${feature.properties.scandals || 'N/A'}
-        `;
-        layer.bindPopup(popupContent);
-    }
-
-    // Load first GeoJSON file (dox.geojson)
-    fetch('dox.geojson')
-        .then(response => response.json())
-        .then(data => {
-            L.geoJSON(data, {
-                pointToLayer: pointToLayer,
-                onEachFeature: onEachFeature
-            }).addTo(map);
-        });
-
-    // Load second GeoJSON file (MilitaryBases.geojson)
-    fetch('MilitaryBases.geojson')
-        .then(response => response.json())
-        .then(data => {
-            L.geoJSON(data, {
-                pointToLayer: pointToLayer,
-                onEachFeature: onEachFeature
-            }).addTo(map);
-        });
-
-    // Fullscreen button functionality
-    document.getElementById('fullscreen-btn').addEventListener('click', function() {
-        var mapElement = document.getElementById('map');
-        
-        if (mapElement.requestFullscreen) {
-            mapElement.requestFullscreen();
-        } else if (mapElement.mozRequestFullScreen) {
-            mapElement.mozRequestFullScreen();
-        } else if (mapElement.webkitRequestFullscreen) {
-            mapElement.webkitRequestFullscreen();
-        } else if (mapElement.msRequestFullscreen) {
-            mapElement.msRequestFullscreen();
+            });
         }
-    });
-</script>
+
+        // Function to style GeoJSON points for dox.geojson (using fa-user)
+        function pointToLayerDox(feature, latlng) {
+            return L.marker(latlng, { icon: createIcon('fas fa-user') });
+        }
+
+        // Function to style GeoJSON points for MilitaryBases.geojson (using fa-warehouse)
+        function pointToLayerMilitary(feature, latlng) {
+            return L.marker(latlng, { icon: createIcon('fa-solid fa-warehouse') });
+        }
+
+
+        // Function to bind popup content (remains the same)
+        function onEachFeature(feature, layer) {
+            var popupContent = `
+                <strong>${feature.properties.name}</strong><br>
+                Role: ${feature.properties.role}<br>
+                Contributions: ${feature.properties.contributions}<br>
+                Location: ${feature.properties.location}<br>
+                Online: <a href="https://${feature.properties.online}" target="_blank">${feature.properties.online}</a><br>
+                Associations: ${feature.properties.associations}<br>
+                Companies: ${feature.properties.companies || 'N/A'}<br>
+                Scandals: ${feature.properties.scandals || 'N/A'}
+            `;
+            layer.bindPopup(popupContent);
+        }
+
+        // Load first GeoJSON file (dox.geojson)
+        fetch('dox.geojson')
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data, {
+                    pointToLayer: pointToLayerDox, // Use the dox-specific pointToLayer function
+                    onEachFeature: onEachFeature
+                }).addTo(map);
+            });
+
+        // Load second GeoJSON file (MilitaryBases.geojson)
+        fetch('MilitaryBases.geojson')
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data, {
+                    pointToLayer: pointToLayerMilitary, // Use the military-specific pointToLayer function
+                    onEachFeature: onEachFeature
+                }).addTo(map);
+            });
+
+        // Fullscreen button functionality (remains the same)
+        document.getElementById('fullscreen-btn').addEventListener('click', function() {
+            var mapElement = document.getElementById('map');
+
+            if (mapElement.requestFullscreen) {
+                mapElement.requestFullscreen();
+            } else if (mapElement.mozRequestFullScreen) {
+                mapElement.mozRequestFullScreen();
+            } else if (mapElement.webkitRequestFullscreen) {
+                mapElement.webkitRequestFullscreen();
+            } else if (mapElement.msRequestFullscreen) {
+                mapElement.msRequestFullscreen();
+            }
+        });
+    </script>
 </body>
 </html>
