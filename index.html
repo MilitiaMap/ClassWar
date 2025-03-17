@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resistance</title>
 
-    <!-- FontAwesome CDN (only needed for the header and card icons, not map markers) -->
+    <!-- FontAwesome CDN -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
     <!-- Leaflet CSS and JS -->
@@ -23,15 +23,15 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
      <!-- Add a mask icon for Safari -->
-    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#f97316">  <!-- Orange color -->
-    <meta name="msapplication-TileColor" content="#1f2937"> <!-- Windows tile color -->
-    <meta name="theme-color" content="#1f2937"> <!-- Android theme color -->
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#f97316">
+    <meta name="msapplication-TileColor" content="#1f2937">
+    <meta name="theme-color" content="#1f2937">
 
 
     <style>
         /* Base styles */
         body {
-            background-color: #111827; /* bg-gray-900 */
+            background-color: #111827;
             color: #ffffff;
             font-family: Arial, sans-serif;
             margin: 0;
@@ -46,7 +46,7 @@
             align-items: center;
             min-height: 100vh;
             text-align: center;
-            background-color: #1f2937; /* bg-gray-800 */
+            background-color: #1f2937;
             padding: 2.5rem 0;
             position: relative;
         }
@@ -57,7 +57,7 @@
 
         .icon-container i {
             font-size: 3.75rem;
-            color: #f97316; /* text-orange-500 */
+            color: #f97316;
         }
 
         h1 {
@@ -69,7 +69,7 @@
 
         header p {
             font-size: 1.125rem;
-            color: #9ca3af; /* text-gray-400 */
+            color: #9ca3af;
             margin-bottom: 2rem;
         }
 
@@ -86,7 +86,7 @@
             bottom: 1.5rem;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #f97316; /* bg-orange-500 */
+            background-color: #f97316;
             color: white;
             padding: 0.25rem 0.5rem;
             border-radius: 9999px;
@@ -127,7 +127,7 @@
         }
 
         .card {
-            background-color: #1f2937; /* bg-gray-800 */
+            background-color: #1f2937;
             border-radius: 0.5rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             overflow: hidden;
@@ -140,7 +140,7 @@
         .card-title {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #f97316; /* text-orange-500 */
+            color: #f97316;
             margin-bottom: 1rem;
         }
 
@@ -161,7 +161,7 @@
         .link-item {
             display: block;
             padding: 0.75rem;
-            background-color: #374151; /* bg-gray-700 */
+            background-color: #374151;
             border-radius: 0.5rem;
             color: white;
             text-decoration: none;
@@ -169,32 +169,32 @@
         }
 
         .link-item:hover {
-            background-color: #4b5563; /* bg-gray-600 */
+            background-color: #4b5563;
         }
 
         .link-item i {
-            color: #f97316; /* text-orange-500 */
+            color: #f97316;
             margin-right: 0.5rem;
         }
 
         /* Footer */
         footer {
-            background-color: #1f2937; /* bg-gray-800 */
+            background-color: #1f2937;
             text-align: center;
-            color: #9ca3af; /* text-gray-400 */
+            color: #9ca3af;
             padding: 1rem 0;
         }
 
         /* Leaflet Control Styles */
         .leaflet-control-layers {
-            background-color: #374151; /* bg-gray-700 */
+            background-color: #374151;
             color: white;
             border-radius: 0.5rem;
             box-shadow: 0 1px 5px rgba(0,0,0,0.4);
         }
 
         .leaflet-control-layers-toggle {
-            background-color: #f97316; /* bg-orange-500 */
+            background-color: #f97316;
             color: white;
             width: 36px;
             height: 36px;
@@ -211,17 +211,16 @@
         }
 
         .leaflet-control-layers label:hover {
-            background-color: #4b5563; /* bg-gray-600 */
+            background-color: #4b5563;
         }
 
         .leaflet-control-layers-selector {
             margin-right: 0.5rem;
         }
 
-         /* Style for the map control container */
         .leaflet-top.leaflet-left {
-           margin-top: 10px; /* Adjust top margin as needed */
-           margin-left: 10px; /* Adjust left margin as needed */
+           margin-top: 10px;
+           margin-left: 10px;
         }
 
     </style>
@@ -235,11 +234,11 @@
         <h1>Join the Resistance</h1>
         <p>Find your mission, support the cause</p>
 
-        <div id="map"></div> <!-- Map container -->
+        <div id="map"></div>
 
         <!-- Fullscreen button -->
         <button id="fullscreen-btn">
-            <i class="fas fa-expand-arrows-alt"></i> <!-- Fullscreen Icon -->
+            <i class="fas fa-expand-arrows-alt"></i>
         </button>
     </header>
 
@@ -355,7 +354,7 @@
     }).addTo(map);
 
 
-    // Define custom icons using Leaflet.ExtraMarkers
+    // --- Define custom icons ---
     var userIcon = L.ExtraMarkers.icon({
         icon: 'fa-user',
         markerColor: 'orange',
@@ -370,17 +369,40 @@
         prefix: 'fa'
     });
 
-    // Function to style GeoJSON points for dox.geojson (using userIcon)
+    var statePrisonIcon = L.ExtraMarkers.icon({
+        icon: 'fa-university',  // Example: University icon
+        markerColor: 'red',
+        shape: 'star',
+        prefix: 'fa'
+    });
+
+    var federalPrisonIcon = L.ExtraMarkers.icon({
+        icon: 'fa-building',   // Example: Building icon
+        markerColor: 'green',
+        shape: 'penta',
+        prefix: 'fa'
+    });
+
+
+    // --- Point to layer functions ---
     function pointToLayerDox(feature, latlng) {
         return L.marker(latlng, { icon: userIcon });
     }
 
-    // Function to style GeoJSON points for MilitaryBases.geojson (using warehouseIcon)
     function pointToLayerMilitary(feature, latlng) {
         return L.marker(latlng, { icon: warehouseIcon });
     }
 
-    // Function to bind popup content (remains the same)
+    function pointToLayerStatePrison(feature, latlng) {
+        return L.marker(latlng, { icon: statePrisonIcon });
+    }
+
+    function pointToLayerFederalPrison(feature, latlng) {
+        return L.marker(latlng, { icon: federalPrisonIcon });
+    }
+
+
+    // --- Function to bind popup content ---
     function onEachFeature(feature, layer) {
         var popupContent = `
             <strong>${feature.properties.name}</strong><br>
@@ -395,45 +417,68 @@
         layer.bindPopup(popupContent);
     }
 
-    // Layer groups for toggle control
+
+    // --- Layer groups for toggle control ---
     var doxLayer = L.layerGroup();
     var militaryLayer = L.layerGroup();
+    var statePrisonLayer = L.layerGroup();
+    var federalPrisonLayer = L.layerGroup();
 
-     // Load first GeoJSON file (dox.geojson) and add to doxLayer
+     // --- Load GeoJSON files and add to layers ---
     fetch('dox.geojson')
         .then(response => response.json())
         .then(data => {
             L.geoJSON(data, {
                 pointToLayer: pointToLayerDox,
                 onEachFeature: onEachFeature
-            }).addTo(doxLayer);  // Add to the layer group
-            doxLayer.addTo(map); // Add layer group to the map by default
+            }).addTo(doxLayer);
+            doxLayer.addTo(map);
         });
 
-    // Load second GeoJSON file (MilitaryBases.geojson) and add to militaryLayer
     fetch('MilitaryBases.geojson')
         .then(response => response.json())
         .then(data => {
             L.geoJSON(data, {
                 pointToLayer: pointToLayerMilitary,
                 onEachFeature: onEachFeature
-            }).addTo(militaryLayer); // Add to the layer group
-             militaryLayer.addTo(map); // Add layer group to the map by default
+            }).addTo(militaryLayer);
+             militaryLayer.addTo(map);
+        });
+
+    fetch('StatePrisons.geojson')
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                pointToLayer: pointToLayerStatePrison, // Use the correct pointToLayer
+                onEachFeature: onEachFeature          //  (optional, if popups differ)
+            }).addTo(statePrisonLayer);
+            // statePrisonLayer.addTo(map); // Don't add to map by default
+        });
+
+    fetch('FederalPrisons.geojson')
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                pointToLayer: pointToLayerFederalPrison, // Correct pointToLayer
+                onEachFeature: onEachFeature          // (optional)
+            }).addTo(federalPrisonLayer);
+            // federalPrisonLayer.addTo(map); // Don't add to map by default
         });
 
 
-    // Create a layer control
-    var baseLayers = {}; // No base layers to toggle in this example
-
+    // --- Create a layer control ---
+    var baseLayers = {};
     var overlays = {
         "Dox Data": doxLayer,
-        "Military Bases": militaryLayer
+        "Military Bases": militaryLayer,
+        "State Prisons": statePrisonLayer,  // Add state prisons
+        "Federal Prisons": federalPrisonLayer // Add federal prisons
     };
 
     L.control.layers(baseLayers, overlays, {collapsed: false}).addTo(map);
 
 
-    // Fullscreen button functionality (remains the same)
+    // --- Fullscreen button functionality ---
     document.getElementById('fullscreen-btn').addEventListener('click', function() {
         var mapElement = document.getElementById('map');
 
