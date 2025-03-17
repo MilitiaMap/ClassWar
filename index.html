@@ -277,66 +277,76 @@
         <p>&copy; 2025 The Resistance</p>
     </footer>
 
-    <script>
-        // Initialize map
-        var map = L.map('map').setView([40, -95], 4);
-        
-        // Add tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-        
-        // Function to style GeoJSON points
-        function pointToLayer(feature, latlng) {
-            return L.marker(latlng, {
-                icon: L.divIcon({
-                    className: 'custom-icon', // Custom class for FontAwesome icon
-                    html: '<i class="fas fa-user" style="color: #f97316; font-size: 1.5rem;"></i>', // FontAwesome icon HTML
-                    iconSize: [25, 41], // size of the icon
-                    iconAnchor: [12, 41] // point of the icon which will correspond to marker's location
-                })
-            });
-        }
-
-        // Function to bind popup content
-        function onEachFeature(feature, layer) {
-            var popupContent = `
-                <strong>${feature.properties.name}</strong><br>
-                Role: ${feature.properties.role}<br>
-                Contributions: ${feature.properties.contributions}<br>
-                Location: ${feature.properties.location}<br>
-                Online: <a href="https://${feature.properties.online}" target="_blank">${feature.properties.online}</a><br>
-                Associations: ${feature.properties.associations}<br>
-                Companies: ${feature.properties.companies || 'N/A'}<br>
-                Scandals: ${feature.properties.scandals || 'N/A'}
-            `;
-            layer.bindPopup(popupContent);
-        }
-
-        // Load GeoJSON files
-        fetch('dox.geojson')
-            .then(response => response.json())
-            .then(data => {
-                L.geoJSON(data, {
-                    pointToLayer: pointToLayer,
-                    onEachFeature: onEachFeature
-                }).addTo(map);
-            });
-        
-        // Fullscreen button functionality
-        document.getElementById('fullscreen-btn').addEventListener('click', function() {
-            var mapElement = document.getElementById('map');
-            
-            if (mapElement.requestFullscreen) {
-                mapElement.requestFullscreen();
-            } else if (mapElement.mozRequestFullScreen) {
-                mapElement.mozRequestFullScreen();
-            } else if (mapElement.webkitRequestFullscreen) {
-                mapElement.webkitRequestFullscreen();
-            } else if (mapElement.msRequestFullscreen) {
-                mapElement.msRequestFullscreen();
-            }
+<script>
+    // Initialize map
+    var map = L.map('map').setView([40, -95], 4);
+    
+    // Add tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    
+    // Function to style GeoJSON points
+    function pointToLayer(feature, latlng) {
+        return L.marker(latlng, {
+            icon: L.divIcon({
+                className: 'custom-icon', // Custom class for FontAwesome icon
+                html: '<i class="fas fa-user" style="color: #f97316; font-size: 1.5rem;"></i>', // FontAwesome icon HTML
+                iconSize: [25, 41], // size of the icon
+                iconAnchor: [12, 41] // point of the icon which will correspond to marker's location
+            })
         });
-    </script>
+    }
+
+    // Function to bind popup content
+    function onEachFeature(feature, layer) {
+        var popupContent = `
+            <strong>${feature.properties.name}</strong><br>
+            Role: ${feature.properties.role}<br>
+            Contributions: ${feature.properties.contributions}<br>
+            Location: ${feature.properties.location}<br>
+            Online: <a href="https://${feature.properties.online}" target="_blank">${feature.properties.online}</a><br>
+            Associations: ${feature.properties.associations}<br>
+            Companies: ${feature.properties.companies || 'N/A'}<br>
+            Scandals: ${feature.properties.scandals || 'N/A'}
+        `;
+        layer.bindPopup(popupContent);
+    }
+
+    // Load first GeoJSON file (dox.geojson)
+    fetch('dox.geojson')
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                pointToLayer: pointToLayer,
+                onEachFeature: onEachFeature
+            }).addTo(map);
+        });
+
+    // Load second GeoJSON file (MilitaryBases.geojson)
+    fetch('MilitaryBases.geojson')
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                pointToLayer: pointToLayer,
+                onEachFeature: onEachFeature
+            }).addTo(map);
+        });
+
+    // Fullscreen button functionality
+    document.getElementById('fullscreen-btn').addEventListener('click', function() {
+        var mapElement = document.getElementById('map');
+        
+        if (mapElement.requestFullscreen) {
+            mapElement.requestFullscreen();
+        } else if (mapElement.mozRequestFullScreen) {
+            mapElement.mozRequestFullScreen();
+        } else if (mapElement.webkitRequestFullscreen) {
+            mapElement.webkitRequestFullscreen();
+        } else if (mapElement.msRequestFullscreen) {
+            mapElement.msRequestFullscreen();
+        }
+    });
+</script>
 </body>
 </html>
