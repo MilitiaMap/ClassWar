@@ -1,0 +1,1333 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.995833, 35.141667]
+      },
+      "properties": {
+        "name": "Fort Liberty",
+        "branch": "Army",
+        "address": "Fort Liberty, NC 28310",
+        "notes": "Home of the XVIII Airborne Corps and U.S. Army Special Operations Command."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-97.763056, 31.140833]
+      },
+      "properties": {
+        "name": "Fort Cavazos",
+        "branch": "Army",
+        "address": "Fort Cavazos, TX 76544",
+        "notes": "A major armored corps base."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.959722, 32.353889]
+      },
+      "properties": {
+        "name": "Fort Moore",
+        "branch": "Army",
+        "address": "Fort Moore, GA 31905",
+        "notes": "Home of the U.S. Army Maneuver Center of Excellence (Infantry and Armor training)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-87.483333, 36.658333]
+      },
+      "properties": {
+        "name": "Fort Campbell",
+        "branch": "Army",
+        "address": "Fort Campbell, KY 42223",
+        "notes": "Home of the 101st Airborne Division (Air Assault)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-104.756667, 38.7575]
+      },
+      "properties": {
+        "name": "Fort Carson",
+        "branch": "Army",
+        "address": "Fort Carson, CO 80913",
+        "notes": "Home of the 4th Infantry Division."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.805, 44.054167]
+      },
+      "properties": {
+        "name": "Fort Drum",
+        "branch": "Army",
+        "address": "Fort Drum, NY 13602",
+        "notes": "Home of the 10th Mountain Division (Light Infantry)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-106.358333, 31.825]
+      },
+      "properties": {
+        "name": "Fort Bliss",
+        "branch": "Army",
+        "address": "Fort Bliss, TX 79916",
+        "notes": "Home of the 1st Armored Division and the U.S. Army Air Defense Artillery School."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-96.883333, 39.175]
+      },
+      "properties": {
+        "name": "Fort Riley",
+        "branch": "Army",
+        "address": "Fort Riley, KS 66442",
+        "notes": "Home of the 1st Infantry Division."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-81.783333, 31.883333]
+      },
+      "properties": {
+        "name": "Fort Stewart",
+        "branch": "Army",
+        "address": "Fort Stewart, GA 31314",
+        "notes": "Home of the 3rd Infantry Division."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.583333, 47.116667]
+      },
+      "properties": {
+        "name": "Joint Base Lewis-McChord (JBLM)",
+        "branch": "Army, Air Force",
+        "address": "Tacoma, WA 98433",
+        "notes": "Home of I Corps and numerous Army units."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-85.972222, 37.889722]
+      },
+      "properties": {
+        "name": "Fort Knox",
+        "branch": "Army",
+        "address": "Fort Knox, KY 40121",
+        "notes": "Home of U.S. Army Human Resources Command and the U.S. Army Cadet Command. Gold Depository."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-94.915278, 39.353333]
+      },
+      "properties": {
+        "name": "Fort Leavenworth",
+        "branch": "Army",
+        "address": "Fort Leavenworth, KS 66027",
+        "notes": "Home of the U.S. Army Combined Arms Center and the Command and General Staff College."
+      }
+    },
+     {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-92.287778, 37.831667]
+        },
+        "properties": {
+          "name": "Fort Leonard Wood",
+          "branch": "Army",
+          "address": "Fort Leonard Wood, MO 65473",
+          "notes": "Home of Maneuver Support Center of Excellence."
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-98.395, 34.605]
+        },
+        "properties": {
+          "name": "Fort Sill",
+          "branch": "Army",
+          "address": "Fort Sill, OK 73503",
+          "notes": "Home of Field Artillery."
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-80.890833, 34.0125]
+        },
+        "properties": {
+          "name": "Fort Jackson",
+          "branch": "Army",
+          "address": "Fort Jackson, SC 29207",
+          "notes": "A major Basic Combat Training center."
+        }
+      },
+       {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-82.163056, 33.422778]
+        },
+        "properties": {
+          "name": "Fort Eisenhower",
+          "branch": "Army",
+          "address": "Fort Eisenhower, GA 30905",
+          "notes": "Home of Army Cyber Command."
+        }
+      },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-76.9275, 36.885278]
+      },
+      "properties": {
+        "name": "Naval Station Norfolk",
+        "branch": "Navy",
+        "address": "Norfolk, VA 23511",
+        "notes": "The world's largest naval base, homeport for the Atlantic Fleet."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-117.183333, 32.683333]
+      },
+      "properties": {
+        "name": "Naval Base San Diego",
+        "branch": "Navy",
+        "address": "San Diego, CA 92136",
+        "notes": "The principal homeport of the Pacific Fleet."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.65, 47.6]
+      },
+      "properties": {
+        "name": "Naval Base Kitsap",
+        "branch": "Navy",
+        "address": "Bremerton, WA 98314",
+        "notes": "Home to nuclear submarines and aircraft carriers."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-81.680556, 30.234722]
+      },
+      "properties": {
+        "name": "Naval Air Station Jacksonville",
+        "branch": "Navy",
+        "address": "Jacksonville, FL 32212",
+        "notes": "A major naval air station."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-87.309167, 30.355556]
+      },
+      "properties": {
+        "name": "Naval Air Station Pensacola",
+        "branch": "Navy",
+        "address": "Pensacola, FL 32508",
+        "notes": "The primary training base for Navy and Marine Corps aviators ('Cradle of Naval Aviation')."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-81.408889, 30.231389]
+      },
+      "properties": {
+        "name": "Naval Station Mayport",
+        "branch": "Navy",
+        "address": "Mayport, FL 32228",
+        "notes": "A major naval base with a large harbor."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-117.141667, 32.616667]
+      },
+      "properties": {
+        "name": "Naval Base Point Loma",
+        "branch": "Navy",
+        "address": "San Diego, CA 92106",
+        "notes": "Home to submarine and anti-submarine warfare operations."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-157.95, 21.366667]
+      },
+      "properties": {
+        "name": "Joint Base Pearl Harbor-Hickam",
+        "branch": "Navy, Air Force",
+        "address": "Honolulu, HI 96853",
+        "notes": "Historic naval base, headquarters of the U.S. Pacific Fleet."
+      }
+    },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-72.087778, 41.384722]
+        },
+        "properties": {
+          "name": "Naval Submarine Base New London",
+          "branch": "Navy",
+          "address": "Groton, CT 06349",
+          "notes": "Home of US Submarine Fleet."
+        }
+      },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-77.1725, 38.804722]
+      },
+      "properties": {
+        "name": "Joint Base Andrews",
+        "branch": "Air Force",
+        "address": "Joint Base Andrews, MD 20762",
+        "notes": "Home of Air Force One and numerous Air Force and other military units."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-98.438611, 29.385]
+      },
+      "properties": {
+        "name": "JBSA Lackland",
+        "branch": "Air Force",
+        "address": "San Antonio, TX 78236",
+        "notes": "Basic Military Training for all Air Force recruits."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-98.285, 29.533611]
+      },
+      "properties": {
+        "name": "JBSA Randolph",
+        "branch": "Air Force",
+        "address": "Universal City, TX 78150",
+        "notes": "Home of Air Education and Training Command headquarters."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.1, 39.833333]
+      },
+      "properties": {
+        "name": "Wright-Patterson Air Force Base",
+        "branch": "Air Force",
+        "address": "Dayton, OH 45433",
+        "notes": "Home of Air Force Materiel Command and the Air Force Research Laboratory."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-86.55, 30.65]
+      },
+      "properties": {
+        "name": "Eglin Air Force Base",
+        "branch": "Air Force",
+        "address": "Valparaiso, FL 32542",
+        "notes": "A massive base focused on weapons development and testing."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-97.383333, 35.416667]
+      },
+      "properties": {
+        "name": "Tinker Air Force Base",
+        "branch": "Air Force",
+        "address": "Oklahoma City, OK 73145",
+        "notes": "Home of the Air Force Sustainment Center."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-115.033333, 36.366667]
+      },
+      "properties": {
+        "name": "Nellis Air Force Base",
+        "branch": "Air Force",
+        "address": "Las Vegas, NV 89191",
+        "notes": "Home of the U.S. Air Force Warfare Center and the Thunderbirds demonstration team."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-93.7, 32.5]
+      },
+      "properties": {
+        "name": "Barksdale Air Force Base",
+        "branch": "Air Force",
+        "address": "Bossier City, LA 71112",
+        "notes": "Home of Air Force Global Strike Command (nuclear bombers)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-95.933333, 41.3]
+      },
+      "properties": {
+        "name": "Offutt Air Force Base",
+        "branch": "Air Force",
+        "address": "Bellevue, NE 68113",
+        "notes": "Home of U.S. Strategic Command."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-80.4, 33.95]
+      },
+      "properties": {
+        "name": "Shaw Air Force Base",
+        "branch": "Air Force",
+        "address": "Sumter, SC 29152",
+        "notes": "Home of the 20th Fighter Wing."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-111.971944, 41.196667]
+      },
+      "properties": {
+        "name": "Hill Air Force Base",
+        "branch": "Air Force",
+        "address": "Ogden, UT 84056",
+        "notes": "Major Air Force logistics and maintenance base."
+      }
+    },
+    {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-117.879167, 34.895833]
+        },
+        "properties": {
+          "name": "Edwards Air Force Base",
+          "branch": "Air Force",
+          "address": "Kern County, CA 93523",
+          "notes": "Home of 412th Test Wing."
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-86.1425, 30.380556]
+        },
+        "properties": {
+          "name": "Tyndall Air Force Base",
+          "branch": "Air Force",
+          "address": "Bay County, FL 32403",
+          "notes": "Major air dominance training center."
+        }
+      },
+
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-117.35, 33.216667]
+      },
+      "properties": {
+        "name": "Marine Corps Base Camp Pendleton",
+        "branch": "Marine Corps",
+        "address": "Oceanside, CA 92058",
+        "notes": "The major West Coast base for the Marine Corps."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-77.333333, 34.7]
+      },
+      "properties": {
+        "name": "Marine Corps Base Camp Lejeune",
+        "branch": "Marine Corps",
+        "address": "Jacksonville, NC 28542",
+        "notes": "The major East Coast base for the Marine Corps."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-77.35, 38.516667]
+      },
+      "properties": {
+        "name": "Marine Corps Base Quantico",
+        "branch": "Marine Corps",
+        "address": "Quantico, VA 22134",
+        "notes": "Home of the Marine Corps Combat Development Command and numerous training schools."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-117.25, 32.85]
+      },
+      "properties": {
+        "name": "Marine Corps Air Station Miramar",
+        "branch": "Marine Corps",
+        "address": "San Diego, CA 92145",
+        "notes": "A major Marine Corps air station."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-116.166667, 34.25]
+      },
+      "properties": {
+        "name": "Marine Corps Air Ground Combat Center Twentynine Palms",
+        "branch": "Marine Corps",
+        "address": "Twentynine Palms, CA 92277",
+        "notes": "A large training base in the Mojave Desert."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-76.995833, 38.875833]
+      },
+      "properties": {
+        "name": "Marine Barracks Washington",
+        "branch": "Marine Corps",
+        "address": "Washington, D.C. 20003",
+        "notes": "Home of the 'President's Own' Marine Band and ceremonial units."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-72.095, 41.315556]
+      },
+      "properties": {
+        "name": "United States Coast Guard Academy",
+        "branch": "Coast Guard",
+        "address": "New London, CT 06320",
+        "notes": "The service academy for Coast Guard officers."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-74.933333, 38.966667]
+      },
+      "properties": {
+        "name": "Coast Guard Training Center Cape May",
+        "branch": "Coast Guard",
+        "address": "Cape May, NJ 08204",
+        "notes": "The sole recruit training center for the Coast Guard."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-76.45, 37.233333]
+      },
+      "properties": {
+        "name": "Coast Guard Training Center Yorktown",
+        "branch": "Coast Guard",
+        "address": "Yorktown, VA 23690",
+        "notes": "Provides specialized training for Coast Guard personnel."
+      }
+    },
+     {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-152.335278, 57.79]
+      },
+      "properties": {
+        "name": "Coast Guard Base Kodiak",
+        "branch": "Coast Guard",
+        "address": "Kodiak, AK 99619",
+        "notes": "Largest Coast Guard Base."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-104.787222, 38.833889]
+      },
+      "properties": {
+        "name": "Peterson Space Force Base",
+        "branch": "Space Force",
+        "address": "Colorado Springs, CO 80914",
+        "notes": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-104.530556, 38.805]
+      },
+      "properties": {
+        "name": "Schriever Space Force Base",
+        "branch": "Space Force",
+        "address": "Colorado Springs, CO 80912",
+        "notes": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-120.583333, 34.733333]
+      },
+      "properties": {
+        "name": "Vandenberg Space Force Base",
+        "branch": "Space Force",
+        "address": "Lompoc, CA 93437",
+        "notes": "West Coast Launch Site."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-80.566667, 28.233333]
+      },
+      "properties": {
+        "name": "Patrick Space Force Base",
+        "branch": "Space Force",
+        "address": "Cocoa Beach, FL 32925",
+        "notes": "East Coast Launch Site."
+      }
+    },
+     {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-118.326667, 33.919167]
+        },
+        "properties": {
+          "name": "Los Angeles Air Force Base",
+          "branch": "Space Force",
+          "address": "El Segundo, CA 90245",
+          "notes": "Home of Space Systems Command"
+        }
+    },
+    {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-104.723611, 39.858889]
+        },
+        "properties": {
+          "name": "Buckley Space Force Base",
+          "branch": "Space Force",
+          "address": "Aurora, CO 80011",
+          "notes": "Missle Warning"
+        }
+      },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-111.5, 37.25]
+      },
+      "properties": {
+        "name": "Fort Irwin",
+        "branch": "Army",
+        "address": "Fort Irwin, CA 92310",
+        "notes": "Home of the National Training Center (NTC)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-93.2, 31.116667]
+      },
+      "properties": {
+        "name": "Fort Johnson",
+        "branch": "Army",
+        "address": "Fort Johnson, LA 71459",
+        "notes": "Home of the Joint Readiness Training Center (JRTC)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-110.333333, 31.583333]
+      },
+      "properties": {
+        "name": "Fort Huachuca",
+        "branch": "Army",
+        "address": "Sierra Vista, AZ 85613",
+        "notes": "Home of the U.S. Army Intelligence Center of Excellence."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-86.6, 34.716667]
+      },
+      "properties": {
+        "name": "Redstone Arsenal",
+        "branch": "Army",
+        "address": "Huntsville, AL 35898",
+        "notes": "Major center for missile and rocket development."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-76.1, 39.483333]
+      },
+      "properties": {
+        "name": "Aberdeen Proving Ground",
+        "branch": "Army",
+        "address": "Aberdeen, MD 21005",
+        "notes": "Major center for weapons testing and research."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-114.6, 32.866667]
+      },
+      "properties": {
+        "name": "Yuma Proving Ground",
+        "branch": "Army",
+        "address": "Yuma, AZ 85365",
+        "notes": "Desert test range for artillery and other weapons."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-112.916667, 40.283333]
+      },
+      "properties": {
+        "name": "Dugway Proving Ground",
+        "branch": "Army",
+        "address": "Dugway, UT 84022",
+        "notes": "Chemical and biological defense systems testing."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-77.196667, 40.263889]
+      },
+      "properties": {
+        "name": "Carlisle Barracks",
+        "branch": "Army",
+        "address": "Carlisle, PA 17013",
+        "notes": "Home of the U.S. Army War College."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-121.894444, 36.603056]
+      },
+      "properties": {
+        "name": "Presidio of Monterey",
+        "branch": "Army",
+        "address": "Monterey, CA 93944",
+        "notes": "Defense Language Institute Foreign Language Center (DLI)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-157.877778, 21.344444]
+      },
+      "properties": {
+        "name": "US Army Garrison Hawaii",
+        "branch": "Army",
+        "address": "Schofield Barracks, HI 96857",
+        "notes": "Parent command for Army installations in Hawaii."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-117.65, 33.716667]
+      },
+      "properties": {
+        "name": "Naval Weapons Station Seal Beach",
+        "branch": "Navy",
+        "address": "Seal Beach, CA 90740",
+        "notes": "Ammunition storage and handling facility."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-97.383333, 27.733333]
+      },
+      "properties": {
+        "name": "Naval Air Station Corpus Christi",
+        "branch": "Navy",
+        "address": "Corpus Christi, TX 78419",
+        "notes": "Primary flight training base."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-87.15, 30.566667]
+      },
+      "properties": {
+        "name": "Naval Air Station Whiting Field",
+        "branch": "Navy",
+        "address": "Milton, FL 32570",
+        "notes": "Primary flight training base."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-87.816667, 42.3]
+      },
+      "properties": {
+        "name": "Naval Station Great Lakes",
+        "branch": "Navy",
+        "address": "Great Lakes, IL 60088",
+        "notes": "Navy's only boot camp (Recruit Training Command)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-76.583333, 38.316667]
+      },
+      "properties": {
+        "name": "Naval Surface Warfare Center Dahlgren Division",
+        "branch": "Navy",
+        "address": "Dahlgren, VA 22448",
+        "notes": "Research and development center for naval warfare systems."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-86.85, 39.033333]
+      },
+      "properties": {
+        "name": "Naval Surface Warfare Center Crane Division",
+        "branch": "Navy",
+        "address": "Crane, IN 47522",
+        "notes": "Specializes in electronic warfare, strategic systems, and small arms."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-71.316667, 41.5]
+      },
+      "properties": {
+        "name": "Naval Undersea Warfare Center - Newport Division",
+        "branch": "Navy",
+        "address": "Newport, RI 02841",
+        "notes": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.7, 47.65]
+      },
+      "properties": {
+        "name": "Naval Undersea Warfare Center - Keyport Division",
+        "branch": "Navy",
+        "address": "Keyport, WA 98345",
+        "notes": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-117.7, 35.683333]
+      },
+      "properties": {
+        "name": "Naval Air Warfare Center - China Lake",
+        "branch": "Navy",
+        "address": "China Lake, CA 93555",
+        "notes": "Weapons development and testing."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-119.116667, 34.116667]
+      },
+      "properties": {
+        "name": "Naval Air Warfare Center - Point Mugu",
+        "branch": "Navy",
+        "address": "Point Mugu, CA 93042",
+        "notes": "Electronic warfare and missile testing."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-76.433333, 38.283333]
+      },
+      "properties": {
+        "name": "Naval Air Warfare Center - Patuxent River",
+        "branch": "Navy",
+        "address": "Patuxent River, MD 20670",
+        "notes": "Aircraft testing and evaluation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-77.083333, 38.983333]
+      },
+      "properties": {
+        "name": "Naval Support Activity Bethesda",
+        "branch": "Navy",
+        "address": "Bethesda, MD 20889",
+        "notes": "Home of Walter Reed National Military Medical Center."
+      }
+    },
+        {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-86.266667, 32.366667]
+      },
+      "properties": {
+        "name": "Maxwell Air Force Base",
+        "branch": "Air Force",
+        "address": "Montgomery, AL 36112",
+        "notes": "Home of Air University (professional military education)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-83.6, 32.633333]
+      },
+      "properties": {
+        "name": "Robins Air Force Base",
+        "branch": "Air Force",
+        "address": "Warner Robins, GA 31098",
+        "notes": "A major logistics and maintenance base."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-104.883333, 35.05]
+      },
+      "properties": {
+        "name": "Kirtland Air Force Base",
+        "branch": "Air Force",
+        "address": "Albuquerque, NM 87117",
+        "notes": "Home to the Air Force Nuclear Weapons Center and the 377th Air Base Wing."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-76.866667, 37.083333]
+      },
+      "properties": {
+        "name": "Langley Air Force Base",
+        "branch": "Air Force",
+        "address": "Hampton, VA 23665",
+        "notes": "Now part of Joint Base Langley-Eustis. Air Combat Command headquarters."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-97.3, 37.433333]
+      },
+      "properties": {
+        "name": "McConnell Air Force Base",
+        "branch": "Air Force",
+        "address": "Wichita, KS 67221",
+        "notes": "A major air refueling base."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-110.85, 32.166667]
+      },
+      "properties": {
+        "name": "Davis-Monthan Air Force Base",
+        "branch": "Air Force",
+        "address": "Tucson, AZ 85707",
+        "notes": "Home of the 'Boneyard' (Aerospace Maintenance and Regeneration Group - AMARG)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-92.183333, 33.05]
+      },
+      "properties": {
+        "name": "Little Rock Air Force Base",
+        "branch": "Air Force",
+        "address": "Jacksonville, AR 72099",
+        "notes": "The primary C-130 training base."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-121.933333, 38.25]
+      },
+      "properties": {
+        "name": "Travis Air Force Base",
+        "branch": "Air Force",
+        "address": "Fairfield, CA 94535",
+        "notes": "A major air mobility base."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.35, 39.133333]
+      },
+      "properties": {
+        "name": "Dover Air Force Base",
+        "branch": "Air Force",
+        "address": "Dover, DE 19902",
+        "notes": "Home of the Air Force Mortuary Affairs Operations."
+      }
+    },
+    {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-101.287778, 48.224722]
+        },
+        "properties": {
+          "name": "Minot Air Force Base",
+          "branch": "Air Force",
+          "address": "Minot, ND, 58705",
+          "notes": "Strategic Bomber and Missle Base"
+        }
+      },
+       {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-98.583333, 34.255]
+        },
+        "properties": {
+          "name": "Sheppard Air Force Base",
+          "branch": "Air Force",
+          "address": "Wichita Falls, TX, 76311",
+          "notes": "Technical and Pilot Training"
+        }
+      },
+       {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-100.465, 31.42]
+        },
+        "properties": {
+          "name": "Goodfellow Air Force Base",
+          "branch": "Air Force",
+          "address": "San Angelo, TX, 76908",
+          "notes": "Intel and Firefighter Training"
+        }
+      },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-80.65, 34.7]
+      },
+      "properties": {
+        "name": "Marine Corps Recruit Depot Parris Island",
+        "branch": "Marine Corps",
+        "address": "Parris Island, SC 29905",
+        "notes": "Recruit training (East of Mississippi and all female recruits)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-117.4, 32.733333]
+      },
+      "properties": {
+        "name": "Marine Corps Recruit Depot San Diego",
+        "branch": "Marine Corps",
+        "address": "San Diego, CA 92140",
+        "notes": "Recruit training (West of Mississippi)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-77.65, 34.683333]
+      },
+      "properties": {
+        "name": "Marine Corps Air Station Cherry Point",
+        "branch": "Marine Corps",
+        "address": "Havelock, NC 28533",
+        "notes": "Supports Marine aviation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-114.6, 32.716667]
+      },
+      "properties": {
+        "name": "Marine Corps Air Station Yuma",
+        "branch": "Marine Corps",
+        "address": "Yuma, AZ 85369",
+        "notes": "Supports aviation training and operations."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-157.75, 21.45]
+      },
+      "properties": {
+        "name": "Marine Corps Base Hawaii",
+        "branch": "Marine Corps",
+        "address": "Kaneohe Bay, HI 96863",
+        "notes": "A major base in the Pacific."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-157.916667, 21.316667]
+      },
+      "properties": {
+        "name": "Coast Guard Base Honolulu",
+        "branch": "Coast Guard",
+        "address": "Honolulu, HI 96819",
+        "notes": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-71.05, 42.366667]
+      },
+      "properties": {
+        "name": "Coast Guard Base Boston",
+        "branch": "Coast Guard",
+        "address": "Boston, MA 02109",
+        "notes": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-80.133333, 25.766667]
+      },
+      "properties": {
+        "name": "Coast Guard Base Miami Beach",
+        "branch": "Coast Guard",
+        "address": "Miami Beach, FL 33139",
+        "notes": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-90.066667, 29.95]
+      },
+      "properties": {
+        "name": "Coast Guard Base New Orleans",
+        "branch": "Coast Guard",
+        "address": "New Orleans, LA 70130",
+        "notes": ""
+      }
+    },
+      {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.3, 37.8]
+      },
+      "properties": {
+        "name": "Coast Guard Base Alameda",
+        "branch": "Coast Guard",
+        "address": "Alameda, CA, 94501",
+        "notes": ""
+      }
+    },
+
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-86.183333, 39.466667]
+      },
+      "properties": {
+        "name": "Camp Atterbury",
+        "branch": "Army National Guard",
+        "address": "Edinburgh, IN 46124",
+        "notes": "Major training area."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-89.3, 31.3]
+      },
+      "properties": {
+        "name": "Camp Shelby",
+        "branch": "Army National Guard",
+        "address": "Hattiesburg, MS 39407",
+        "notes": "Major training area."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-94.3, 46.133333]
+      },
+      "properties": {
+        "name": "Camp Ripley",
+        "branch": "Army National Guard",
+        "address": "Little Falls, MN 56345",
+        "notes": "Major training area."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-76.583333, 40.433333]
+      },
+      "properties": {
+        "name": "Fort Indiantown Gap",
+        "branch": "Army National Guard",
+        "address": "Annville, PA 17003",
+        "notes": "Major training area."
+      }
+    }
+  ]
+}
