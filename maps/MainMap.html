@@ -43,7 +43,7 @@
         }
         
         .custom-div-icon i {
-            font-size: 24px; /* Increased size */
+            /* Base styles only - size will be set dynamically by JS */
             text-shadow: 0px 0px 3px white, 0px 0px 5px white; /* Add outline for better visibility */
         }
     </style>
@@ -103,13 +103,27 @@
             fillOpacity: 0.5
         };
         
+        // Function to calculate icon size based on zoom level
+        function getIconSize(zoom) {
+            // Start with a base size of 14px at zoom level 3
+            // Increase by approximately 2-3px per zoom level
+            var baseSize = 14;
+            var factor = Math.max(0.6, zoom / 5);  // Scale factor
+            return Math.round(baseSize * factor);
+        }
+        
+        // Set initial icon size based on current zoom
+        var initialIconSize = getIconSize(map.getZoom());
+        
         // Custom icon creation function using Font Awesome
-        function createCustomIcon(icon, markerColor) {
+        function createCustomIcon(icon, markerColor, zoom) {
+            var size = getIconSize(zoom);
             return L.divIcon({
-                html: '<i class="fa ' + icon + '" style="color: ' + markerColor + '"></i>',
-                iconSize: [30, 30], // Increased size
-                iconAnchor: [15, 15], // Center of the icon
-                className: 'custom-div-icon'
+                html: '<i class="fa ' + icon + '" style="color: ' + markerColor + '; font-size: ' + size + 'px;"></i>',
+                iconSize: [size * 1.5, size * 1.5], // Container slightly larger than icon
+                iconAnchor: [size * 0.75, size * 0.75], // Center of the icon
+                className: 'custom-div-icon',
+                iconSizeZoom: zoom // Store current zoom for reference
             });
         }
         
@@ -125,22 +139,32 @@
             }
         }
         
+        // Store references to markers for updating
+        var allMarkers = [];
+        
         // Load Federal Prisons GeoJSON
         fetch('FederalPrisons.geojson')
             .then(response => response.json())
             .then(data => {
                 var federalPrisons = L.geoJSON(data, {
                     style: federalPrisonsStyle,
-                    onEachFeature: createPopupContent,
+                    onEachFeature: function(feature, layer) {
+                        createPopupContent(feature, layer);
+                        // If it's a marker, store it for later updates
+                        if (layer instanceof L.Marker) {
+                            allMarkers.push({
+                                marker: layer,
+                                icon: 'fa-building',
+                                color: '#FF0000'
+                            });
+                        }
+                    },
                     pointToLayer: function(feature, latlng) {
                         return L.marker(latlng, {
-                            icon: createCustomIcon('fa-building', '#FF0000')
+                            icon: createCustomIcon('fa-building', '#FF0000', map.getZoom())
                         });
                     }
                 }).addTo(federalPrisonsLayer);
-                
-                // Auto-adjust zoom to fit all features if needed
-                // map.fitBounds(federalPrisons.getBounds());
             })
             .catch(error => console.error('Error loading Federal Prisons GeoJSON:', error));
         
@@ -150,10 +174,20 @@
             .then(data => {
                 var militaryBases = L.geoJSON(data, {
                     style: militaryBasesStyle,
-                    onEachFeature: createPopupContent,
+                    onEachFeature: function(feature, layer) {
+                        createPopupContent(feature, layer);
+                        // If it's a marker, store it for later updates
+                        if (layer instanceof L.Marker) {
+                            allMarkers.push({
+                                marker: layer,
+                                icon: 'fa-shield-alt',
+                                color: '#0000FF'
+                            });
+                        }
+                    },
                     pointToLayer: function(feature, latlng) {
                         return L.marker(latlng, {
-                            icon: createCustomIcon('fa-shield-alt', '#0000FF')
+                            icon: createCustomIcon('fa-shield-alt', '#0000FF', map.getZoom())
                         });
                     }
                 }).addTo(militaryBasesLayer);
@@ -166,10 +200,20 @@
             .then(data => {
                 var statePrisons = L.geoJSON(data, {
                     style: statePrisonsStyle,
-                    onEachFeature: createPopupContent,
+                    onEachFeature: function(feature, layer) {
+                        createPopupContent(feature, layer);
+                        // If it's a marker, store it for later updates
+                        if (layer instanceof L.Marker) {
+                            allMarkers.push({
+                                marker: layer,
+                                icon: 'fa-building',
+                                color: '#FF6600'
+                            });
+                        }
+                    },
                     pointToLayer: function(feature, latlng) {
                         return L.marker(latlng, {
-                            icon: createCustomIcon('fa-building', '#FF6600')
+                            icon: createCustomIcon('fa-building', '#FF6600', map.getZoom())
                         });
                     }
                 }).addTo(statePrisonsLayer);
@@ -182,15 +226,36 @@
             .then(data => {
                 var dox = L.geoJSON(data, {
                     style: doxStyle,
-                    onEachFeature: createPopupContent,
+                    onEachFeature: function(feature, layer) {
+                        createPopupContent(feature, layer);
+                        // If it's a marker, store it for later updates
+                        if (layer instanceof L.Marker) {
+                            allMarkers.push({
+                                marker: layer,
+                                icon: 'fa-info-circle',
+                                color: '#008000'
+                            });
+                        }
+                    },
                     pointToLayer: function(feature, latlng) {
                         return L.marker(latlng, {
-                            icon: createCustomIcon('fa-info-circle', '#008000')
+                            icon: createCustomIcon('fa-info-circle', '#008000', map.getZoom())
                         });
                     }
                 }).addTo(doxLayer);
             })
             .catch(error => console.error('Error loading dox GeoJSON:', error));
+        
+        // Update all markers when zoom changes
+        map.on('zoomend', function() {
+            var newZoom = map.getZoom();
+            
+            // Update all markers with new sized icons
+            allMarkers.forEach(function(item) {
+                var newIcon = createCustomIcon(item.icon, item.color, newZoom);
+                item.marker.setIcon(newIcon);
+            });
+        });
         
         // Create layer control
         var layerControl = L.control({position: 'topright'});
@@ -210,43 +275,34 @@
         };
         layerControl.addTo(map);
         
-        // Add event listeners for layer toggling
-        document.addEventListener('DOMContentLoaded', function() {
-            // Helper function to add event listeners
-            function addToggleListener(id, layer) {
-                var element = document.getElementById(id);
-                if (element) {
-                    element.addEventListener('change', function() {
-                        if (this.checked) {
-                            map.addLayer(layer);
-                        } else {
-                            map.removeLayer(layer);
-                        }
-                    });
+        // Set up event listeners for layer toggle
+        map.on('layeradd', function() {
+            // Wait for DOM to be ready for manipulation
+            setTimeout(function() {
+                // Helper function to add event listeners
+                function addToggleListener(id, layer) {
+                    var element = document.getElementById(id);
+                    if (element) {
+                        element.addEventListener('change', function() {
+                            if (this.checked) {
+                                map.addLayer(layer);
+                            } else {
+                                map.removeLayer(layer);
+                            }
+                        });
+                    }
                 }
-            }
-            
-            // Add listeners to each checkbox
-            addToggleListener('federal-prisons', federalPrisonsLayer);
-            addToggleListener('military-bases', militaryBasesLayer);
-            addToggleListener('state-prisons', statePrisonsLayer);
-            addToggleListener('dox', doxLayer);
+                
+                // Add listeners to each checkbox
+                addToggleListener('federal-prisons', federalPrisonsLayer);
+                addToggleListener('military-bases', militaryBasesLayer);
+                addToggleListener('state-prisons', statePrisonsLayer);
+                addToggleListener('dox', doxLayer);
+            }, 100);
         });
         
         // Add a scale control to the map
         L.control.scale().addTo(map);
-        
-        // Make icons resize with zoom level
-        map.on('zoomend', function() {
-            var currentZoom = map.getZoom();
-            var baseSize = 24; // Base size at zoom level 10
-            var zoomFactor = Math.max(0.5, currentZoom / 10); // Adjust scaling factor
-            var newSize = Math.round(baseSize * zoomFactor);
-            
-            document.querySelectorAll('.custom-div-icon i').forEach(function(icon) {
-                icon.style.fontSize = newSize + 'px';
-            });
-        });
     </script>
 </body>
 </html>
