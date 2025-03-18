@@ -19,22 +19,6 @@
             padding: 0;
         }
         
-        /* Add some styling for the legend */
-        .legend {
-            background-color: white;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            line-height: 24px;
-        }
-        
-        .legend i {
-            width: 18px;
-            height: 18px;
-            text-align: center;
-            margin-right: 8px;
-        }
-        
         /* Layer control styling */
         .layer-control {
             background-color: white;
@@ -50,6 +34,17 @@
         
         .layer-item input {
             margin-right: 5px;
+        }
+        
+        /* Custom icon styling */
+        .custom-div-icon {
+            background: none;
+            border: none;
+        }
+        
+        .custom-div-icon i {
+            font-size: 24px; /* Increased size */
+            text-shadow: 0px 0px 3px white, 0px 0px 5px white; /* Add outline for better visibility */
         }
     </style>
 </head>
@@ -112,7 +107,8 @@
         function createCustomIcon(icon, markerColor) {
             return L.divIcon({
                 html: '<i class="fa ' + icon + '" style="color: ' + markerColor + '"></i>',
-                iconSize: [20, 20],
+                iconSize: [30, 30], // Increased size
+                iconAnchor: [15, 15], // Center of the icon
                 className: 'custom-div-icon'
             });
         }
@@ -129,19 +125,6 @@
             }
         }
         
-        // Point to Icon mapping
-        function getIconForFeature(feature, defaultIcon) {
-            // This can be expanded to map different features to different icons
-            if (feature.properties && feature.properties.type) {
-                switch(feature.properties.type.toLowerCase()) {
-                    case 'prison': return 'fa-building';
-                    case 'military': return 'fa-shield-alt';
-                    default: return defaultIcon;
-                }
-            }
-            return defaultIcon;
-        }
-        
         // Load Federal Prisons GeoJSON
         fetch('FederalPrisons.geojson')
             .then(response => response.json())
@@ -155,6 +138,9 @@
                         });
                     }
                 }).addTo(federalPrisonsLayer);
+                
+                // Auto-adjust zoom to fit all features if needed
+                // map.fitBounds(federalPrisons.getBounds());
             })
             .catch(error => console.error('Error loading Federal Prisons GeoJSON:', error));
         
@@ -224,51 +210,41 @@
         };
         layerControl.addTo(map);
         
-        // Add legend
-        var legend = L.control({position: 'bottomright'});
-        legend.onAdd = function (map) {
-            var div = L.DomUtil.create('div', 'legend');
-            div.innerHTML += '<h4>Map Layers</h4>';
-            div.innerHTML += '<i class="fa fa-building" style="color: #FF0000;"></i> Federal Prisons<br>';
-            div.innerHTML += '<i class="fa fa-shield-alt" style="color: #0000FF;"></i> Military Bases<br>';
-            div.innerHTML += '<i class="fa fa-building" style="color: #FF6600;"></i> State Prisons<br>';
-            div.innerHTML += '<i class="fa fa-info-circle" style="color: #008000;"></i> Other Data<br>';
-            return div;
-        };
-        legend.addTo(map);
-        
         // Add event listeners for layer toggling
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('federal-prisons').addEventListener('change', function() {
-                if (this.checked) {
-                    map.addLayer(federalPrisonsLayer);
-                } else {
-                    map.removeLayer(federalPrisonsLayer);
+            // Helper function to add event listeners
+            function addToggleListener(id, layer) {
+                var element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('change', function() {
+                        if (this.checked) {
+                            map.addLayer(layer);
+                        } else {
+                            map.removeLayer(layer);
+                        }
+                    });
                 }
-            });
+            }
             
-            document.getElementById('military-bases').addEventListener('change', function() {
-                if (this.checked) {
-                    map.addLayer(militaryBasesLayer);
-                } else {
-                    map.removeLayer(militaryBasesLayer);
-                }
-            });
+            // Add listeners to each checkbox
+            addToggleListener('federal-prisons', federalPrisonsLayer);
+            addToggleListener('military-bases', militaryBasesLayer);
+            addToggleListener('state-prisons', statePrisonsLayer);
+            addToggleListener('dox', doxLayer);
+        });
+        
+        // Add a scale control to the map
+        L.control.scale().addTo(map);
+        
+        // Make icons resize with zoom level
+        map.on('zoomend', function() {
+            var currentZoom = map.getZoom();
+            var baseSize = 24; // Base size at zoom level 10
+            var zoomFactor = Math.max(0.5, currentZoom / 10); // Adjust scaling factor
+            var newSize = Math.round(baseSize * zoomFactor);
             
-            document.getElementById('state-prisons').addEventListener('change', function() {
-                if (this.checked) {
-                    map.addLayer(statePrisonsLayer);
-                } else {
-                    map.removeLayer(statePrisonsLayer);
-                }
-            });
-            
-            document.getElementById('dox').addEventListener('change', function() {
-                if (this.checked) {
-                    map.addLayer(doxLayer);
-                } else {
-                    map.removeLayer(doxLayer);
-                }
+            document.querySelectorAll('.custom-div-icon i').forEach(function(icon) {
+                icon.style.fontSize = newSize + 'px';
             });
         });
     </script>
