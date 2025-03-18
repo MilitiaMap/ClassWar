@@ -67,6 +67,7 @@
       height: 24rem;
       margin-bottom: 2rem;
       position: relative;
+      z-index: 1;
     }
 
     #fullscreen-btn {
@@ -85,6 +86,7 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
+      z-index: 2;
     }
 
     #fullscreen-btn i {
@@ -457,150 +459,172 @@
   </footer>
 
   <script>
-    // Initialize map
-    var map = L.map('map').setView([40, -95], 4);
-
-    // Add tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    // Define layer groups BEFORE using them
-    var doxLayer = L.layerGroup();
-    var militaryLayer = L.layerGroup();
-    var statePrisonLayer = L.layerGroup();
-    var federalPrisonLayer = L.layerGroup();
-
-    // --- Define custom icons ---
-    var userIcon = L.ExtraMarkers.icon({
-      icon: 'fa-user',
-      markerColor: 'orange',
-      shape: 'circle',
-      prefix: 'fa'
-    });
-
-    var warehouseIcon = L.ExtraMarkers.icon({
-      icon: 'fa-warehouse',
-      markerColor: 'blue',
-      shape: 'square',
-      prefix: 'fa'
-    });
-
-    var statePrisonIcon = L.ExtraMarkers.icon({
-      icon: 'fa-university',
-      markerColor: 'red',
-      shape: 'star',
-      prefix: 'fa'
-    });
-
-    var federalPrisonIcon = L.ExtraMarkers.icon({
-      icon: 'fa-building',
-      markerColor: 'green',
-      shape: 'penta',
-      prefix: 'fa'
-    });
-
-    // --- Point to layer functions ---
-    function pointToLayerDox(feature, latlng) {
-      return L.marker(latlng, { icon: userIcon });
-    }
-
-    function pointToLayerMilitary(feature, latlng) {
-      return L.marker(latlng, { icon: warehouseIcon });
-    }
-
-    function pointToLayerStatePrison(feature, latlng) {
-      return L.marker(latlng, { icon: statePrisonIcon });
-    }
-
-    function pointToLayerFederalPrison(feature, latlng) {
-      return L.marker(latlng, { icon: federalPrisonIcon });
-    }
-
-    // --- Function to bind popup content ---
-    function onEachFeature(feature, layer) {
-      var popupContent = `
-        <strong>${feature.properties.name}</strong><br>
-        Role: ${feature.properties.role}<br>
-        Contributions: ${feature.properties.contributions}<br>
-        Location: ${feature.properties.location}<br>
-        Online: <a href="https://${feature.properties.online}" target="_blank">${feature.properties.online}</a><br>
-        Associations: ${feature.properties.associations}<br>
-        Companies: ${feature.properties.companies || 'N/A'}<br>
-        Scandals: ${feature.properties.scandals || 'N/A'}
-      `;
-      layer.bindPopup(popupContent);
-    }
-
-    // --- Load GeoJSON files and add to layers ---
-    fetch('./maps/dox.geojson')
-      .then(response => response.json())
-      .then(data => {
-        L.geoJSON(data, {
-          pointToLayer: pointToLayerDox,
-          onEachFeature: onEachFeature
-        }).addTo(doxLayer);
-        doxLayer.addTo(map);
-      })
-      .catch(error => console.error('Error loading dox.geojson:', error));
-
-    fetch('./maps/MilitaryBases.geojson')
-      .then(response => response.json())
-      .then(data => {
-        L.geoJSON(data, {
-          pointToLayer: pointToLayerMilitary,
-          onEachFeature: onEachFeature
-        }).addTo(militaryLayer);
-        militaryLayer.addTo(map);
-      })
-      .catch(error => console.error('Error loading MilitaryBases.geojson:', error));
-
-    fetch('./maps/StatePrisons.geojson')
-      .then(response => response.json())
-      .then(data => {
-        L.geoJSON(data, {
-          pointToLayer: pointToLayerStatePrison,
-          onEachFeature: onEachFeature
-        }).addTo(statePrisonLayer);
-        // statePrisonLayer.addTo(map);  // Commented out as in original
-      })
-      .catch(error => console.error('Error loading StatePrisons.geojson:', error));
-
-    fetch('./maps/FederalPrisons.geojson')
-      .then(response => response.json())
-      .then(data => {
-        L.geoJSON(data, {
-          pointToLayer: pointToLayerFederalPrison,
-          onEachFeature: onEachFeature
-        }).addTo(federalPrisonLayer);
-        // federalPrisonLayer.addTo(map);  // Commented out as in original
-      })
-      .catch(error => console.error('Error loading FederalPrisons.geojson:', error));
-
-    // --- Create a layer control ---
-    var baseLayers = {};
-    var overlays = {
-      "Dox Data": doxLayer,
-      "Military Bases": militaryLayer,
-      "State Prisons": statePrisonLayer,
-      "Federal Prisons": federalPrisonLayer
-    };
-
-    L.control.layers(baseLayers, overlays, {collapsed: false}).addTo(map);
-
-    // --- Fullscreen button functionality ---
-    document.getElementById('fullscreen-btn').addEventListener('click', function() {
-      var mapElement = document.getElementById('map');
-
-      if (mapElement.requestFullscreen) {
-        mapElement.requestFullscreen();
-      } else if (mapElement.mozRequestFullScreen) {
-        mapElement.mozRequestFullScreen();
-      } else if (mapElement.webkitRequestFullscreen) {
-        mapElement.webkitRequestFullscreen();
-      } else if (mapElement.msRequestFullscreen) {
-        mapElement.msRequestFullscreen();
+    // Wait for the DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log("DOM fully loaded, initializing map...");
+      
+      // Initialize map with a specific height to ensure it's visible
+      var map = L.map('map', {
+        center: [40, -95],
+        zoom: 4
+      });
+      
+      // Add tile layer
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+      
+      // Create layer groups
+      var doxLayer = L.layerGroup().addTo(map);
+      var militaryLayer = L.layerGroup().addTo(map);
+      var statePrisonLayer = L.layerGroup();
+      var federalPrisonLayer = L.layerGroup();
+      
+      // Define icons
+      var userIcon = L.ExtraMarkers.icon({
+        icon: 'fa-user',
+        markerColor: 'orange',
+        shape: 'circle',
+        prefix: 'fa'
+      });
+      
+      var warehouseIcon = L.ExtraMarkers.icon({
+        icon: 'fa-warehouse',
+        markerColor: 'blue',
+        shape: 'square',
+        prefix: 'fa'
+      });
+      
+      var statePrisonIcon = L.ExtraMarkers.icon({
+        icon: 'fa-university',
+        markerColor: 'red',
+        shape: 'star',
+        prefix: 'fa'
+      });
+      
+      var federalPrisonIcon = L.ExtraMarkers.icon({
+        icon: 'fa-building',
+        markerColor: 'green',
+        shape: 'penta',
+        prefix: 'fa'
+      });
+      
+      // Functions for creating markers
+      function pointToLayerDox(feature, latlng) {
+        return L.marker(latlng, { icon: userIcon });
       }
+      
+      function pointToLayerMilitary(feature, latlng) {
+        return L.marker(latlng, { icon: warehouseIcon });
+      }
+      
+      function pointToLayerStatePrison(feature, latlng) {
+        return L.marker(latlng, { icon: statePrisonIcon });
+      }
+      
+      function pointToLayerFederalPrison(feature, latlng) {
+        return L.marker(latlng, { icon: federalPrisonIcon });
+      }
+      
+      // Function to create popups
+      function onEachFeature(feature, layer) {
+        if (feature.properties) {
+          var popupContent = '<strong>' + (feature.properties.name || 'Unnamed') + '</strong><br>';
+          
+          if (feature.properties.role) {
+            popupContent += 'Role: ' + feature.properties.role + '<br>';
+          }
+          
+          if (feature.properties.contributions) {
+            popupContent += 'Contributions: ' + feature.properties.contributions + '<br>';
+          }
+          
+          if (feature.properties.location) {
+            popupContent += 'Location: ' + feature.properties.location + '<br>';
+          }
+          
+          if (feature.properties.online) {
+            popupContent += 'Online: <a href="https://' + feature.properties.online + 
+                           '" target="_blank">' + feature.properties.online + '</a><br>';
+          }
+          
+          if (feature.properties.associations) {
+            popupContent += 'Associations: ' + feature.properties.associations + '<br>';
+          }
+          
+          if (feature.properties.companies) {
+            popupContent += 'Companies: ' + feature.properties.companies + '<br>';
+          }
+          
+          if (feature.properties.scandals) {
+            popupContent += 'Scandals: ' + feature.properties.scandals;
+          }
+          
+          layer.bindPopup(popupContent);
+        }
+      }
+      
+      // Load GeoJSON files with error handling
+      function loadGeoJSON(url, layerGroup, pointToLayerFunc) {
+        console.log("Loading GeoJSON from:", url);
+        
+        fetch(url)
+          .then(function(response) {
+            if (!response.ok) {
+              throw new Error("HTTP error " + response.status);
+            }
+            return response.json();
+          })
+          .then(function(data) {
+            console.log("GeoJSON loaded successfully from:", url);
+            L.geoJSON(data, {
+              pointToLayer: pointToLayerFunc,
+              onEachFeature: onEachFeature
+            }).addTo(layerGroup);
+          })
+          .catch(function(error) {
+            console.error("Error loading GeoJSON from " + url + ":", error);
+          });
+      }
+      
+      // Load all GeoJSON files
+      loadGeoJSON('/maps/dox.geojson', doxLayer, pointToLayerDox);
+      loadGeoJSON('/maps/MilitaryBases.geojson', militaryLayer, pointToLayerMilitary);
+      loadGeoJSON('/maps/StatePrisons.geojson', statePrisonLayer, pointToLayerStatePrison);
+      loadGeoJSON('/maps/FederalPrisons.geojson', federalPrisonLayer, pointToLayerFederalPrison);
+      
+      // Create layer control
+      var baseLayers = {};
+      var overlays = {
+        "Dox Data": doxLayer,
+        "Military Bases": militaryLayer,
+        "State Prisons": statePrisonLayer,
+        "Federal Prisons": federalPrisonLayer
+      };
+      
+      L.control.layers(baseLayers, overlays, {collapsed: false}).addTo(map);
+      
+      // Make sure the map renders properly
+      setTimeout(function() {
+        map.invalidateSize();
+        console.log("Map size invalidated");
+      }, 500);
+      
+      // Fullscreen button functionality
+      document.getElementById('fullscreen-btn').addEventListener('click', function() {
+        console.log("Fullscreen button clicked");
+        var mapElement = document.getElementById('map');
+        
+        if (mapElement.requestFullscreen) {
+          mapElement.requestFullscreen();
+        } else if (mapElement.mozRequestFullScreen) {
+          mapElement.mozRequestFullScreen();
+        } else if (mapElement.webkitRequestFullscreen) {
+          mapElement.webkitRequestFullscreen();
+        } else if (mapElement.msRequestFullscreen) {
+          mapElement.msRequestFullscreen();
+        }
+      });
     });
   </script>
 </body>
