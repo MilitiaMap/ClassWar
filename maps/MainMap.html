@@ -6,6 +6,8 @@
     <title>Leaflet Fullscreen Map Centered on US</title>
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <!-- Optional: Leaflet Fullscreen plugin CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css" />
     
@@ -23,13 +25,31 @@
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            line-height: 24px;
         }
+        
         .legend i {
             width: 18px;
             height: 18px;
-            float: left;
+            text-align: center;
             margin-right: 8px;
-            opacity: 0.7;
+        }
+        
+        /* Layer control styling */
+        .layer-control {
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        
+        .layer-item {
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        
+        .layer-item input {
+            margin-right: 5px;
         }
     </style>
 </head>
@@ -38,6 +58,8 @@
     <div id="map"></div>
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Font Awesome JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <!-- Optional: Leaflet Fullscreen plugin JS -->
     <script src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.js"></script>
     <script>
@@ -50,6 +72,12 @@
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+        
+        // Create layer groups to allow toggling
+        var federalPrisonsLayer = L.layerGroup().addTo(map);
+        var militaryBasesLayer = L.layerGroup().addTo(map);
+        var statePrisonsLayer = L.layerGroup().addTo(map);
+        var doxLayer = L.layerGroup().addTo(map);
         
         // Define styles for different GeoJSON layers
         var federalPrisonsStyle = {
@@ -80,6 +108,15 @@
             fillOpacity: 0.5
         };
         
+        // Custom icon creation function using Font Awesome
+        function createCustomIcon(icon, markerColor) {
+            return L.divIcon({
+                html: '<i class="fa ' + icon + '" style="color: ' + markerColor + '"></i>',
+                iconSize: [20, 20],
+                className: 'custom-div-icon'
+            });
+        }
+        
         // Function to create popup content
         function createPopupContent(feature, layer) {
             if (feature.properties) {
@@ -92,14 +129,32 @@
             }
         }
         
+        // Point to Icon mapping
+        function getIconForFeature(feature, defaultIcon) {
+            // This can be expanded to map different features to different icons
+            if (feature.properties && feature.properties.type) {
+                switch(feature.properties.type.toLowerCase()) {
+                    case 'prison': return 'fa-building';
+                    case 'military': return 'fa-shield-alt';
+                    default: return defaultIcon;
+                }
+            }
+            return defaultIcon;
+        }
+        
         // Load Federal Prisons GeoJSON
         fetch('FederalPrisons.geojson')
             .then(response => response.json())
             .then(data => {
                 var federalPrisons = L.geoJSON(data, {
                     style: federalPrisonsStyle,
-                    onEachFeature: createPopupContent
-                }).addTo(map);
+                    onEachFeature: createPopupContent,
+                    pointToLayer: function(feature, latlng) {
+                        return L.marker(latlng, {
+                            icon: createCustomIcon('fa-building', '#FF0000')
+                        });
+                    }
+                }).addTo(federalPrisonsLayer);
             })
             .catch(error => console.error('Error loading Federal Prisons GeoJSON:', error));
         
@@ -109,8 +164,13 @@
             .then(data => {
                 var militaryBases = L.geoJSON(data, {
                     style: militaryBasesStyle,
-                    onEachFeature: createPopupContent
-                }).addTo(map);
+                    onEachFeature: createPopupContent,
+                    pointToLayer: function(feature, latlng) {
+                        return L.marker(latlng, {
+                            icon: createCustomIcon('fa-shield-alt', '#0000FF')
+                        });
+                    }
+                }).addTo(militaryBasesLayer);
             })
             .catch(error => console.error('Error loading Military Bases GeoJSON:', error));
         
@@ -120,8 +180,13 @@
             .then(data => {
                 var statePrisons = L.geoJSON(data, {
                     style: statePrisonsStyle,
-                    onEachFeature: createPopupContent
-                }).addTo(map);
+                    onEachFeature: createPopupContent,
+                    pointToLayer: function(feature, latlng) {
+                        return L.marker(latlng, {
+                            icon: createCustomIcon('fa-building', '#FF6600')
+                        });
+                    }
+                }).addTo(statePrisonsLayer);
             })
             .catch(error => console.error('Error loading State Prisons GeoJSON:', error));
         
@@ -131,23 +196,81 @@
             .then(data => {
                 var dox = L.geoJSON(data, {
                     style: doxStyle,
-                    onEachFeature: createPopupContent
-                }).addTo(map);
+                    onEachFeature: createPopupContent,
+                    pointToLayer: function(feature, latlng) {
+                        return L.marker(latlng, {
+                            icon: createCustomIcon('fa-info-circle', '#008000')
+                        });
+                    }
+                }).addTo(doxLayer);
             })
             .catch(error => console.error('Error loading dox GeoJSON:', error));
         
-        // Add a legend
+        // Create layer control
+        var layerControl = L.control({position: 'topright'});
+        layerControl.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'layer-control');
+            div.innerHTML = '<h4>Toggle Layers</h4>';
+            
+            div.innerHTML += '<div class="layer-item"><input type="checkbox" id="federal-prisons" checked><label for="federal-prisons"><i class="fa fa-building" style="color: #FF0000;"></i> Federal Prisons</label></div>';
+            div.innerHTML += '<div class="layer-item"><input type="checkbox" id="military-bases" checked><label for="military-bases"><i class="fa fa-shield-alt" style="color: #0000FF;"></i> Military Bases</label></div>';
+            div.innerHTML += '<div class="layer-item"><input type="checkbox" id="state-prisons" checked><label for="state-prisons"><i class="fa fa-building" style="color: #FF6600;"></i> State Prisons</label></div>';
+            div.innerHTML += '<div class="layer-item"><input type="checkbox" id="dox" checked><label for="dox"><i class="fa fa-info-circle" style="color: #008000;"></i> Other Data</label></div>';
+            
+            // Prevent clicks on control from propagating to map
+            L.DomEvent.disableClickPropagation(div);
+            
+            return div;
+        };
+        layerControl.addTo(map);
+        
+        // Add legend
         var legend = L.control({position: 'bottomright'});
         legend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'legend');
             div.innerHTML += '<h4>Map Layers</h4>';
-            div.innerHTML += '<i style="background:#FF0000"></i> Federal Prisons<br>';
-            div.innerHTML += '<i style="background:#0000FF"></i> Military Bases<br>';
-            div.innerHTML += '<i style="background:#FF6600"></i> State Prisons<br>';
-            div.innerHTML += '<i style="background:#008000"></i> Other Data<br>';
+            div.innerHTML += '<i class="fa fa-building" style="color: #FF0000;"></i> Federal Prisons<br>';
+            div.innerHTML += '<i class="fa fa-shield-alt" style="color: #0000FF;"></i> Military Bases<br>';
+            div.innerHTML += '<i class="fa fa-building" style="color: #FF6600;"></i> State Prisons<br>';
+            div.innerHTML += '<i class="fa fa-info-circle" style="color: #008000;"></i> Other Data<br>';
             return div;
         };
         legend.addTo(map);
+        
+        // Add event listeners for layer toggling
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('federal-prisons').addEventListener('change', function() {
+                if (this.checked) {
+                    map.addLayer(federalPrisonsLayer);
+                } else {
+                    map.removeLayer(federalPrisonsLayer);
+                }
+            });
+            
+            document.getElementById('military-bases').addEventListener('change', function() {
+                if (this.checked) {
+                    map.addLayer(militaryBasesLayer);
+                } else {
+                    map.removeLayer(militaryBasesLayer);
+                }
+            });
+            
+            document.getElementById('state-prisons').addEventListener('change', function() {
+                if (this.checked) {
+                    map.addLayer(statePrisonsLayer);
+                } else {
+                    map.removeLayer(statePrisonsLayer);
+                }
+            });
+            
+            document.getElementById('dox').addEventListener('change', function() {
+                if (this.checked) {
+                    map.addLayer(doxLayer);
+                } else {
+                    map.removeLayer(doxLayer);
+                }
+            });
+        });
     </script>
 </body>
 </html>
