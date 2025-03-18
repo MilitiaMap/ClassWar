@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaflet Fullscreen Map Centered on US</title>
-
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-
     <!-- Optional: Leaflet Fullscreen plugin CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css" />
     
@@ -18,31 +16,138 @@
             margin: 0;
             padding: 0;
         }
+        
+        /* Add some styling for the legend */
+        .legend {
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body>
-
     <!-- Map container -->
     <div id="map"></div>
-
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
     <!-- Optional: Leaflet Fullscreen plugin JS -->
     <script src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.js"></script>
-
     <script>
         // Initialize map
         var map = L.map('map', {
             fullscreenControl: true, // Enable fullscreen control
         }).setView([37.0902, -95.7129], 5); // Centered on US (latitude, longitude)
-
+        
         // Add tile layer (OpenStreetMap)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+        
+        // Define styles for different GeoJSON layers
+        var federalPrisonsStyle = {
+            color: "#FF0000",
+            weight: 1,
+            opacity: 0.7,
+            fillOpacity: 0.5
+        };
+        
+        var militaryBasesStyle = {
+            color: "#0000FF",
+            weight: 1,
+            opacity: 0.7,
+            fillOpacity: 0.5
+        };
+        
+        var statePrisonsStyle = {
+            color: "#FF6600",
+            weight: 1,
+            opacity: 0.7,
+            fillOpacity: 0.5
+        };
+        
+        var doxStyle = {
+            color: "#008000",
+            weight: 1,
+            opacity: 0.7,
+            fillOpacity: 0.5
+        };
+        
+        // Function to create popup content
+        function createPopupContent(feature, layer) {
+            if (feature.properties) {
+                var popupContent = "<div>";
+                for (var key in feature.properties) {
+                    popupContent += "<strong>" + key + ":</strong> " + feature.properties[key] + "<br>";
+                }
+                popupContent += "</div>";
+                layer.bindPopup(popupContent);
+            }
+        }
+        
+        // Load Federal Prisons GeoJSON
+        fetch('FederalPrisons.geojson')
+            .then(response => response.json())
+            .then(data => {
+                var federalPrisons = L.geoJSON(data, {
+                    style: federalPrisonsStyle,
+                    onEachFeature: createPopupContent
+                }).addTo(map);
+            })
+            .catch(error => console.error('Error loading Federal Prisons GeoJSON:', error));
+        
+        // Load Military Bases GeoJSON
+        fetch('MilitaryBases.geojson')
+            .then(response => response.json())
+            .then(data => {
+                var militaryBases = L.geoJSON(data, {
+                    style: militaryBasesStyle,
+                    onEachFeature: createPopupContent
+                }).addTo(map);
+            })
+            .catch(error => console.error('Error loading Military Bases GeoJSON:', error));
+        
+        // Load State Prisons GeoJSON
+        fetch('StatePrisons.geojson')
+            .then(response => response.json())
+            .then(data => {
+                var statePrisons = L.geoJSON(data, {
+                    style: statePrisonsStyle,
+                    onEachFeature: createPopupContent
+                }).addTo(map);
+            })
+            .catch(error => console.error('Error loading State Prisons GeoJSON:', error));
+        
+        // Load dox GeoJSON
+        fetch('dox.geojson')
+            .then(response => response.json())
+            .then(data => {
+                var dox = L.geoJSON(data, {
+                    style: doxStyle,
+                    onEachFeature: createPopupContent
+                }).addTo(map);
+            })
+            .catch(error => console.error('Error loading dox GeoJSON:', error));
+        
+        // Add a legend
+        var legend = L.control({position: 'bottomright'});
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'legend');
+            div.innerHTML += '<h4>Map Layers</h4>';
+            div.innerHTML += '<i style="background:#FF0000"></i> Federal Prisons<br>';
+            div.innerHTML += '<i style="background:#0000FF"></i> Military Bases<br>';
+            div.innerHTML += '<i style="background:#FF6600"></i> State Prisons<br>';
+            div.innerHTML += '<i style="background:#008000"></i> Other Data<br>';
+            return div;
+        };
+        legend.addTo(map);
     </script>
-
 </body>
 </html>
-
