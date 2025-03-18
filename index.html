@@ -13,6 +13,9 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-extra-markers@1.0.6/dist/css/leaflet.extra-markers.min.css">
   <script src="https://cdn.jsdelivr.net/npm/leaflet-extra-markers@1.0.6/dist/js/leaflet-extra-markers.min.js"></script>
 
+  <!-- Add Leaflet Fullscreen plugin -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.min.js"></script>
 
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 
@@ -68,6 +71,8 @@
       margin-bottom: 2rem;
       position: relative;
       z-index: 1;
+      border: 2px solid #374151;
+      border-radius: 0.5rem;
     }
 
     #fullscreen-btn {
@@ -87,6 +92,11 @@
       align-items: center;
       cursor: pointer;
       z-index: 2;
+      transition: background-color 0.3s;
+    }
+
+    #fullscreen-btn:hover {
+      background-color: #ea580c;
     }
 
     #fullscreen-btn i {
@@ -218,7 +228,7 @@
     .leaflet-control-layers label {
       display: block;
       padding: 0.5rem;
-      transition: background-color: 0.3s;
+      transition: background-color 0.3s;
       cursor: pointer;
     }
 
@@ -267,6 +277,32 @@
     .agafonkin-card p:last-child {
      margin-bottom: 0; /* Remove bottom margin from the last paragraph */
     }
+    
+    /* Loading indicator styles */
+    .map-loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(31, 41, 55, 0.8);
+      color: white;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .map-loading i {
+      margin-right: 0.5rem;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -277,9 +313,13 @@
     <h1>Join the Resistance</h1>
     <p>Find your mission, support the cause</p>
 
-    <div id="map"></div>
+    <div id="map">
+      <div class="map-loading">
+        <i class="fas fa-circle-notch"></i> Loading map...
+      </div>
+    </div>
 
-    <button id="fullscreen-btn">
+    <button id="fullscreen-btn" title="View map in fullscreen">
       <i class="fas fa-expand-arrows-alt"></i>
     </button>
   </header>
@@ -463,10 +503,29 @@
     document.addEventListener('DOMContentLoaded', function() {
       console.log("DOM fully loaded, initializing map...");
       
-      // Initialize map with a specific height to ensure it's visible
+      // Get map element and loading indicator
+      var mapElement = document.getElementById('map');
+      var loadingIndicator = mapElement.querySelector('.map-loading');
+      
+      if (!mapElement) {
+        console.error("Map element not found!");
+        return;
+      }
+      
+      // Explicitly set map height
+      mapElement.style.height = '24rem';
+      
+      // Initialize map
       var map = L.map('map', {
         center: [40, -95],
-        zoom: 4
+        zoom: 4,
+        fullscreenControl: true, // Add fullscreen control
+        fullscreenControlOptions: {
+          position: 'topleft',
+          title: 'Show me the fullscreen!',
+          titleCancel: 'Exit fullscreen mode',
+          content: '<i class="fas fa-expand"></i>'
+        }
       });
       
       // Add tile layer
@@ -564,6 +623,20 @@
         }
       }
       
+      // Counter for loaded resources
+      var totalResources = 4;
+      var loadedResources = 0;
+      
+      function updateLoadingStatus() {
+        loadedResources++;
+        if (loadedResources >= totalResources) {
+          // Hide loading indicator
+          if (loadingIndicator) {
+            loadingIndicator.style.display = 'none';
+          }
+        }
+      }
+      
       // Load GeoJSON files with error handling
       function loadGeoJSON(url, layerGroup, pointToLayerFunc) {
         console.log("Loading GeoJSON from:", url);
@@ -571,60 +644,122 @@
         fetch(url)
           .then(function(response) {
             if (!response.ok) {
-              throw new Error("HTTP error " + response.status);
+              console.warn("HTTP error " + response.status + " for " + url);
+              updateLoadingStatus(); // Still update the counter even if there's an error
+              return null;
             }
             return response.json();
           })
           .then(function(data) {
-            console.log("GeoJSON loaded successfully from:", url);
-            L.geoJSON(data, {
-              pointToLayer: pointToLayerFunc,
-              onEachFeature: onEachFeature
-            }).addTo(layerGroup);
+            if (data) {
+              console.log("GeoJSON loaded successfully from:", url);
+              L.geoJSON(data, {
+                pointToLayer: pointToLayerFunc,
+                onEachFeature: onEachFeature
+              }).addTo(layerGroup);
+            }
+            updateLoadingStatus();
           })
           .catch(function(error) {
             console.error("Error loading GeoJSON from " + url + ":", error);
+            updateLoadingStatus(); // Still update the counter even if there's an error
           });
       }
       
-      // Load all GeoJSON files
-      loadGeoJSON('/maps/dox.geojson', doxLayer, pointToLayerDox);
-      loadGeoJSON('/maps/MilitaryBases.geojson', militaryLayer, pointToLayerMilitary);
-      loadGeoJSON('/maps/StatePrisons.geojson', statePrisonLayer, pointToLayerStatePrison);
-      loadGeoJSON('/maps/FederalPrisons.geojson', federalPrisonLayer, pointToLayerFederalPrison);
-      
-      // Create layer control
-      var baseLayers = {};
-      var overlays = {
-        "Dox Data": doxLayer,
-        "Military Bases": militaryLayer,
-        "State Prisons": statePrisonLayer,
-        "Federal Prisons": federalPrisonLayer
-      };
-      
-      L.control.layers(baseLayers, overlays, {collapsed: false}).addTo(map);
-      
-      // Make sure the map renders properly
+      // Ensure the map is fully rendered before loading layers
       setTimeout(function() {
         map.invalidateSize();
         console.log("Map size invalidated");
+        
+        // Add a mock "You are here" marker for demonstration
+        var youAreHereIcon = L.ExtraMarkers.icon({
+          icon: 'fa-map-marker-alt',
+          markerColor: 'red',
+          shape: 'circle',
+          prefix: 'fa'
+        });
+        
+        L.marker([39.8283, -98.5795], { icon: youAreHereIcon })
+          .bindPopup("<strong>Demo Marker</strong><br>This is a demonstration marker showing the geographic center of the United States.")
+          .addTo(map);
+        
+        // Load all GeoJSON files
+        loadGeoJSON('/maps/dox.geojson', doxLayer, pointToLayerDox);
+        loadGeoJSON('/maps/MilitaryBases.geojson', militaryLayer, pointToLayerMilitary);
+        loadGeoJSON('/maps/StatePrisons.geojson', statePrisonLayer, pointToLayerStatePrison);
+        loadGeoJSON('/maps/FederalPrisons.geojson', federalPrisonLayer, pointToLayerFederalPrison);
+        
+        // Create layer control
+        var baseLayers = {};
+        var overlays = {
+          "Dox Data": doxLayer,
+          "Military Bases": militaryLayer,
+          "State Prisons": statePrisonLayer,
+          "Federal Prisons": federalPrisonLayer
+        };
+        
+        L.control.layers(baseLayers, overlays, {collapsed: false}).addTo(map);
       }, 500);
       
       // Fullscreen button functionality
-      document.getElementById('fullscreen-btn').addEventListener('click', function() {
-        console.log("Fullscreen button clicked");
-        var mapElement = document.getElementById('map');
-        
-        if (mapElement.requestFullscreen) {
-          mapElement.requestFullscreen();
-        } else if (mapElement.mozRequestFullScreen) {
-          mapElement.mozRequestFullScreen();
-        } else if (mapElement.webkitRequestFullscreen) {
-          mapElement.webkitRequestFullscreen();
-        } else if (mapElement.msRequestFullscreen) {
-          mapElement.msRequestFullscreen();
-        }
-      });
+      var fullscreenBtn = document.getElementById('fullscreen-btn');
+      if (fullscreenBtn) {
+        fullscreenBtn.addEventListener('click', function() {
+          console.log("Fullscreen button clicked");
+          
+          try {
+            // Try the map's fullscreen functionality first if available
+            if (map.toggleFullscreen) {
+              map.toggleFullscreen();
+              return;
+            }
+            
+            // Fallback to browser fullscreen API
+            if (mapElement.requestFullscreen) {
+              mapElement.requestFullscreen();
+            } else if (mapElement.mozRequestFullScreen) {
+              mapElement.mozRequestFullScreen();
+            } else if (mapElement.webkitRequestFullscreen) {
+              mapElement.webkitRequestFullscreen();
+            } else if (mapElement.msRequestFullscreen) {
+              mapElement.msRequestFullscreen();
+            } else {
+              console.warn("Fullscreen API not supported");
+              alert("Fullscreen not supported in your browser");
+            }
+          } catch (error) {
+            console.error("Error going fullscreen:", error);
+            // Try an alternative approach - expand the map in the page
+            mapElement.style.position = 'fixed';
+            mapElement.style.top = '0';
+            mapElement.style.left = '0';
+            mapElement.style.width = '100vw';
+            mapElement.style.height = '100vh';
+            mapElement.style.zIndex = '9999';
+            
+            // Change button to exit fullscreen
+            fullscreenBtn.innerHTML = '<i class="fas fa-compress-arrows-alt"></i>';
+            fullscreenBtn.onclick = function() {
+              mapElement.style.position = 'relative';
+              mapElement.style.width = '75%';
+              mapElement.style.height = '24rem';
+              mapElement.style.zIndex = '1';
+              
+              // Restore original button
+              fullscreenBtn.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
+              fullscreenBtn.onclick = arguments.callee.caller;
+              
+              // Invalidate size after changing dimensions
+              map.invalidateSize();
+            };
+            
+            // Invalidate size after changing dimensions
+            map.invalidateSize();
+          }
+        });
+      } else {
+        console.error("Fullscreen button not found");
+      }
     });
   </script>
 </body>
