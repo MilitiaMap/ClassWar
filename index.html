@@ -6,17 +6,6 @@
   <title>Resistance</title>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-extra-markers@1.0.6/dist/css/leaflet.extra-markers.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/leaflet-extra-markers@1.0.6/dist/js/leaflet-extra-markers.min.js"></script>
-
-  <!-- Add Leaflet Fullscreen plugin -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.min.js"></script>
-
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 
   <style>
@@ -62,45 +51,6 @@
       font-size: 1.125rem;
       color: #9ca3af;
       margin-bottom: 2rem;
-    }
-
-    /* Map styles */
-    #map {
-      width: 75%;
-      height: 24rem;
-      margin-bottom: 2rem;
-      position: relative;
-      z-index: 1;
-      border: 2px solid #374151;
-      border-radius: 0.5rem;
-    }
-
-    #fullscreen-btn {
-      position: absolute;
-      bottom: 1.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #f97316;
-      color: white;
-      padding: 0.25rem 0.5rem;
-      border-radius: 9999px;
-      border: 2px solid white;
-      height: 2.5rem;
-      width: 2.5rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      z-index: 2;
-      transition: background-color 0.3s;
-    }
-
-    #fullscreen-btn:hover {
-      background-color: #ea580c;
-    }
-
-    #fullscreen-btn i {
-      font-size: 1.25rem;
     }
 
     /* Cards section */
@@ -177,7 +127,7 @@
       margin-right: 0.5rem;
     }
 
-      /* Style for YouTube links */
+    /* Style for YouTube links */
     .youtube-link {
       display: flex;
       align-items: center;
@@ -207,45 +157,7 @@
       padding: 1rem 0;
     }
 
-    /* Leaflet Control Styles */
-    .leaflet-control-layers {
-      background-color: #374151;
-      color: white;
-      border-radius: 0.5rem;
-      box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-    }
-
-    .leaflet-control-layers-toggle {
-      background-color: #f97316;
-      color: white;
-      width: 36px;
-      height: 36px;
-      line-height: 36px;
-      text-align: center;
-      border-radius: 0.5rem;
-    }
-
-    .leaflet-control-layers label {
-      display: block;
-      padding: 0.5rem;
-      transition: background-color 0.3s;
-      cursor: pointer;
-    }
-
-    .leaflet-control-layers label:hover {
-      background-color: #4b5563;
-    }
-
-    .leaflet-control-layers-selector {
-      margin-right: 0.5rem;
-    }
-
-    .leaflet-top.leaflet-left {
-      margin-top: 10px;
-      margin-left: 10px;
-    }
-
-     /* Custom styles for the Volodymyr Agafonkin card */
+    /* Custom styles for the Volodymyr Agafonkin card */
     .agafonkin-card .card-body {
      text-align: center; /* Center the text within the card body */
     }
@@ -277,32 +189,6 @@
     .agafonkin-card p:last-child {
      margin-bottom: 0; /* Remove bottom margin from the last paragraph */
     }
-    
-    /* Loading indicator styles */
-    .map-loading {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: rgba(31, 41, 55, 0.8);
-      color: white;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      z-index: 999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .map-loading i {
-      margin-right: 0.5rem;
-      animation: spin 1s linear infinite;
-    }
-    
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
   </style>
 </head>
 <body>
@@ -312,35 +198,10 @@
     </div>
     <h1>Join the Resistance</h1>
     <p>Find your mission, support the cause</p>
-
-    <div id="map">
-      <div class="map-loading">
-        <i class="fas fa-circle-notch"></i> Loading map...
-      </div>
-    </div>
-
-    <button id="fullscreen-btn" title="View map in fullscreen">
-      <i class="fas fa-expand-arrows-alt"></i>
-    </button>
   </header>
 
   <section class="cards-section container">
     <div class="grid">
-
-      <div class="card agafonkin-card">
-       <div class="card-body">
-        <h2 class="card-title">Thank You, Volodymyr Agafonkin</h2>
-        <p>A special thank you to <a href="https://agafonkin.com/" target="_blank">Volodymyr Agafonkin</a>, a Ukrainian citizen living in Kyiv, and creator of Leaflet. His work powers the map on this page.</p>
-        <p>As Russian bombs fall on his hometown, Volodymyr asks for your help:</p>
-        <blockquote>
-         <p>If you want to help, educate yourself and others on the Russian threat, follow reputable journalists, demand severe Russian sanctions and Ukrainian support from your leaders, protest war, reach out to Ukrainian friends, donate to Ukrainian charities. Just don't be silent.</p>
-        </blockquote>
-        <p>Ukrainians recommend the <a href="https://savelife.in.ua/en/" target="_blank">Come Back Alive</a> charity. For other options, see <a href="https://stand-with-ukraine.pp.ua/" target="_blank">StandWithUkraine</a>.</p>
-        <div class="agafonkin-logo-container">
-         <a href="https://savelife.in.ua/en/" target="_blank"><img src="https://savelife.in.ua/wp-content/themes/savelife/assets/images/new-logo-en.svg" alt="Logo" class="agafonkin-logo"></a>
-        </div>
-       </div>
-      </div>
 
       <div class="card">
         <div class="card-body">
@@ -400,6 +261,20 @@
               <a class='link-item' href='/dox/PeterAndreasThiel'>
                 <i class="fa-solid fa-newspaper"></i>
                 Peter Andreas Thiel
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">Maps</h2>
+          <ul class="link-list">
+            <li>
+              <a class='link-item' href='/MainMap.html'>
+                <i class="fa-solid fa-map"></i>
+                Interactive Resistance Map
               </a>
             </li>
           </ul>
@@ -491,276 +366,27 @@
           <a href="docs/NRxDeepDive.pdf">NRx - Deep Dive PDF</a>
         </div>
       </div>
+
+      <div class="card agafonkin-card">
+       <div class="card-body">
+        <h2 class="card-title">Thank You, Volodymyr Agafonkin</h2>
+        <p>A special thank you to <a href="https://agafonkin.com/" target="_blank">Volodymyr Agafonkin</a>, a Ukrainian citizen living in Kyiv, and creator of Leaflet. His work powers the map on this page.</p>
+        <p>As Russian bombs fall on his hometown, Volodymyr asks for your help:</p>
+        <blockquote>
+         <p>If you want to help, educate yourself and others on the Russian threat, follow reputable journalists, demand severe Russian sanctions and Ukrainian support from your leaders, protest war, reach out to Ukrainian friends, donate to Ukrainian charities. Just don't be silent.</p>
+        </blockquote>
+        <p>Ukrainians recommend the <a href="https://savelife.in.ua/en/" target="_blank">Come Back Alive</a> charity. For other options, see <a href="https://stand-with-ukraine.pp.ua/" target="_blank">StandWithUkraine</a>.</p>
+        <div class="agafonkin-logo-container">
+         <a href="https://savelife.in.ua/en/" target="_blank"><img src="https://savelife.in.ua/wp-content/themes/savelife/assets/images/new-logo-en.svg" alt="Logo" class="agafonkin-logo"></a>
+        </div>
+       </div>
+      </div>
+      
     </div>
   </section>
 
   <footer>
     <p>© 2025 The Resistance</p>
   </footer>
-
-  <script>
-    // Wait for the DOM to be fully loaded
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log("DOM fully loaded, initializing map...");
-      
-      // Get map element and loading indicator
-      var mapElement = document.getElementById('map');
-      var loadingIndicator = mapElement.querySelector('.map-loading');
-      
-      if (!mapElement) {
-        console.error("Map element not found!");
-        return;
-      }
-      
-      // Explicitly set map height
-      mapElement.style.height = '24rem';
-      
-      // Initialize map
-      var map = L.map('map', {
-        center: [40, -95],
-        zoom: 4,
-        fullscreenControl: true, // Add fullscreen control
-        fullscreenControlOptions: {
-          position: 'topleft',
-          title: 'Show me the fullscreen!',
-          titleCancel: 'Exit fullscreen mode',
-          content: '<i class="fas fa-expand"></i>'
-        }
-      });
-      
-      // Add tile layer
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
-      
-      // Create layer groups
-      var doxLayer = L.layerGroup().addTo(map);
-      var militaryLayer = L.layerGroup().addTo(map);
-      var statePrisonLayer = L.layerGroup();
-      var federalPrisonLayer = L.layerGroup();
-      
-      // Define icons
-      var userIcon = L.ExtraMarkers.icon({
-        icon: 'fa-user',
-        markerColor: 'orange',
-        shape: 'circle',
-        prefix: 'fa'
-      });
-      
-      var warehouseIcon = L.ExtraMarkers.icon({
-        icon: 'fa-warehouse',
-        markerColor: 'blue',
-        shape: 'square',
-        prefix: 'fa'
-      });
-      
-      var statePrisonIcon = L.ExtraMarkers.icon({
-        icon: 'fa-university',
-        markerColor: 'red',
-        shape: 'star',
-        prefix: 'fa'
-      });
-      
-      var federalPrisonIcon = L.ExtraMarkers.icon({
-        icon: 'fa-building',
-        markerColor: 'green',
-        shape: 'penta',
-        prefix: 'fa'
-      });
-      
-      // Functions for creating markers
-      function pointToLayerDox(feature, latlng) {
-        return L.marker(latlng, { icon: userIcon });
-      }
-      
-      function pointToLayerMilitary(feature, latlng) {
-        return L.marker(latlng, { icon: warehouseIcon });
-      }
-      
-      function pointToLayerStatePrison(feature, latlng) {
-        return L.marker(latlng, { icon: statePrisonIcon });
-      }
-      
-      function pointToLayerFederalPrison(feature, latlng) {
-        return L.marker(latlng, { icon: federalPrisonIcon });
-      }
-      
-      // Function to create popups
-      function onEachFeature(feature, layer) {
-        if (feature.properties) {
-          var popupContent = '<strong>' + (feature.properties.name || 'Unnamed') + '</strong><br>';
-          
-          if (feature.properties.role) {
-            popupContent += 'Role: ' + feature.properties.role + '<br>';
-          }
-          
-          if (feature.properties.contributions) {
-            popupContent += 'Contributions: ' + feature.properties.contributions + '<br>';
-          }
-          
-          if (feature.properties.location) {
-            popupContent += 'Location: ' + feature.properties.location + '<br>';
-          }
-          
-          if (feature.properties.online) {
-            popupContent += 'Online: <a href="https://' + feature.properties.online + 
-                           '" target="_blank">' + feature.properties.online + '</a><br>';
-          }
-          
-          if (feature.properties.associations) {
-            popupContent += 'Associations: ' + feature.properties.associations + '<br>';
-          }
-          
-          if (feature.properties.companies) {
-            popupContent += 'Companies: ' + feature.properties.companies + '<br>';
-          }
-          
-          if (feature.properties.scandals) {
-            popupContent += 'Scandals: ' + feature.properties.scandals;
-          }
-          
-          layer.bindPopup(popupContent);
-        }
-      }
-      
-      // Counter for loaded resources
-      var totalResources = 4;
-      var loadedResources = 0;
-      
-      function updateLoadingStatus() {
-        loadedResources++;
-        if (loadedResources >= totalResources) {
-          // Hide loading indicator
-          if (loadingIndicator) {
-            loadingIndicator.style.display = 'none';
-          }
-        }
-      }
-      
-      // Load GeoJSON files with error handling
-      function loadGeoJSON(url, layerGroup, pointToLayerFunc) {
-        console.log("Loading GeoJSON from:", url);
-        
-        fetch(url)
-          .then(function(response) {
-            if (!response.ok) {
-              console.warn("HTTP error " + response.status + " for " + url);
-              updateLoadingStatus(); // Still update the counter even if there's an error
-              return null;
-            }
-            return response.json();
-          })
-          .then(function(data) {
-            if (data) {
-              console.log("GeoJSON loaded successfully from:", url);
-              L.geoJSON(data, {
-                pointToLayer: pointToLayerFunc,
-                onEachFeature: onEachFeature
-              }).addTo(layerGroup);
-            }
-            updateLoadingStatus();
-          })
-          .catch(function(error) {
-            console.error("Error loading GeoJSON from " + url + ":", error);
-            updateLoadingStatus(); // Still update the counter even if there's an error
-          });
-      }
-      
-      // Ensure the map is fully rendered before loading layers
-      setTimeout(function() {
-        map.invalidateSize();
-        console.log("Map size invalidated");
-        
-        // Add a mock "You are here" marker for demonstration
-        var youAreHereIcon = L.ExtraMarkers.icon({
-          icon: 'fa-map-marker-alt',
-          markerColor: 'red',
-          shape: 'circle',
-          prefix: 'fa'
-        });
-        
-        L.marker([39.8283, -98.5795], { icon: youAreHereIcon })
-          .bindPopup("<strong>Demo Marker</strong><br>This is a demonstration marker showing the geographic center of the United States.")
-          .addTo(map);
-        
-        // Load all GeoJSON files
-        loadGeoJSON('/maps/dox.geojson', doxLayer, pointToLayerDox);
-        loadGeoJSON('/maps/MilitaryBases.geojson', militaryLayer, pointToLayerMilitary);
-        loadGeoJSON('/maps/StatePrisons.geojson', statePrisonLayer, pointToLayerStatePrison);
-        loadGeoJSON('/maps/FederalPrisons.geojson', federalPrisonLayer, pointToLayerFederalPrison);
-        
-        // Create layer control
-        var baseLayers = {};
-        var overlays = {
-          "Dox Data": doxLayer,
-          "Military Bases": militaryLayer,
-          "State Prisons": statePrisonLayer,
-          "Federal Prisons": federalPrisonLayer
-        };
-        
-        L.control.layers(baseLayers, overlays, {collapsed: false}).addTo(map);
-      }, 500);
-      
-      // Fullscreen button functionality
-      var fullscreenBtn = document.getElementById('fullscreen-btn');
-      if (fullscreenBtn) {
-        fullscreenBtn.addEventListener('click', function() {
-          console.log("Fullscreen button clicked");
-          
-          try {
-            // Try the map's fullscreen functionality first if available
-            if (map.toggleFullscreen) {
-              map.toggleFullscreen();
-              return;
-            }
-            
-            // Fallback to browser fullscreen API
-            if (mapElement.requestFullscreen) {
-              mapElement.requestFullscreen();
-            } else if (mapElement.mozRequestFullScreen) {
-              mapElement.mozRequestFullScreen();
-            } else if (mapElement.webkitRequestFullscreen) {
-              mapElement.webkitRequestFullscreen();
-            } else if (mapElement.msRequestFullscreen) {
-              mapElement.msRequestFullscreen();
-            } else {
-              console.warn("Fullscreen API not supported");
-              alert("Fullscreen not supported in your browser");
-            }
-          } catch (error) {
-            console.error("Error going fullscreen:", error);
-            // Try an alternative approach - expand the map in the page
-            mapElement.style.position = 'fixed';
-            mapElement.style.top = '0';
-            mapElement.style.left = '0';
-            mapElement.style.width = '100vw';
-            mapElement.style.height = '100vh';
-            mapElement.style.zIndex = '9999';
-            
-            // Change button to exit fullscreen
-            fullscreenBtn.innerHTML = '<i class="fas fa-compress-arrows-alt"></i>';
-            fullscreenBtn.onclick = function() {
-              mapElement.style.position = 'relative';
-              mapElement.style.width = '75%';
-              mapElement.style.height = '24rem';
-              mapElement.style.zIndex = '1';
-              
-              // Restore original button
-              fullscreenBtn.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
-              fullscreenBtn.onclick = arguments.callee.caller;
-              
-              // Invalidate size after changing dimensions
-              map.invalidateSize();
-            };
-            
-            // Invalidate size after changing dimensions
-            map.invalidateSize();
-          }
-        });
-      } else {
-        console.error("Fullscreen button not found");
-      }
-    });
-  </script>
 </body>
 </html>
