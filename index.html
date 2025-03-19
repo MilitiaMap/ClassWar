@@ -6,7 +6,7 @@
   <title>Resistance</title>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
   <style>
     /* Base styles */
@@ -21,36 +21,33 @@
     /* Header section */
     header {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      text-align: center;
+      align-items: center; /* Align items horizontally */
+      height: 60px; /* Very thin header */
       background-color: #1f2937;
-      padding: 2.5rem 0;
-      position: relative;
+      padding: 0 1rem; /* Add some padding on the sides */
+      position: sticky;
+      top: 0;
+      z-index: 1000; /* Ensure it stays on top */
     }
 
     .icon-container {
-      margin-bottom: 1.5rem;
+      margin-right: 0.75rem; /* Space between icon and title */
     }
 
     .icon-container i {
-      font-size: 3.75rem;
+      font-size: 1.5rem; /* Smaller icon */
       color: #f97316;
     }
 
     h1 {
-      font-size: 3rem;
+      font-size: 1.25rem; /* Smaller title */
       font-weight: bold;
       color: #ffffff;
-      margin-bottom: 1rem;
+      margin: 0; /* Remove margin */
     }
 
     header p {
-      font-size: 1.125rem;
-      color: #9ca3af;
-      margin-bottom: 2rem;
+      display: none; /* Hide the paragraph */
     }
 
     /* Cards section */
@@ -61,7 +58,7 @@
     }
 
     .cards-section {
-      padding: 4rem 1rem;
+      padding: 2rem 1rem; /* Adjust padding */
     }
 
     .grid {
@@ -197,7 +194,6 @@
       <i class="fas fa-fist-raised"></i>
     </div>
     <h1>Join the Resistance</h1>
-    <p>Find your mission, support the cause</p>
   </header>
 
   <section class="cards-section container">
@@ -280,13 +276,13 @@
             </li>
           <h2 class="card-title">Maps:</h2>
             <li>
-              <a class='link-item' href='/maps/MainMap.html'>
+              <a class='link-item' href='/maps/mainmap'>
                 <i class="fa-solid fa-map"></i>
                 Main Map
               </a>
             </li>
             <li>
-              <a class='link-item' href='/maps/MilitiaMap.html'>
+              <a class='link-item' href='/maps/militiamap'>
                 <i class="fa-solid fa-map"></i>
                 Militia Map
               </a>
@@ -433,13 +429,8 @@
             <i class="fa-solid fa-book"></i>
             Dark Enlightenment
           </a>
-
-
         </div>
       </div>
-
-
-      
     </div>
   </section>
 
