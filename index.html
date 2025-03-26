@@ -6,6 +6,7 @@
   <title>Resistance</title>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
   <style>
@@ -206,31 +207,84 @@
           <ul class="link-list">
           <center><b>
 
-          Venezuelan Deportation:<br>
-          <audio controls> <source src="../audio/VenezuelanDeportation.mp3" type="audio/mp3">Audio not supported</audio>
-          <hr>
-          
-          Mass Deportation:<br>
-          <audio controls> <source src="../audio/MassDeportation_March2025.mp3" type="audio/mp3">Audio not supported</audio><br>
-          <a class='link-item' href='/docs/MassDeportation.pdf'><i class="fa-solid fa-newspaper"></i>Mass Deportation - Overview(PDF)</a>  
-          <hr>
+<!-- Add this to your <head> -->
 
-          Transgender Rights:<br>
-          <audio controls> <source src="../audio/Transgender2025.mp3" type="audio/mp3">Audio not supported</audio><br>
-          <a class='link-item' href='/docs/Transgender2025.pdf'><i class="fa-solid fa-newspaper"></i>Transgender Rights - March 2025</a>  
-          <hr>
 
-          Class War Overview:<br>
-          <audio controls> <source src="../audio/ClasswarPodcast.mp3" type="audio/mp3">Audio not supported</audio>
-          <hr>
+<!-- Replace your old audio players with this: -->
+<div id="audio-player">
+  <h3>Podcasts</h3>
+  <button id="play-btn">▶ Play</button>
+  <button id="pause-btn">❚❚ Pause</button>
+  <div id="track-info">No track selected</div>
+  <div id="playlist" style="margin-top: 10px;">
+    <!-- PDF links are preserved -->
+    <div class="track" data-src="../audio/VenezuelanDeportation.mp3">Venezuelan Deportation</div>
+    <div class="track" data-src="../audio/MassDeportation_March2025.mp3">
+      Mass Deportation
+      <a class="link-item" href="/docs/MassDeportation.pdf"><i class="fa-solid fa-newspaper"></i> PDF</a>
+    </div>
+    <div class="track" data-src="../audio/Transgender2025.mp3">
+      Transgender Rights
+      <a class="link-item" href="/docs/Transgender2025.pdf"><i class="fa-solid fa-newspaper"></i> PDF</a>
+    </div>
+    <div class="track" data-src="../audio/ClasswarPodcast.mp3">Class War Overview</div>
+    <div class="track" data-src="../audio/GlobalWealth.mp3">Global Wealth Distribution</div>
+    <div class="track" data-src="../audio/MenciusMoldbug.mp3">Mencius Moldbug</div>
+  </div>
+</div>
 
-          Global Wealth Distribution:<br>
-          <audio controls> <source src="../audio/GlobalWealth.mp3" type="audio/mp3">Audio not supported</audio>
-          <hr>
+<style>
+  /* Minimal styling */
+  #audio-player { 
+    width: 220px; /* Adjust width as needed */
+    font-family: Arial, sans-serif;
+  }
+  .track {
+    padding: 8px 0;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+  }
+  .track:hover { background: #f5f5f5; }
+  .track.playing { font-weight: bold; color: #0066cc; }
+  #play-btn, #pause-btn { 
+    margin-right: 5px; 
+    padding: 3px 8px;
+  }
+  #track-info { 
+    margin: 8px 0;
+    font-size: 0.9em;
+    color: #666;
+  }
+</style>
 
-          Mencius Moldbug:<br>
-          <audio controls> <source src="../audio/MenciusMoldbug.mp3" type="audio/mp3">Audio not supported</audio>
-          <hr>
+<script>
+  // Howler.js setup
+  let currentTrack = null;
+  
+  document.querySelectorAll('.track').forEach(track => {
+    track.addEventListener('click', function() {
+      // Stop previous track
+      if (currentTrack) currentTrack.stop();
+      
+      // Play new track
+      currentTrack = new Howl({ src: [this.dataset.src] });
+      currentTrack.play();
+      
+      // Update UI
+      document.querySelectorAll('.track').forEach(t => t.classList.remove('playing'));
+      this.classList.add('playing');
+      document.getElementById('track-info').textContent = this.textContent.trim();
+    });
+  });
+  
+  // Play/pause buttons
+  document.getElementById('play-btn').addEventListener('click', () => {
+    if (currentTrack) currentTrack.play();
+  });
+  document.getElementById('pause-btn').addEventListener('click', () => {
+    if (currentTrack) currentTrack.pause();
+  });
+</script>
 
 </b></center></ul></div></div>
 
@@ -297,21 +351,15 @@
 
       <div class="card">
         <div class="card-body">
-          <h2 class="card-title">NRx Overview:</h2>
-          <a class='link-item' href='/docs/NRx.pdf'>
+          <h2 class="card-title">Links:</h2>
+         <a class='link-item' href='https://www.realtimefascism.com/'>
             <i class="fa-solid fa-book"></i>
-            NRx
+            Realtime Fascism
           </a><br>
-          <a class='link-item' href='/docs/NetworkStates.pdf'>
+         <a class='link-item' href='https://linktr.ee/revolution2025'>
             <i class="fa-solid fa-book"></i>
-            Network States
+            Revolution 2025
           </a><br>
-          <a class='link-item' href='/docs/DarkEnlightenment.pdf'>
-            <i class="fa-solid fa-book"></i>
-            Dark Enlightenment
-          </a><br>
-            <ul class="link-list">
-            </ul>
         </div>
       </div>
 
@@ -355,6 +403,19 @@
                 Elon ﻿‌​​​‌‌​⁠‌‌​​​​‌⁠‌‌‌​​‌‌⁠‌‌​​​‌‌⁠‌‌​‌​​‌⁠‌‌‌​​‌‌⁠‌‌‌​‌​​﻿Musk
               </a>
             </li>
+          <h2 class="card-title">NRx Overview:</h2>
+          <a class='link-item' href='/docs/NRx.pdf'>
+            <i class="fa-solid fa-book"></i>
+            NRx
+          </a><br>
+          <a class='link-item' href='/docs/NetworkStates.pdf'>
+            <i class="fa-solid fa-book"></i>
+            Network States
+          </a><br>
+          <a class='link-item' href='/docs/DarkEnlightenment.pdf'>
+            <i class="fa-solid fa-book"></i>
+            Dark Enlightenment
+          </a><br>
           </ul>
         </div>
       </div>
