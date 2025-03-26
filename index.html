@@ -5,18 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resistance</title>
 
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script> <!-- Updated Howler.js -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --bg-dark: #111827;
+      --bg-medium: #1f2937;
+      --bg-light: #374151;
+      --text-light: #e5e7eb; /* Lighter text for better contrast */
+      --text-medium: #9ca3af;
+      --text-dark: #ffffff;
+      --accent: #f97316;
+      --accent-hover: #ea580c;
+      --border-color: #4b5563; /* Slightly more visible border */
+    }
+
     /* Base styles */
     body {
-      background-color: #111827;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: 'Inter', Arial, sans-serif; /* Changed font */
       margin: 0;
       padding: 0;
+      line-height: 1.6; /* Improved readability */
     }
 
     /* Header section */
@@ -24,11 +40,13 @@
       display: flex;
       align-items: center;
       height: 60px;
-      background-color: #1f2937;
-      padding: 0 1rem;
+      background-color: var(--bg-medium);
+      padding: 0 1.5rem; /* Increased padding */
       position: sticky;
       top: 0;
       z-index: 1000;
+      border-bottom: 1px solid var(--border-color); /* Subtle separator */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
     }
 
     .icon-container {
@@ -36,60 +54,66 @@
     }
 
     .icon-container i {
-      font-size: 1.5rem;
-      color: #f97316;
+      font-size: 1.6rem; /* Slightly larger icon */
+      color: var(--accent);
     }
 
     h1 {
-      font-size: 1.25rem;
-      font-weight: bold;
-      color: #ffffff;
+      font-size: 1.35rem; /* Slightly larger title */
+      font-weight: 600; /* Medium weight */
+      color: var(--text-dark);
       margin: 0;
-    }
-
-    header p {
-      display: none;
     }
 
     /* Cards section */
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 1rem;
+      padding: 0 1.5rem; /* Consistent padding */
     }
 
     .cards-section {
-      padding: 2rem 1rem;
+      padding: 2.5rem 0; /* Adjusted padding */
     }
 
     .grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 2rem;
+      gap: 2.5rem; /* Increased gap */
     }
 
     @media (min-width: 768px) {
       .grid {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Slightly larger min width */
       }
     }
 
     .card {
-      background-color: #1f2937;
-      border-radius: 0.5rem;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      background-color: var(--bg-medium);
+      border-radius: 0.75rem; /* Softer corners */
+      box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.2), 0 4px 10px -6px rgba(0, 0, 0, 0.1); /* Softer shadow */
       overflow: hidden;
+      border: 1px solid var(--border-color); /* Subtle border */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
+    .card:hover {
+        transform: translateY(-5px); /* Subtle lift on hover */
+        box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.3), 0 6px 15px -8px rgba(0, 0, 0, 0.15);
+    }
+
+
     .card-body {
-      padding: 1.5rem;
+      padding: 2rem; /* Increased padding */
     }
 
     .card-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #f97316;
-      margin-bottom: 1rem;
+      font-size: 1.6rem; /* Larger title */
+      font-weight: 700; /* Bold */
+      color: var(--accent);
+      margin-bottom: 1.5rem; /* Increased margin */
+      border-bottom: 1px solid var(--border-color); /* Title separator */
+      padding-bottom: 0.75rem;
     }
 
     .link-list {
@@ -107,112 +131,246 @@
     }
 
     .link-item {
-      display: block;
-      padding: 0.75rem;
-      background-color: #374151;
+      display: flex; /* Align icon and text */
+      align-items: center;
+      padding: 0.85rem 1rem; /* Adjusted padding */
+      background-color: var(--bg-light);
       border-radius: 0.5rem;
-      color: white;
+      color: var(--text-light);
       text-decoration: none;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, color 0.3s;
+      font-size: 0.95rem; /* Slightly larger */
     }
 
     .link-item:hover {
-      background-color: #4b5563;
+      background-color: var(--accent); /* Use accent color on hover */
+      color: var(--text-dark);
     }
 
     .link-item i {
-      color: #f97316;
-      margin-right: 0.5rem;
+      color: var(--accent);
+      margin-right: 0.75rem; /* Increased icon spacing */
+      width: 20px; /* Fixed width for alignment */
+      text-align: center;
+      transition: color 0.3s;
     }
 
-    /* Audio Player Styles */
+    .link-item:hover i {
+        color: var(--text-dark); /* Icon color matches text on hover */
+    }
+
+    /* --- Improved Audio Player Styles --- */
     .audio-player-container {
-      background-color: #1f2937;
-      padding: 1rem;
+      background-color: var(--bg-light); /* Slightly lighter background for player */
+      padding: 1.5rem;
       border-radius: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .audio-controls {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .audio-btn {
-      background-color: #f97316;
-      color: white;
-      border: none;
-      border-radius: 0.25rem;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-
-    .audio-btn:hover {
-      background-color: #ea580c;
+      margin-top: 1.5rem; /* Space below card title */
+      border: 1px solid var(--border-color);
     }
 
     .track-info {
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-      color: #d1d5db;
+      font-size: 1.1rem; /* Larger track info */
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-light);
+      text-align: center;
+      min-height: 1.5em; /* Prevent layout shifts */
+    }
+
+    /* Progress Bar Area */
+    .progress-area {
+        margin-bottom: 1rem;
+        cursor: pointer;
+        padding: 5px 0; /* Increase clickable area */
     }
 
     .progress-container {
       width: 100%;
-      height: 4px;
-      background-color: #374151;
-      border-radius: 2px;
-      margin-bottom: 0.5rem;
+      height: 8px; /* Thicker bar */
+      background-color: var(--bg-medium); /* Darker background */
+      border-radius: 4px;
       overflow: hidden;
+      position: relative; /* For pseudo-elements if needed */
     }
 
     .progress-bar {
       height: 100%;
-      background-color: #f97316;
+      background-color: var(--accent);
       width: 0%;
+      border-radius: 4px;
+      transition: width 0.1s linear; /* Smooth progress updates */
     }
+    /* Optional: Add a subtle handle
+    .progress-bar::after {
+        content: '';
+        position: absolute;
+        right: -5px;
+        top: -3px;
+        width: 14px;
+        height: 14px;
+        background-color: var(--accent-hover);
+        border-radius: 50%;
+        box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+    .progress-area:hover .progress-bar::after {
+        opacity: 1;
+    } */
 
     .time-display {
       display: flex;
       justify-content: space-between;
-      font-size: 0.8rem;
-      color: #9ca3af;
+      font-size: 0.85rem;
+      color: var(--text-medium);
+      margin-top: 0.5rem; /* Space above controls */
+      margin-bottom: 1rem;
     }
 
+    /* Controls Area */
+    .audio-controls-main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem; /* Spacing between main controls */
+      margin-bottom: 1rem;
+    }
+
+    .audio-btn {
+      background-color: transparent; /* Transparent background */
+      color: var(--text-light);
+      border: none;
+      border-radius: 50%; /* Circular buttons */
+      width: 45px;
+      height: 45px;
+      cursor: pointer;
+      font-size: 1rem;
+      display: inline-flex; /* Center icon */
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .audio-btn:hover {
+      background-color: rgba(255, 255, 255, 0.1); /* Subtle hover */
+    }
+
+    .audio-btn.play-pause-btn {
+        background-color: var(--accent);
+        color: var(--text-dark);
+        width: 55px; /* Larger central button */
+        height: 55px;
+        font-size: 1.3rem;
+    }
+
+    .audio-btn.play-pause-btn:hover {
+        background-color: var(--accent-hover);
+    }
+
+
+    /* Volume Control */
+    .volume-control {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end; /* Place on the right */
+      gap: 0.5rem;
+    }
+
+    #volume-btn {
+      width: 30px; /* Smaller volume button */
+      height: 30px;
+      font-size: 0.9rem;
+    }
+
+    #volume-slider {
+      width: 80px; /* Adjust width as needed */
+      height: 5px;
+      cursor: pointer;
+      appearance: none;
+      background: var(--bg-medium);
+      border-radius: 2.5px;
+      outline: none;
+    }
+
+    /* Styling Volume Slider Thumb (Cross-browser) */
+    #volume-slider::-webkit-slider-thumb {
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    #volume-slider::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      cursor: pointer;
+      border: none; /* Remove default border in Firefox */
+    }
+
+    /* Playlist */
     .playlist {
-      margin-top: 1rem;
+      margin-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+      padding-top: 1.5rem;
+      max-height: 250px; /* Limit height and add scroll */
+      overflow-y: auto;
     }
 
     .playlist-item {
-      padding: 0.75rem;
+      padding: 0.85rem 1rem;
       cursor: pointer;
-      border-bottom: 1px solid #374151;
-      transition: background-color 0.2s;
+      border-bottom: 1px solid var(--bg-medium); /* Subtle separator */
+      transition: background-color 0.2s, color 0.2s;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
     }
+     .playlist-item:last-child {
+         border-bottom: none;
+     }
 
     .playlist-item:hover {
-      background-color: #374151;
+      background-color: var(--bg-medium);
     }
 
     .playlist-item.playing {
-      background-color: #1e40af;
-      color: white;
+      background-color: var(--accent);
+      color: var(--text-dark);
+      font-weight: 600;
     }
 
-    .pdf-links {
-      margin-top: 1rem;
-      border-top: 1px solid #374151;
-      padding-top: 1rem;
+    /* Add play icon to playing item */
+    .playlist-item.playing::before {
+        content: "\f04b"; /* Font Awesome play icon */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        color: var(--text-dark);
     }
+
+    /* PDF Links */
+    .pdf-links {
+      margin-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+      padding-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
 
     /* Footer */
     footer {
-      background-color: #1f2937;
+      background-color: var(--bg-medium);
       text-align: center;
-      color: #9ca3af;
-      padding: 1rem 0;
+      color: var(--text-medium);
+      padding: 1.5rem 0;
+      margin-top: 3rem; /* More space before footer */
+      border-top: 1px solid var(--border-color);
     }
 
     /* Custom styles for the Volodymyr Agafonkin card */
@@ -224,29 +382,44 @@
       display: flex;
       justify-content: center;
       margin-bottom: 1rem;
+      margin-top: 1.5rem; /* Space above logo */
     }
 
     .agafonkin-logo {
-      width: 200px;
+      width: 180px; /* Slightly smaller logo */
     }
 
     .agafonkin-card blockquote {
-      margin: 1.5rem 0;
-      padding: 1rem;
-      border-left: 5px solid #f97316;
+      margin: 1.5rem auto; /* Center blockquote */
+      padding: 1rem 1.5rem;
+      border-left: 4px solid var(--accent);
       font-style: italic;
-      background-color: #374151;
+      background-color: var(--bg-light);
       border-radius: 0.25rem;
+      color: var(--text-light);
+      max-width: 80%; /* Constrain width */
     }
 
     .agafonkin-card p {
-      line-height: 1.6;
-      margin-bottom: 0.75rem;
+      line-height: 1.7; /* Improve readability */
+      margin-bottom: 1rem;
+      color: var(--text-light); /* Ensure consistent text color */
+    }
+
+     .agafonkin-card a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+    }
+     .agafonkin-card a:hover {
+        text-decoration: underline;
+        color: var(--accent-hover);
     }
 
     .agafonkin-card p:last-child {
       margin-bottom: 0;
     }
+
   </style>
 </head>
 <body>
@@ -262,22 +435,41 @@
 
       <div class="card">
         <div class="card-body">
-          <h2 class="card-title">Audio</h2>
+          <h2 class="card-title">Audio Player</h2>
           <div class="audio-player-container">
-            <div class="audio-controls">
-              <button id="play-btn" class="audio-btn"><i class="fas fa-play"></i> Play</button>
-              <button id="pause-btn" class="audio-btn" style="display:none"><i class="fas fa-pause"></i> Pause</button>
-              <button id="stop-btn" class="audio-btn"><i class="fas fa-stop"></i> Stop</button>
-            </div>
+            <!-- Track Info -->
             <div class="track-info" id="track-info">Select a track to play</div>
-            <div class="progress-container">
-              <div class="progress-bar" id="progress-bar"></div>
+
+            <!-- Progress Bar -->
+             <div class="progress-area" id="progress-area">
+                <div class="progress-container">
+                  <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
+
+            <!-- Time Display -->
             <div class="time-display">
               <span id="current-time">0:00</span>
               <span id="duration">0:00</span>
             </div>
-            
+
+            <!-- Main Controls -->
+            <div class="audio-controls-main">
+              <button id="prev-btn" class="audio-btn"><i class="fas fa-backward-step"></i></button>
+              <button id="play-btn" class="audio-btn play-pause-btn"><i class="fas fa-play"></i></button>
+              <button id="pause-btn" class="audio-btn play-pause-btn" style="display:none"><i class="fas fa-pause"></i></button>
+              <button id="next-btn" class="audio-btn"><i class="fas fa-forward-step"></i></button>
+              <button id="stop-btn" class="audio-btn"><i class="fas fa-stop"></i></button>
+            </div>
+
+            <!-- Volume Control -->
+            <div class="volume-control">
+                <button id="volume-btn" class="audio-btn"><i class="fas fa-volume-high"></i></button>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
+            </div>
+
+
+            <!-- Playlist -->
             <div class="playlist">
               <div class="playlist-item" data-src="../audio/VenezuelanDeportation.mp3">Venezuelan Deportation</div>
               <div class="playlist-item" data-src="../audio/MassDeportation_March2025.mp3">Mass Deportation</div>
@@ -286,153 +478,75 @@
               <div class="playlist-item" data-src="../audio/GlobalWealth.mp3">Global Wealth Distribution</div>
               <div class="playlist-item" data-src="../audio/MenciusMoldbug.mp3">Mencius Moldbug</div>
             </div>
-            
+
+            <!-- PDF Links (Moved outside playlist if separate) -->
             <div class="pdf-links">
-              <a class='link-item' href='/docs/MassDeportation.pdf'><i class="fas fa-newspaper"></i> Mass Deportation PDF</a>
-              <a class='link-item' href='/docs/Transgender2025.pdf'><i class="fas fa-newspaper"></i> Transgender Rights PDF</a>
+              <h3 style="font-size: 1.1rem; color: var(--text-medium); margin-bottom: 0.5rem; font-weight: 600;">Related Documents:</h3>
+              <a class='link-item' href='/docs/MassDeportation.pdf'><i class="fas fa-file-pdf"></i> Mass Deportation PDF</a>
+              <a class='link-item' href='/docs/Transgender2025.pdf'><i class="fas fa-file-pdf"></i> Transgender Rights PDF</a>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="card">
+      <!-- Other Cards Remain the Same -->
+       <div class="card">
         <div class="card-body">
-          <h2 class="card-title">ICE Resources:</h2>
+          <h2 class="card-title">ICE Resources</h2> <!-- Simplified Title -->
           <ul class="link-list">
-            <li>
-              <a class='link-item' href='/docs/ICE.pdf'>
-                <i class="fas fa-newspaper"></i>
-                ICE/Militia - Overview
-              </a>
-            </li>
-            <li>
-              <a class='link-item' href='/docs/OtayMesa.pdf'>
-                <i class="fas fa-newspaper"></i>
-                Otay Mesa Detention Center
-              </a>
-            </li>
-            <li>
-              <a class='link-item' href='/docs/ElSalvador.pdf'>
-                <i class="fas fa-newspaper"></i>
-                El Salvador Mega-Prison
-              </a>
-            </li>
-            <li>
-              <a class='link-item' href='/docs/ForProfitPrisons.pdf'>
-                <i class="fas fa-newspaper"></i>
-                For-Profit Prisons 
-              </a>
-            </li>
-            <li>
-              <a class='link-item' href='/docs/GeoGroup.pdf'>
-                <i class="fas fa-newspaper"></i>
-                Geo Group
-              </a>
-            </li>
-            <li>
-              <a class='link-item' href='/docs/USMilitias2025.pdf'>
-                <i class="fas fa-book"></i>
-                US Militias 2025
-              </a>
-            </li>
-            <li>
-              <a class='link-item' href='/docs/Project2025.pdf'>
-                <i class="fas fa-newspaper"></i>
-                Project2025
-              </a>
-            </li>
-            <li>
-              <a class='link-item' href='/docs/HeritageFoundation.pdf'>
-                <i class="fas fa-newspaper"></i>
-                Heritage Foundation
-              </a>
-            </li>
+            <li><a class='link-item' href='/docs/ICE.pdf'><i class="fas fa-shield-halved"></i> ICE/Militia - Overview</a></li>
+            <li><a class='link-item' href='/docs/OtayMesa.pdf'><i class="fas fa-building"></i> Otay Mesa Detention Center</a></li>
+            <li><a class='link-item' href='/docs/ElSalvador.pdf'><i class="fas fa-landmark"></i> El Salvador Mega-Prison</a></li>
+            <li><a class='link-item' href='/docs/ForProfitPrisons.pdf'><i class="fas fa-dollar-sign"></i> For-Profit Prisons</a></li>
+            <li><a class='link-item' href='/docs/GeoGroup.pdf'><i class="fas fa-building-user"></i> Geo Group</a></li>
+            <li><a class='link-item' href='/docs/USMilitias2025.pdf'><i class="fas fa-users"></i> US Militias 2025</a></li>
+            <li><a class='link-item' href='/docs/Project2025.pdf'><i class="fas fa-scroll"></i> Project 2025</a></li>
+            <li><a class='link-item' href='/docs/HeritageFoundation.pdf'><i class="fas fa-landmark-flag"></i> Heritage Foundation</a></li>
           </ul>
         </div>
       </div>
 
       <div class="card">
         <div class="card-body">
-          <h2 class="card-title">Links:</h2>
-          <a class='link-item' href='https://www.realtimefascism.com/'>
-            <i class="fas fa-book"></i>
-            Realtime Fascism
-          </a><br>
-          <a class='link-item' href='https://linktr.ee/revolution2025'>
-            <i class="fas fa-book"></i>
-            Revolution 2025
-          </a><br>
+          <h2 class="card-title">External Links</h2>
+          <ul class="link-list">
+             <li><a class='link-item' href='https://www.realtimefascism.com/' target="_blank" rel="noopener noreferrer"><i class="fas fa-triangle-exclamation"></i> Realtime Fascism</a></li>
+             <li><a class='link-item' href='https://linktr.ee/revolution2025' target="_blank" rel="noopener noreferrer"><i class="fas fa-link"></i> Revolution 2025 Linktree</a></li>
+          </ul>
         </div>
       </div>
 
       <div class="card">
         <div class="card-body">
-          <h2 class="card-title">Bios:</h2>
-          <ul class="link-list">
-            <li>
-              <a class='link-item' href='/dox/CurtisYarvin'>
-                <i class="fas fa-user"></i>
-                Curtis "Mencius Moldbug" Yarvin
-              </a>
-            </li>
-            <li>
-              <a class='link-item' href='/dox/MarcLowellAndreessen'>
-                <i class="fas fa-user"></i>
-                Marc Lowell Andreessen
-              </a>
-            </li>
-            <li>
-              <a class='link-item' href='/dox/PeterAndreasThiel'>
-                <i class="fas fa-user"></i>
-                Peter Andreas Thiel
-              </a>
-            </li>
-            <li>
-              <a class='link-item' href='/dox/LarryEllison.pdf'>
-                <i class="fas fa-user"></i>
-                Larry Ellison
-              </a>
-            </li>
-            <li>
-              <a class='link-item' href='/dox/PaulDans.pdf'>
-                <i class="fas fa-user"></i>
-                Paul Dans
-              </a>
-            </li>
-            <li>
-              <a class='link-item' href='/dox/ElonMusk.pdf'>
-                <i class="fas fa-user"></i>
-                Elon ﻿‌​​​‌‌​⁠‌‌​​​​‌⁠‌‌‌​​‌‌⁠‌‌​​​‌‌⁠‌‌​‌​​‌⁠‌‌‌​​‌‌⁠‌‌‌​‌​​﻿Musk
-              </a>
-            </li>
+          <h2 class="card-title">People of Interest</h2>
+           <ul class="link-list">
+            <li><a class='link-item' href='/dox/CurtisYarvin'><i class="fas fa-user-secret"></i> Curtis "Moldbug" Yarvin</a></li>
+            <li><a class='link-item' href='/dox/MarcLowellAndreessen'><i class="fas fa-user-tie"></i> Marc Andreessen</a></li>
+            <li><a class='link-item' href='/dox/PeterAndreasThiel'><i class="fas fa-user-ninja"></i> Peter Thiel</a></li>
+            <li><a class='link-item' href='/dox/LarryEllison.pdf'><i class="fas fa-user-astronaut"></i> Larry Ellison</a></li>
+            <li><a class='link-item' href='/dox/PaulDans.pdf'><i class="fas fa-user-shield"></i> Paul Dans</a></li>
+            <li><a class='link-item' href='/dox/ElonMusk.pdf'><i class="fas fa-user-robot"></i> Elon ﻿‌​​​‌‌​⁠‌‌​​​​‌⁠‌‌‌​​‌‌⁠‌‌​​​‌‌⁠‌‌​‌​​‌⁠‌‌‌​​‌‌⁠‌‌‌​‌​​﻿Musk</a></li>
           </ul>
-          <h2 class="card-title">NRx Overview:</h2>
-          <a class='link-item' href='/docs/NRx.pdf'>
-            <i class="fas fa-book"></i>
-            NRx
-          </a><br>
-          <a class='link-item' href='/docs/NetworkStates.pdf'>
-            <i class="fas fa-book"></i>
-            Network States
-          </a><br>
-          <a class='link-item' href='/docs/DarkEnlightenment.pdf'>
-            <i class="fas fa-book"></i>
-            Dark Enlightenment
-          </a><br>
+          <h2 class="card-title" style="margin-top: 2rem;">Ideologies</h2> <!-- Added Subtitle -->
+          <ul class="link-list">
+            <li><a class='link-item' href='/docs/NRx.pdf'><i class="fas fa-brain"></i> NRx Overview</a></li>
+            <li><a class='link-item' href='/docs/NetworkStates.pdf'><i class="fas fa-network-wired"></i> Network States</a></li>
+            <li><a class='link-item' href='/docs/DarkEnlightenment.pdf'><i class="fas fa-moon"></i> Dark Enlightenment</a></li>
+          </ul>
         </div>
       </div>
 
       <div class="card agafonkin-card">
         <div class="card-body">
-          <h2 class="card-title">Thank You, Volodymyr Agafonkin</h2>
-          <p>A special thank you to <a href="https://agafonkin.com/" target="_blank">Volodymyr Agafonkin</a>, a Ukrainian citizen living in Kyiv, and creator of <a href="https://leafletjs.com/">Leaflet</a>. His exceptional work powers the maps on this page.</p>
-          <p>As Russian bombs fall on his hometown, Volodymyr asks for your help:</p>
+          <h2 class="card-title">A Note of Thanks</h2>
+          <p>This page utilizes <a href="https://leafletjs.com/" target="_blank" rel="noopener noreferrer">Leaflet</a>, an open-source JavaScript library for interactive maps, created by <a href="https://agafonkin.com/" target="_blank" rel="noopener noreferrer">Volodymyr Agafonkin</a>, a Ukrainian citizen.</p>
+          <p>While facing the horrific reality of war in Kyiv, Volodymyr shared this message:</p>
           <blockquote>
             <p>If you want to help, educate yourself and others on the Russian threat, follow reputable journalists, demand severe Russian sanctions and Ukrainian support from your leaders, protest war, reach out to Ukrainian friends, donate to Ukrainian charities. Just don't be silent.</p>
           </blockquote>
-          <p>Ukrainians recommend the <a href="https://savelife.in.ua/en/" target="_blank">Come Back Alive</a> charity. For other options, see <a href="https://stand-with-ukraine.pp.ua/" target="_blank">StandWithUkraine</a>.</p>
+          <p>Support Ukraine via organizations like <a href="https://savelife.in.ua/en/" target="_blank" rel="noopener noreferrer">Come Back Alive</a> or find more options at <a href="https://stand-with-ukraine.pp.ua/" target="_blank" rel="noopener noreferrer">StandWithUkraine</a>.</p>
           <div class="agafonkin-logo-container">
-            <a href="https://savelife.in.ua/en/" target="_blank"><img src="https://savelife.in.ua/wp-content/themes/savelife/assets/images/new-logo-en.svg" alt="Logo" class="agafonkin-logo"></a>
+            <a href="https://savelife.in.ua/en/" target="_blank" rel="noopener noreferrer"><img src="https://savelife.in.ua/wp-content/themes/savelife/assets/images/new-logo-en.svg" alt="Come Back Alive Logo" class="agafonkin-logo"></a>
           </div>
         </div>
       </div>
@@ -441,145 +555,279 @@
   </section>
 
   <footer>
-    <p>© 2025 The Resistance</p>
+    <p>© 2025 The Resistance. Stay vigilant.</p>
   </footer>
 
   <script>
-    // Audio Player Functionality
+    // --- Improved Audio Player Functionality ---
     let currentTrack = null;
     let currentTrackIndex = -1;
     let isPlaying = false;
     let updateInterval;
+    let currentVolume = 1; // Store volume level
+    let isMuted = false;
+
     const playlistItems = document.querySelectorAll('.playlist-item');
     const progressBar = document.getElementById('progress-bar');
+    const progressArea = document.getElementById('progress-area'); // Container for seeking
     const currentTimeEl = document.getElementById('current-time');
     const durationEl = document.getElementById('duration');
     const trackInfoEl = document.getElementById('track-info');
 
+    const playBtn = document.getElementById('play-btn');
+    const pauseBtn = document.getElementById('pause-btn');
+    const stopBtn = document.getElementById('stop-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const volumeBtn = document.getElementById('volume-btn');
+    const volumeSlider = document.getElementById('volume-slider');
+    const volumeIcon = volumeBtn.querySelector('i');
+
+    // --- Helper Functions ---
+
     // Format time (seconds to MM:SS)
     function formatTime(seconds) {
+      if (isNaN(seconds) || seconds === Infinity) {
+          return '0:00';
+      }
       const mins = Math.floor(seconds / 60);
       const secs = Math.floor(seconds % 60);
       return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    // Update progress bar
+    // Update progress bar and time display
     function updateProgress() {
       if (!currentTrack || !isPlaying) return;
-      
+
       const seek = currentTrack.seek() || 0;
-      const duration = currentTrack.duration() || 1;
-      const progressPercent = (seek / duration) * 100;
-      
+      const duration = currentTrack.duration() || 0; // Default to 0 if not loaded
+      const progressPercent = duration ? (seek / duration) * 100 : 0;
+
       progressBar.style.width = `${progressPercent}%`;
       currentTimeEl.textContent = formatTime(seek);
-      durationEl.textContent = formatTime(duration);
+      // Only update duration once it's loaded
+      if (duration > 0 && durationEl.textContent === '0:00') {
+          durationEl.textContent = formatTime(duration);
+      }
     }
 
-    // Play a track
+    // Start interval for progress updates
+    function startProgressUpdate() {
+      clearInterval(updateInterval); // Clear any existing interval
+      updateProgress(); // Update immediately
+      updateInterval = setInterval(updateProgress, 500); // Update more frequently
+    }
+
+    // Stop interval for progress updates
+    function stopProgressUpdate() {
+        clearInterval(updateInterval);
+    }
+
+    // Update volume icon based on level and mute state
+    function updateVolumeIcon() {
+        if (isMuted || currentVolume === 0) {
+            volumeIcon.className = 'fas fa-volume-xmark';
+        } else if (currentVolume < 0.5) {
+            volumeIcon.className = 'fas fa-volume-low';
+        } else {
+            volumeIcon.className = 'fas fa-volume-high';
+        }
+    }
+
+    // Reset player UI to initial state
+    function resetPlayerUI() {
+        progressBar.style.width = '0%';
+        currentTimeEl.textContent = '0:00';
+        durationEl.textContent = '0:00';
+        trackInfoEl.textContent = 'Select a track to play';
+        playBtn.style.display = 'inline-flex'; // Use flex for centering
+        pauseBtn.style.display = 'none';
+        playlistItems.forEach(item => item.classList.remove('playing'));
+    }
+
+    // --- Core Player Functions ---
+
+    // Play a specific track by index
     function playTrack(index) {
-      // Stop current track if playing
+      // Stop current track if any
       if (currentTrack) {
         currentTrack.stop();
-        clearInterval(updateInterval);
+        stopProgressUpdate();
       }
-      
-      // Set new track
+
+      // Handle index wrapping
+      if (index < 0) {
+        index = playlistItems.length - 1;
+      } else if (index >= playlistItems.length) {
+        index = 0;
+      }
+
       currentTrackIndex = index;
-      const trackSrc = playlistItems[index].getAttribute('data-src');
-      const trackName = playlistItems[index].textContent;
-      
+      const trackItem = playlistItems[index];
+      const trackSrc = trackItem.getAttribute('data-src');
+      const trackName = trackItem.textContent;
+
+      // Reset times for new track
+      currentTimeEl.textContent = '0:00';
+      durationEl.textContent = '0:00';
+
       currentTrack = new Howl({
         src: [trackSrc],
-        html5: true,
+        html5: true, // Good for longer audio files
+        volume: currentVolume, // Use the stored volume
         onplay: () => {
           isPlaying = true;
-          document.getElementById('play-btn').style.display = 'none';
-          document.getElementById('pause-btn').style.display = 'inline-block';
-          trackInfoEl.textContent = `Now Playing: ${trackName}`;
+          playBtn.style.display = 'none';
+          pauseBtn.style.display = 'inline-flex'; // Use flex for centering
+          trackInfoEl.textContent = trackName; // Show only name
+          durationEl.textContent = formatTime(currentTrack.duration()); // Update duration on play
           startProgressUpdate();
-          
+
           // Highlight playing track
           playlistItems.forEach(item => item.classList.remove('playing'));
-          playlistItems[index].classList.add('playing');
+          trackItem.classList.add('playing');
         },
         onpause: () => {
           isPlaying = false;
-          document.getElementById('play-btn').style.display = 'inline-block';
-          document.getElementById('pause-btn').style.display = 'none';
-          clearInterval(updateInterval);
+          playBtn.style.display = 'inline-flex';
+          pauseBtn.style.display = 'none';
+          stopProgressUpdate();
         },
         onstop: () => {
           isPlaying = false;
-          document.getElementById('play-btn').style.display = 'inline-block';
-          document.getElementById('pause-btn').style.display = 'none';
-          clearInterval(updateInterval);
-          progressBar.style.width = '0%';
-          currentTimeEl.textContent = '0:00';
+          stopProgressUpdate();
+          resetPlayerUI();
+          currentTrackIndex = -1; // Reset index on explicit stop
         },
         onend: () => {
+          // Automatically play next track when current one finishes
           playNext();
+        },
+        onloaderror: (id, err) => {
+            console.error("Error loading track:", trackSrc, err);
+            trackInfoEl.textContent = `Error loading: ${trackName}`;
+            resetPlayerUI(); // Reset if loading fails
+        },
+        onplayerror: (id, err) => {
+             console.error("Error playing track:", trackSrc, err);
+             trackInfoEl.textContent = `Error playing: ${trackName}`;
+             resetPlayerUI(); // Reset if playing fails
         }
       });
-      
+
       currentTrack.play();
     }
 
-    function startProgressUpdate() {
-      clearInterval(updateInterval);
-      updateInterval = setInterval(updateProgress, 1000);
-    }
-
     function playNext() {
-      const nextIndex = (currentTrackIndex + 1) % playlistItems.length;
-      playTrack(nextIndex);
+      playTrack(currentTrackIndex + 1);
     }
 
     function playPrev() {
-      const prevIndex = (currentTrackIndex - 1 + playlistItems.length) % playlistItems.length;
-      playTrack(prevIndex);
+      // If playing for more than ~3 seconds, restart current track, otherwise go to previous
+      if (currentTrack && currentTrack.seek() > 3) {
+          currentTrack.seek(0);
+          // Ensure UI updates correctly if paused/restarted
+           if (!isPlaying) {
+               currentTrack.play();
+           }
+      } else {
+         playTrack(currentTrackIndex - 1);
+      }
     }
 
-    // Event listeners
-    document.getElementById('play-btn').addEventListener('click', () => {
-      if (currentTrackIndex === -1) {
-        // If no track selected, play first one
-        playTrack(0);
-      } else if (currentTrack) {
+    // --- Event Listeners ---
+
+    // Play button
+    playBtn.addEventListener('click', () => {
+      if (currentTrack && !isPlaying) {
         currentTrack.play();
+      } else if (!currentTrack) {
+        // If no track selected or stopped, play the first one
+        playTrack(0);
       }
     });
 
-    document.getElementById('pause-btn').addEventListener('click', () => {
-      if (currentTrack) currentTrack.pause();
+    // Pause button
+    pauseBtn.addEventListener('click', () => {
+      if (currentTrack && isPlaying) {
+        currentTrack.pause();
+      }
     });
 
-    document.getElementById('stop-btn').addEventListener('click', () => {
+    // Stop button
+    stopBtn.addEventListener('click', () => {
       if (currentTrack) {
-        currentTrack.stop();
-        trackInfoEl.textContent = 'Select a track to play';
-        playlistItems.forEach(item => item.classList.remove('playing'));
-        currentTrackIndex = -1;
+        currentTrack.stop(); // onstop callback handles UI reset
       }
     });
 
-    // Click on playlist items
+    // Previous button
+    prevBtn.addEventListener('click', playPrev);
+
+    // Next button
+    nextBtn.addEventListener('click', playNext);
+
+    // Playlist item clicks
     playlistItems.forEach((item, index) => {
       item.addEventListener('click', () => playTrack(index));
     });
 
-    // Click on progress bar to seek
-    document.querySelector('.progress-container').addEventListener('click', (e) => {
-      if (!currentTrack) return;
-      
-      const progressContainer = e.currentTarget;
-      const clickPosition = e.clientX - progressContainer.getBoundingClientRect().left;
-      const containerWidth = progressContainer.clientWidth;
-      const seekPercent = clickPosition / containerWidth;
-      
+    // Progress bar seeking
+    progressArea.addEventListener('click', (e) => {
+      if (!currentTrack || !currentTrack.duration()) return; // Need a track and duration
+
+      const rect = progressArea.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const width = rect.width;
+      const seekPercent = Math.max(0, Math.min(1, clickX / width)); // Clamp between 0 and 1
+
       currentTrack.seek(currentTrack.duration() * seekPercent);
-      updateProgress();
+      updateProgress(); // Update UI immediately after seek
     });
+
+    // Volume Slider
+    volumeSlider.addEventListener('input', (e) => {
+        currentVolume = parseFloat(e.target.value);
+        if (currentTrack) {
+            currentTrack.volume(currentVolume);
+        }
+        Howler.volume(currentVolume); // Set global volume for future tracks
+        isMuted = currentVolume === 0; // Update mute status if volume is 0
+        updateVolumeIcon();
+    });
+
+    // Volume Button (Mute/Unmute)
+    volumeBtn.addEventListener('click', () => {
+        if (isMuted) {
+            // Unmute: restore previous volume or set to default if previous was 0
+            currentVolume = currentVolume > 0 ? currentVolume : 0.5; // Restore or set default
+            isMuted = false;
+        } else {
+            // Mute: store current volume and set to 0
+            // Don't store if already 0
+            // currentVolume is already stored from slider/previous state
+            isMuted = true;
+            Howler.volume(0); // Mute immediately
+             if (currentTrack) {
+                 currentTrack.volume(0);
+             }
+        }
+        // Update slider position and Howler global volume
+        volumeSlider.value = isMuted ? 0 : currentVolume;
+        Howler.volume(isMuted ? 0 : currentVolume);
+         if (currentTrack) {
+             currentTrack.volume(isMuted ? 0 : currentVolume);
+         }
+
+        updateVolumeIcon();
+    });
+
+
+    // --- Initial Setup ---
+    volumeSlider.value = currentVolume; // Set initial slider position
+    Howler.volume(currentVolume);      // Set initial Howler volume
+    updateVolumeIcon();               // Set initial volume icon
+
   </script>
 </body>
 </html>
