@@ -22,33 +22,33 @@
     /* Header section */
     header {
       display: flex;
-      align-items: center; /* Align items horizontally */
-      height: 60px; /* Very thin header */
+      align-items: center;
+      height: 60px;
       background-color: #1f2937;
-      padding: 0 1rem; /* Add some padding on the sides */
+      padding: 0 1rem;
       position: sticky;
       top: 0;
-      z-index: 1000; /* Ensure it stays on top */
+      z-index: 1000;
     }
 
     .icon-container {
-      margin-right: 0.75rem; /* Space between icon and title */
+      margin-right: 0.75rem;
     }
 
     .icon-container i {
-      font-size: 1.5rem; /* Smaller icon */
+      font-size: 1.5rem;
       color: #f97316;
     }
 
     h1 {
-      font-size: 1.25rem; /* Smaller title */
+      font-size: 1.25rem;
       font-weight: bold;
       color: #ffffff;
-      margin: 0; /* Remove margin */
+      margin: 0;
     }
 
     header p {
-      display: none; /* Hide the paragraph */
+      display: none;
     }
 
     /* Cards section */
@@ -59,7 +59,7 @@
     }
 
     .cards-section {
-      padding: 2rem 1rem; /* Adjust padding */
+      padding: 2rem 1rem;
     }
 
     .grid {
@@ -70,7 +70,7 @@
 
     @media (min-width: 768px) {
       .grid {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive cards */
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       }
     }
 
@@ -125,26 +125,86 @@
       margin-right: 0.5rem;
     }
 
-    /* Style for YouTube links */
-    .youtube-link {
+    /* Audio Player Styles */
+    .audio-player-container {
+      background-color: #1f2937;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .audio-controls {
       display: flex;
-      align-items: center;
-      color: white;
-      text-decoration: none;
+      gap: 0.5rem;
       margin-bottom: 0.5rem;
-      transition: background-color 0.2s;
-      padding: 0.5rem;
+    }
+
+    .audio-btn {
+      background-color: #f97316;
+      color: white;
+      border: none;
       border-radius: 0.25rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 0.9rem;
     }
 
-    .youtube-link:hover {
-      background-color: #4b5563;
+    .audio-btn:hover {
+      background-color: #ea580c;
     }
 
-    .youtube-link i {
-      margin-right: 0.75rem;
-      color: #f97316;  /* Orange color */
-      font-size: 1.5rem;
+    .track-info {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      color: #d1d5db;
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 4px;
+      background-color: #374151;
+      border-radius: 2px;
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background-color: #f97316;
+      width: 0%;
+    }
+
+    .time-display {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .playlist {
+      margin-top: 1rem;
+    }
+
+    .playlist-item {
+      padding: 0.75rem;
+      cursor: pointer;
+      border-bottom: 1px solid #374151;
+      transition: background-color 0.2s;
+    }
+
+    .playlist-item:hover {
+      background-color: #374151;
+    }
+
+    .playlist-item.playing {
+      background-color: #1e40af;
+      color: white;
+    }
+
+    .pdf-links {
+      margin-top: 1rem;
+      border-top: 1px solid #374151;
+      padding-top: 1rem;
     }
 
     /* Footer */
@@ -157,35 +217,35 @@
 
     /* Custom styles for the Volodymyr Agafonkin card */
     .agafonkin-card .card-body {
-     text-align: center; /* Center the text within the card body */
+      text-align: center;
     }
 
     .agafonkin-logo-container {
-     display: flex;
-     justify-content: center; /* Center the logo horizontally */
-     margin-bottom: 1rem; /* Add some space below the logo */
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
     }
 
     .agafonkin-logo {
-     width: 200px; /* Maintain the logo width */
+      width: 200px;
     }
 
     .agafonkin-card blockquote {
-     margin: 1.5rem 0; /* Add more spacing around the blockquote */
-     padding: 1rem;
-     border-left: 5px solid #f97316; /* Highlight the blockquote */
-     font-style: italic;
-     background-color: #374151; /* Slightly darker background for the quote */
-     border-radius: 0.25rem;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      border-left: 5px solid #f97316;
+      font-style: italic;
+      background-color: #374151;
+      border-radius: 0.25rem;
     }
 
     .agafonkin-card p {
-     line-height: 1.6; /* Improve readability of paragraphs */
-     margin-bottom: 0.75rem;
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
     }
 
     .agafonkin-card p:last-child {
-     margin-bottom: 0; /* Remove bottom margin from the last paragraph */
+      margin-bottom: 0;
     }
   </style>
 </head>
@@ -200,95 +260,40 @@
   <section class="cards-section container">
     <div class="grid">
 
-      
       <div class="card">
         <div class="card-body">
-          <h2 class="card-title">Audio:</h2>
-          <ul class="link-list">
-          <center><b>
-
-<!-- Add this to your <head> -->
-
-
-<!-- Replace your old audio players with this: -->
-<div id="audio-player">
-  <h3>Podcasts</h3>
-  <button id="play-btn">▶ Play</button>
-  <button id="pause-btn">❚❚ Pause</button>
-  <div id="track-info">No track selected</div>
-  <div id="playlist" style="margin-top: 10px;">
-    <!-- PDF links are preserved -->
-    <div class="track" data-src="../audio/VenezuelanDeportation.mp3">Venezuelan Deportation</div>
-    <div class="track" data-src="../audio/MassDeportation_March2025.mp3">
-      Mass Deportation
-      <a class="link-item" href="/docs/MassDeportation.pdf"><i class="fa-solid fa-newspaper"></i> PDF</a>
-    </div>
-    <div class="track" data-src="../audio/Transgender2025.mp3">
-      Transgender Rights
-      <a class="link-item" href="/docs/Transgender2025.pdf"><i class="fa-solid fa-newspaper"></i> PDF</a>
-    </div>
-    <div class="track" data-src="../audio/ClasswarPodcast.mp3">Class War Overview</div>
-    <div class="track" data-src="../audio/GlobalWealth.mp3">Global Wealth Distribution</div>
-    <div class="track" data-src="../audio/MenciusMoldbug.mp3">Mencius Moldbug</div>
-  </div>
-</div>
-
-<style>
-  /* Minimal styling */
-  #audio-player { 
-    width: 220px; /* Adjust width as needed */
-    font-family: Arial, sans-serif;
-  }
-  .track {
-    padding: 8px 0;
-    cursor: pointer;
-    border-bottom: 1px solid #eee;
-  }
-  .track:hover { background: #f5f5f5; }
-  .track.playing { font-weight: bold; color: #0066cc; }
-  #play-btn, #pause-btn { 
-    margin-right: 5px; 
-    padding: 3px 8px;
-  }
-  #track-info { 
-    margin: 8px 0;
-    font-size: 0.9em;
-    color: #666;
-  }
-</style>
-
-<script>
-  // Howler.js setup
-  let currentTrack = null;
-  
-  document.querySelectorAll('.track').forEach(track => {
-    track.addEventListener('click', function() {
-      // Stop previous track
-      if (currentTrack) currentTrack.stop();
-      
-      // Play new track
-      currentTrack = new Howl({ src: [this.dataset.src] });
-      currentTrack.play();
-      
-      // Update UI
-      document.querySelectorAll('.track').forEach(t => t.classList.remove('playing'));
-      this.classList.add('playing');
-      document.getElementById('track-info').textContent = this.textContent.trim();
-    });
-  });
-  
-  // Play/pause buttons
-  document.getElementById('play-btn').addEventListener('click', () => {
-    if (currentTrack) currentTrack.play();
-  });
-  document.getElementById('pause-btn').addEventListener('click', () => {
-    if (currentTrack) currentTrack.pause();
-  });
-</script>
-
-</b></center></ul></div></div>
-
-
+          <h2 class="card-title">Audio</h2>
+          <div class="audio-player-container">
+            <div class="audio-controls">
+              <button id="play-btn" class="audio-btn"><i class="fas fa-play"></i> Play</button>
+              <button id="pause-btn" class="audio-btn" style="display:none"><i class="fas fa-pause"></i> Pause</button>
+              <button id="stop-btn" class="audio-btn"><i class="fas fa-stop"></i> Stop</button>
+            </div>
+            <div class="track-info" id="track-info">Select a track to play</div>
+            <div class="progress-container">
+              <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div class="time-display">
+              <span id="current-time">0:00</span>
+              <span id="duration">0:00</span>
+            </div>
+            
+            <div class="playlist">
+              <div class="playlist-item" data-src="../audio/VenezuelanDeportation.mp3">Venezuelan Deportation</div>
+              <div class="playlist-item" data-src="../audio/MassDeportation_March2025.mp3">Mass Deportation</div>
+              <div class="playlist-item" data-src="../audio/Transgender2025.mp3">Transgender Rights</div>
+              <div class="playlist-item" data-src="../audio/ClasswarPodcast.mp3">Class War Overview</div>
+              <div class="playlist-item" data-src="../audio/GlobalWealth.mp3">Global Wealth Distribution</div>
+              <div class="playlist-item" data-src="../audio/MenciusMoldbug.mp3">Mencius Moldbug</div>
+            </div>
+            
+            <div class="pdf-links">
+              <a class='link-item' href='/docs/MassDeportation.pdf'><i class="fas fa-newspaper"></i> Mass Deportation PDF</a>
+              <a class='link-item' href='/docs/Transgender2025.pdf'><i class="fas fa-newspaper"></i> Transgender Rights PDF</a>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="card">
         <div class="card-body">
@@ -296,68 +301,65 @@
           <ul class="link-list">
             <li>
               <a class='link-item' href='/docs/ICE.pdf'>
-                <i class="fa-solid fa-newspaper"></i>
+                <i class="fas fa-newspaper"></i>
                 ICE/Militia - Overview
               </a>
             </li>
             <li>
               <a class='link-item' href='/docs/OtayMesa.pdf'>
-                <i class="fa-solid fa-newspaper"></i>
+                <i class="fas fa-newspaper"></i>
                 Otay Mesa Detention Center
               </a>
             </li>
             <li>
               <a class='link-item' href='/docs/ElSalvador.pdf'>
-                <i class="fa-solid fa-newspaper"></i>
+                <i class="fas fa-newspaper"></i>
                 El Salvador Mega-Prison
               </a>
             </li>
             <li>
               <a class='link-item' href='/docs/ForProfitPrisons.pdf'>
-                <i class="fa-solid fa-newspaper"></i>
+                <i class="fas fa-newspaper"></i>
                 For-Profit Prisons 
               </a>
             </li>
             <li>
               <a class='link-item' href='/docs/GeoGroup.pdf'>
-                <i class="fa-solid fa-newspaper"></i>
+                <i class="fas fa-newspaper"></i>
                 Geo Group
               </a>
             </li>
             <li>
               <a class='link-item' href='/docs/USMilitias2025.pdf'>
-                <i class="fa-solid fa-book"></i>
+                <i class="fas fa-book"></i>
                 US Militias 2025
               </a>
             </li>
             <li>
               <a class='link-item' href='/docs/Project2025.pdf'>
-                <i class="fa-solid fa-newspaper"></i>
+                <i class="fas fa-newspaper"></i>
                 Project2025
               </a>
             </li>
             <li>
               <a class='link-item' href='/docs/HeritageFoundation.pdf'>
-                <i class="fa-solid fa-newspaper"></i>
+                <i class="fas fa-newspaper"></i>
                 Heritage Foundation
               </a>
             </li>
           </ul>
         </div>
       </div>
-    
-
-      
 
       <div class="card">
         <div class="card-body">
           <h2 class="card-title">Links:</h2>
-         <a class='link-item' href='https://www.realtimefascism.com/'>
-            <i class="fa-solid fa-book"></i>
+          <a class='link-item' href='https://www.realtimefascism.com/'>
+            <i class="fas fa-book"></i>
             Realtime Fascism
           </a><br>
-         <a class='link-item' href='https://linktr.ee/revolution2025'>
-            <i class="fa-solid fa-book"></i>
+          <a class='link-item' href='https://linktr.ee/revolution2025'>
+            <i class="fas fa-book"></i>
             Revolution 2025
           </a><br>
         </div>
@@ -369,73 +371,71 @@
           <ul class="link-list">
             <li>
               <a class='link-item' href='/dox/CurtisYarvin'>
-                <i class="fa-solid fa-user"></i>
+                <i class="fas fa-user"></i>
                 Curtis "Mencius Moldbug" Yarvin
               </a>
             </li>
             <li>
               <a class='link-item' href='/dox/MarcLowellAndreessen'>
-                <i class="fa-solid fa-user"></i>
+                <i class="fas fa-user"></i>
                 Marc Lowell Andreessen
               </a>
             </li>
             <li>
               <a class='link-item' href='/dox/PeterAndreasThiel'>
-                <i class="fa-solid fa-user"></i>
+                <i class="fas fa-user"></i>
                 Peter Andreas Thiel
               </a>
             </li>
             <li>
               <a class='link-item' href='/dox/LarryEllison.pdf'>
-                <i class="fa-solid fa-user"></i>
+                <i class="fas fa-user"></i>
                 Larry Ellison
               </a>
             </li>
             <li>
               <a class='link-item' href='/dox/PaulDans.pdf'>
-                <i class="fa-solid fa-user"></i>
+                <i class="fas fa-user"></i>
                 Paul Dans
               </a>
             </li>
             <li>
               <a class='link-item' href='/dox/ElonMusk.pdf'>
-                <i class="fa-solid fa-user"></i>
+                <i class="fas fa-user"></i>
                 Elon ﻿‌​​​‌‌​⁠‌‌​​​​‌⁠‌‌‌​​‌‌⁠‌‌​​​‌‌⁠‌‌​‌​​‌⁠‌‌‌​​‌‌⁠‌‌‌​‌​​﻿Musk
               </a>
             </li>
+          </ul>
           <h2 class="card-title">NRx Overview:</h2>
           <a class='link-item' href='/docs/NRx.pdf'>
-            <i class="fa-solid fa-book"></i>
+            <i class="fas fa-book"></i>
             NRx
           </a><br>
           <a class='link-item' href='/docs/NetworkStates.pdf'>
-            <i class="fa-solid fa-book"></i>
+            <i class="fas fa-book"></i>
             Network States
           </a><br>
           <a class='link-item' href='/docs/DarkEnlightenment.pdf'>
-            <i class="fa-solid fa-book"></i>
+            <i class="fas fa-book"></i>
             Dark Enlightenment
           </a><br>
-          </ul>
         </div>
       </div>
-
 
       <div class="card agafonkin-card">
-       <div class="card-body">
-        <h2 class="card-title">Thank You, Volodymyr Agafonkin</h2>
-        <p>A special thank you to <a href="https://agafonkin.com/" target="_blank">Volodymyr Agafonkin</a>, a Ukrainian citizen living in Kyiv, and creator of <a href="https://leafletjs.com/">Leaflet</a>. His exceptional work powers the maps on this page.</p>
-        <p>As Russian bombs fall on his hometown, Volodymyr asks for your help:</p>
-        <blockquote>
-         <p>If you want to help, educate yourself and others on the Russian threat, follow reputable journalists, demand severe Russian sanctions and Ukrainian support from your leaders, protest war, reach out to Ukrainian friends, donate to Ukrainian charities. Just don't be silent.</p>
-        </blockquote>
-        <p>Ukrainians recommend the <a href="https://savelife.in.ua/en/" target="_blank">Come Back Alive</a> charity. For other options, see <a href="https://stand-with-ukraine.pp.ua/" target="_blank">StandWithUkraine</a>.</p>
-        <div class="agafonkin-logo-container">
-         <a href="https://savelife.in.ua/en/" target="_blank"><img src="https://savelife.in.ua/wp-content/themes/savelife/assets/images/new-logo-en.svg" alt="Logo" class="agafonkin-logo"></a>
+        <div class="card-body">
+          <h2 class="card-title">Thank You, Volodymyr Agafonkin</h2>
+          <p>A special thank you to <a href="https://agafonkin.com/" target="_blank">Volodymyr Agafonkin</a>, a Ukrainian citizen living in Kyiv, and creator of <a href="https://leafletjs.com/">Leaflet</a>. His exceptional work powers the maps on this page.</p>
+          <p>As Russian bombs fall on his hometown, Volodymyr asks for your help:</p>
+          <blockquote>
+            <p>If you want to help, educate yourself and others on the Russian threat, follow reputable journalists, demand severe Russian sanctions and Ukrainian support from your leaders, protest war, reach out to Ukrainian friends, donate to Ukrainian charities. Just don't be silent.</p>
+          </blockquote>
+          <p>Ukrainians recommend the <a href="https://savelife.in.ua/en/" target="_blank">Come Back Alive</a> charity. For other options, see <a href="https://stand-with-ukraine.pp.ua/" target="_blank">StandWithUkraine</a>.</p>
+          <div class="agafonkin-logo-container">
+            <a href="https://savelife.in.ua/en/" target="_blank"><img src="https://savelife.in.ua/wp-content/themes/savelife/assets/images/new-logo-en.svg" alt="Logo" class="agafonkin-logo"></a>
+          </div>
         </div>
-       </div>
       </div>
-
 
     </div>
   </section>
@@ -443,5 +443,143 @@
   <footer>
     <p>© 2025 The Resistance</p>
   </footer>
+
+  <script>
+    // Audio Player Functionality
+    let currentTrack = null;
+    let currentTrackIndex = -1;
+    let isPlaying = false;
+    let updateInterval;
+    const playlistItems = document.querySelectorAll('.playlist-item');
+    const progressBar = document.getElementById('progress-bar');
+    const currentTimeEl = document.getElementById('current-time');
+    const durationEl = document.getElementById('duration');
+    const trackInfoEl = document.getElementById('track-info');
+
+    // Format time (seconds to MM:SS)
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      if (!currentTrack || !isPlaying) return;
+      
+      const seek = currentTrack.seek() || 0;
+      const duration = currentTrack.duration() || 1;
+      const progressPercent = (seek / duration) * 100;
+      
+      progressBar.style.width = `${progressPercent}%`;
+      currentTimeEl.textContent = formatTime(seek);
+      durationEl.textContent = formatTime(duration);
+    }
+
+    // Play a track
+    function playTrack(index) {
+      // Stop current track if playing
+      if (currentTrack) {
+        currentTrack.stop();
+        clearInterval(updateInterval);
+      }
+      
+      // Set new track
+      currentTrackIndex = index;
+      const trackSrc = playlistItems[index].getAttribute('data-src');
+      const trackName = playlistItems[index].textContent;
+      
+      currentTrack = new Howl({
+        src: [trackSrc],
+        html5: true,
+        onplay: () => {
+          isPlaying = true;
+          document.getElementById('play-btn').style.display = 'none';
+          document.getElementById('pause-btn').style.display = 'inline-block';
+          trackInfoEl.textContent = `Now Playing: ${trackName}`;
+          startProgressUpdate();
+          
+          // Highlight playing track
+          playlistItems.forEach(item => item.classList.remove('playing'));
+          playlistItems[index].classList.add('playing');
+        },
+        onpause: () => {
+          isPlaying = false;
+          document.getElementById('play-btn').style.display = 'inline-block';
+          document.getElementById('pause-btn').style.display = 'none';
+          clearInterval(updateInterval);
+        },
+        onstop: () => {
+          isPlaying = false;
+          document.getElementById('play-btn').style.display = 'inline-block';
+          document.getElementById('pause-btn').style.display = 'none';
+          clearInterval(updateInterval);
+          progressBar.style.width = '0%';
+          currentTimeEl.textContent = '0:00';
+        },
+        onend: () => {
+          playNext();
+        }
+      });
+      
+      currentTrack.play();
+    }
+
+    function startProgressUpdate() {
+      clearInterval(updateInterval);
+      updateInterval = setInterval(updateProgress, 1000);
+    }
+
+    function playNext() {
+      const nextIndex = (currentTrackIndex + 1) % playlistItems.length;
+      playTrack(nextIndex);
+    }
+
+    function playPrev() {
+      const prevIndex = (currentTrackIndex - 1 + playlistItems.length) % playlistItems.length;
+      playTrack(prevIndex);
+    }
+
+    // Event listeners
+    document.getElementById('play-btn').addEventListener('click', () => {
+      if (currentTrackIndex === -1) {
+        // If no track selected, play first one
+        playTrack(0);
+      } else if (currentTrack) {
+        currentTrack.play();
+      }
+    });
+
+    document.getElementById('pause-btn').addEventListener('click', () => {
+      if (currentTrack) currentTrack.pause();
+    });
+
+    document.getElementById('stop-btn').addEventListener('click', () => {
+      if (currentTrack) {
+        currentTrack.stop();
+        trackInfoEl.textContent = 'Select a track to play';
+        playlistItems.forEach(item => item.classList.remove('playing'));
+        currentTrackIndex = -1;
+      }
+    });
+
+    // Click on playlist items
+    playlistItems.forEach((item, index) => {
+      item.addEventListener('click', () => playTrack(index));
+    });
+
+    // Click on progress bar to seek
+    document.querySelector('.progress-container').addEventListener('click', (e) => {
+      if (!currentTrack) return;
+      
+      const progressContainer = e.currentTarget;
+      const clickPosition = e.clientX - progressContainer.getBoundingClientRect().left;
+      const containerWidth = progressContainer.clientWidth;
+      const seekPercent = clickPosition / containerWidth;
+      
+      currentTrack.seek(currentTrack.duration() * seekPercent);
+      updateProgress();
+    });
+  </script>
 </body>
 </html>
