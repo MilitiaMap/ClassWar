@@ -4,32 +4,141 @@
     <title>US Intel Map :: State Recon</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin=""/>
+
+    <!-- Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin=""></script>
+
     <style>
-        html, body { height: 100%; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; background-color: #1a1a1a; color: #ccc; }
-        #map { height: 100%; width: 100%; background-color: #111; }
-        #modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 1000; display: none; backdrop-filter: blur(2px); }
-        #info-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 700px; max-height: 80vh; background-color: #222; color: #eee; border: 1px solid #FFA500; box-shadow: 0 0 25px rgba(255, 165, 0, 0.3); z-index: 1001; display: none; border-radius: 2px; overflow: hidden; }
-        #modal-header { background-color: #333; padding: 10px 15px; border-bottom: 1px solid #FFA500; display: flex; justify-content: space-between; align-items: center; }
-        #modal-title { margin: 0; font-size: 1.4em; color: #FFA500; text-transform: uppercase; letter-spacing: 1px; }
-        #modal-close { font-size: 2em; color: #aaa; cursor: pointer; line-height: 1; padding: 0 5px; text-decoration: none; background: none; border: none; }
-        #modal-close:hover { color: #ff4d4d; }
-        #modal-body { padding: 20px; overflow-y: auto; max-height: calc(80vh - 50px); }
-        #modal-body h4 { color: #FFA500; border-bottom: 1px dashed #555; padding-bottom: 5px; margin-top: 15px; margin-bottom: 10px; text-transform: uppercase; font-size: 0.9em; letter-spacing: 0.5px; }
-        #modal-body strong { color: #fff; min-width: 120px; display: inline-block; }
-        #modal-body p { margin: 5px 0; line-height: 1.4; }
-        #modal-body ul { list-style: none; padding-left: 10px; }
-        #modal-body li { margin-bottom: 3px; }
-        .highlighted-state { stroke: #FFA500; weight: 3; opacity: 1; fillOpacity: 0.8; }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1a1a1a;
+            color: #ccc;
+        }
+        #map {
+            height: 100%;
+            width: 100%;
+            background-color: #111;
+        }
+
+        /* --- Modal Styling - ORANGE THEME --- */
+        #modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 1000;
+            display: none;
+            backdrop-filter: blur(2px);
+        }
+
+        #info-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 700px;
+            max-height: 80vh;
+            background-color: #222;
+            color: #eee;
+            border: 1px solid #FFA500;
+            box-shadow: 0 0 25px rgba(255, 165, 0, 0.3);
+            z-index: 1001;
+            display: none;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        #modal-header {
+            background-color: #333;
+            padding: 10px 15px;
+            border-bottom: 1px solid #FFA500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #modal-title {
+            margin: 0;
+            font-size: 1.4em;
+            color: #FFA500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #modal-close {
+            font-size: 2em;
+            color: #aaa;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0 5px;
+            text-decoration: none;
+            background: none;
+            border: none;
+        }
+        #modal-close:hover {
+            color: #ff4d4d;
+        }
+
+        #modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: calc(80vh - 50px);
+        }
+
+        #modal-body h4 {
+            color: #FFA500;
+            border-bottom: 1px dashed #555;
+            padding-bottom: 5px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        #modal-body strong {
+            color: #fff;
+            min-width: 120px;
+            display: inline-block;
+        }
+        #modal-body p {
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+        #modal-body ul {
+            list-style: none;
+            padding-left: 10px;
+        }
+        #modal-body li {
+            margin-bottom: 3px;
+        }
+
+        .highlighted-state {
+            stroke: #FFA500;
+            weight: 3;
+            opacity: 1;
+            fillOpacity: 0.8;
+        }
     </style>
 </head>
 <body>
+
 <div id="map"></div>
+
+<!-- Modal Structure -->
 <div id="modal-overlay"></div>
 <div id="info-modal">
     <div id="modal-header">
@@ -42,13 +151,17 @@
 </div>
 
 <script>
+    // Initialize Leaflet Map
     const map = L.map('map').setView([39.8283, -98.5795], 4);
+
+    // Add Base Tile Layer (Dark Theme)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a> | Intel Feed Active',
         subdomains: 'abcd',
         maxZoom: 19
     }).addTo(map);
 
+    // State Data Object
     const stateData = {
         "Alabama": { population: 5097641, governor: "Kay Ivey", party: "R", capital: "Montgomery", officials: {}, demographics: {}, notes: "Data Needed" },
         "Alaska": { population: 733962, governor: "Mike Dunleavy", party: "R", capital: "Juneau", officials: {}, demographics: {}, notes: "Data Needed" },
@@ -103,20 +216,30 @@
         "Wyoming": { population: 584057, governor: "Mark Gordon", party: "R", capital: "Cheyenne", officials: {}, demographics: {}, notes: "Data Needed" }
     };
 
+    // Styling Function for States
     function styleState(feature) {
         const stateName = feature.properties.name;
         const data = stateData[stateName];
         let fillColor = '#555';
 
         if (data && data.party) {
-            fillColor = data.party === 'R' ? '#b33030' : data.party === 'D' ? '#306b8e' : '#555';
+            fillColor = data.party === 'R' ? '#b33030' : // Red for Republicans
+                        data.party === 'D' ? '#306b8e' : // Blue for Democrats
+                        '#555'; // Grey for others
         } else if (data && data.externalHTML) {
-            fillColor = '#306b8e';
+            fillColor = '#306b8e'; // Default to blue for states with external HTML
         }
 
-        return { fillColor: fillColor, weight: 1, opacity: 1, color: '#888', fillOpacity: 0.65 };
+        return {
+            fillColor: fillColor,
+            weight: 1,
+            opacity: 1,
+            color: '#888',
+            fillOpacity: 0.65
+        };
     }
 
+    // Interaction Functions
     let geojsonLayer;
     let lastClickedLayer = null;
 
@@ -134,11 +257,17 @@
         document.getElementById('modal-overlay').style.display = 'block';
         document.getElementById('info-modal').style.display = 'block';
 
+        // Highlight the state
         if (lastClickedLayer && lastClickedLayer !== layer) {
              geojsonLayer.resetStyle(lastClickedLayer);
         }
 
-        layer.setStyle({ weight: 3, color: '#FFA500', dashArray: '', fillOpacity: 0.8 });
+        layer.setStyle({
+            weight: 3,
+            color: '#FFA500',
+            dashArray: '',
+            fillOpacity: 0.8
+        });
 
         if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
             layer.bringToFront();
@@ -146,23 +275,32 @@
         lastClickedLayer = layer;
 
         try {
-            if (data && data.externalHTML && stateName === "California") {
-                const response = await fetch('states/california.html');
-                if (!response.ok) throw new Error('Failed to load California data');
+            if (data && data.externalHTML) {
+                // Convert state name to lowercase with hyphens for filename
+                const filename = stateName.toLowerCase().replace(/\s+/g, '-') + '.html';
+                const response = await fetch(`states/${filename}`);
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${stateName} data`);
+                }
                 modalBody.innerHTML = await response.text();
             } else {
+                // Generate the modal content from inline data
                 let htmlContent = `<h4>Asset Identifiers:</h4>`;
                 htmlContent += `<p><strong>Designation:</strong> ${stateName}</p>`;
                 htmlContent += `<p><strong>Capital:</strong> ${data.capital || 'Unknown'}</p>`;
                 htmlContent += `<p><strong>Affiliation Code:</strong> ${data.party || 'Undetermined'} (${data.party === 'R' ? 'Red' : data.party === 'D' ? 'Blue' : 'Grey'})</p>`;
+
                 htmlContent += `<h4>Population Analysis:</h4>`;
                 htmlContent += `<p><strong>Estimated Subjects:</strong> ${data.population ? data.population.toLocaleString() : 'Count Pending'}</p>`;
+
                 htmlContent += `<h4>Command Structure:</h4>`;
                 htmlContent += `<p><strong>Governor:</strong> ${data.governor || 'Identity Unconfirmed'} (${data.party || '?'})</p>`;
                 if (data.officials) {
                     if(data.officials.lt_governor) htmlContent += `<p><strong>Lt. Governor:</strong> ${data.officials.lt_governor}</p>`;
                     if(data.officials.senators && data.officials.senators.length > 0) htmlContent += `<p><strong>Senators (Federal):</strong> ${data.officials.senators.join(' | ')}</p>`;
                 }
+
                 htmlContent += `<h4>Socio-Economic Profile:</h4>`;
                 if (data.demographics) {
                      if(data.demographics.median_income) htmlContent += `<p><strong>Median Income Estimate:</strong> $${data.demographics.median_income.toLocaleString()}</p>`;
@@ -170,15 +308,28 @@
                 } else {
                     htmlContent += `<p>Detailed demographic analysis pending...</p>`;
                 }
+
                 htmlContent += `<h4>Field Notes & Observations:</h4>`;
                 htmlContent += `<p>${data.notes || 'No specific intel recorded.'}</p>`;
+
                 modalBody.innerHTML = htmlContent;
             }
         } catch (error) {
             console.error(`Error loading data for ${stateName}:`, error);
-            modalBody.innerHTML = `<p>Error loading data. Showing basic info...</p>
-                                 <p><strong>State:</strong> ${stateName}</p>
-                                 <p><strong>Capital:</strong> ${data.capital || 'Unknown'}</p>`;
+            modalBody.innerHTML = `<p style="color: #ff4d4d;">Failed to load intelligence data for ${stateName}.</p>
+                                 <p>Error: ${error.message}</p>
+                                 <p>Using fallback data...</p>`;
+            
+            // Fallback to whatever data we have
+            if (data) {
+                let htmlContent = `<h4>Asset Identifiers:</h4>`;
+                htmlContent += `<p><strong>Designation:</strong> ${stateName}</p>`;
+                htmlContent += `<p><strong>Capital:</strong> ${data.capital || 'Unknown'}</p>`;
+                htmlContent += `<p><strong>Affiliation Code:</strong> ${data.party || 'Undetermined'}</p>`;
+                htmlContent += `<p><strong>Population:</strong> ${data.population ? data.population.toLocaleString() : 'Unknown'}</p>`;
+                htmlContent += `<p><strong>Governor:</strong> ${data.governor || 'Unknown'}</p>`;
+                modalBody.innerHTML += htmlContent;
+            }
         }
 
         L.DomEvent.stopPropagation(e);
@@ -197,29 +348,37 @@
     document.getElementById('modal-overlay').addEventListener('click', closeModal);
 
     function onEachFeature(feature, layer) {
-        layer.on({ click: showStateInfo });
+        layer.on({
+            click: showStateInfo
+        });
     }
 
+    // Load GeoJSON Data
     const geoJsonUrl = 'https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json';
 
     fetch(geoJsonUrl)
         .then(response => {
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status} retrieving GeoJSON`);
+            }
             return response.json();
         })
         .then(data => {
             geojsonLayer = L.geoJSON(data, {
                 style: styleState,
                 onEachFeature: onEachFeature,
-                filter: function(feature) { return typeof stateData[feature.properties.name] !== 'undefined'; }
+                filter: function(feature) {
+                     return typeof stateData[feature.properties.name] !== 'undefined';
+                 }
             }).addTo(map);
+            console.log("GeoJSON feed acquired. Map operational.");
         })
         .catch(error => {
             console.error('Critical Failure loading GeoJSON feed:', error);
-            document.getElementById('modal-title').textContent = "System Alert!";
-            document.getElementById('modal-body').innerHTML = `<p style="color: #ff4d4d; font-weight: bold;">MAP DATA CORRUPTED OR UNAVAILABLE.</p><p>Could not load state boundaries. Verify GeoJSON source (${geoJsonUrl}) and network connection.</p><p>Error detail: ${error}</p>`;
-            document.getElementById('modal-overlay').style.display = 'block';
-            document.getElementById('info-modal').style.display = 'block';
+             document.getElementById('modal-title').textContent = "System Alert!";
+             document.getElementById('modal-body').innerHTML = `<p style="color: #ff4d4d; font-weight: bold;">MAP DATA CORRUPTED OR UNAVAILABLE.</p><p>Could not load state boundaries. Verify GeoJSON source (${geoJsonUrl}) and network connection.</p><p>Error detail: ${error}</p>`;
+             document.getElementById('modal-overlay').style.display = 'block';
+             document.getElementById('info-modal').style.display = 'block';
         });
 </script>
 </body>
