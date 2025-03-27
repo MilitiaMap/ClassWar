@@ -592,52 +592,68 @@
         <div class="member-list-item"><div class="avatar bg-avatar-a">AW</div><span class="member-name">Alex Wong</span></div>
     </div>
 
-<!-- Simple Image Grid -->
+<!-- Simple Image Grid with Lightbox -->
 <div id="source-images" style="max-width: 800px; margin: 0 auto; padding: 20px;">
     <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Source Images</h3>
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;">
-        <div style="text-align: center;">
-            <img src="Chat01.jpg" alt="Chat01" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
-            <div style="margin-top: 5px; font-size: 0.9em;">Chat01.jpg</div>
-        </div>
-        <div style="text-align: center;">
-            <img src="Chat02.jpg" alt="Chat02" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
-            <div style="margin-top: 5px; font-size: 0.9em;">Chat02.jpg</div>
-        </div>
-        <div style="text-align: center;">
-            <img src="Chat03.jpg" alt="Chat03" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
-            <div style="margin-top: 5px; font-size: 0.9em;">Chat03.jpg</div>
-        </div>
-        <div style="text-align: center;">
-            <img src="Chat04.jpg" alt="Chat04" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
-            <div style="margin-top: 5px; font-size: 0.9em;">Chat04.jpg</div>
-        </div>
-        <div style="text-align: center;">
-            <img src="Chat05.jpg" alt="Chat05" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
-            <div style="margin-top: 5px; font-size: 0.9em;">Chat05.jpg</div>
-        </div>
-        <div style="text-align: center;">
-            <img src="Chat06.jpg" alt="Chat06" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
-            <div style="margin-top: 5px; font-size: 0.9em;">Chat06.jpg</div>
-        </div>
-        <div style="text-align: center;">
-            <img src="Chat07.jpg" alt="Chat07" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
-            <div style="margin-top: 5px; font-size: 0.9em;">Chat07.jpg</div>
-        </div>
-        <div style="text-align: center;">
-            <img src="Chat08.jpg" alt="Chat08" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
-            <div style="margin-top: 5px; font-size: 0.9em;">Chat08.jpg</div>
-        </div>
-        <div style="text-align: center;">
-            <img src="Chat09.jpg" alt="Chat09" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
-            <div style="margin-top: 5px; font-size: 0.9em;">Chat09.jpg</div>
-        </div>
-        <div style="text-align: center;">
-            <img src="Chat10.jpg" alt="Chat10" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
-            <div style="margin-top: 5px; font-size: 0.9em;">Chat10.jpg</div>
-        </div>
+        <!-- Images will be inserted here by JavaScript -->
     </div>
 </div>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;">
+    <img id="lightbox-img" style="max-height: 90%; max-width: 90%;">
+    <div id="lightbox-caption" style="position: absolute; bottom: 20px; color: white; text-align: center; width: 100%;"></div>
+</div>
+
+<script>
+// Image data
+const images = [
+    'Chat01.jpg', 'Chat02.jpg', 'Chat03.jpg', 'Chat04.jpg', 'Chat05.jpg',
+    'Chat06.jpg', 'Chat07.jpg', 'Chat08.jpg', 'Chat09.jpg', 'Chat10.jpg'
+];
+
+// Create image grid
+const grid = document.querySelector('#source-images div');
+images.forEach(img => {
+    const item = document.createElement('div');
+    item.style.textAlign = 'center';
+    item.style.cursor = 'pointer';
+    
+    const imgEl = document.createElement('img');
+    imgEl.src = img;
+    imgEl.alt = img;
+    imgEl.style.width = '100%';
+    imgEl.style.height = 'auto';
+    imgEl.style.border = '1px solid #ddd';
+    imgEl.style.borderRadius = '4px';
+    
+    const caption = document.createElement('div');
+    caption.style.marginTop = '5px';
+    caption.style.fontSize = '0.9em';
+    caption.textContent = img;
+    
+    item.appendChild(imgEl);
+    item.appendChild(caption);
+    grid.appendChild(item);
+    
+    // Add click event to show lightbox
+    item.addEventListener('click', () => {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        
+        lightboxImg.src = img;
+        lightboxCaption.textContent = img;
+        lightbox.style.display = 'flex';
+    });
+});
+
+// Close lightbox when clicking anywhere
+document.getElementById('lightbox').addEventListener('click', function() {
+    this.style.display = 'none';
+});
+</script>
 
 </body>
 </html>
