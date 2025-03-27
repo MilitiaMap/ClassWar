@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>US Intel Map :: State Recon</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1a1a1a;
+            color: #ccc;
+        }
+        #map {
+            height: 100%;
+            width: 100%;
+            background-color: #111;
+        }
+
+        /* --- Modal Styling - ORANGE THEME --- */
+        #modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 1000;
+            display: none;
+            backdrop-filter: blur(2px);
+        }
+
+        #info-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 700px;
+            max-height: 80vh;
+            background-color: #222;
+            color: #eee;
+            border: 1px solid #FFA500;
+            box-shadow: 0 0 25px rgba(255, 165, 0, 0.3);
+            z-index: 1001;
+            display: none;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        #modal-header {
+            background-color: #333;
+            padding: 10px 15px;
+            border-bottom: 1px solid #FFA500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #modal-title {
+            margin: 0;
+            font-size: 1.4em;
+            color: #FFA500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #modal-close {
+            font-size: 2em;
+            color: #aaa;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0 5px;
+            text-decoration: none;
+            background: none;
+            border: none;
+        }
+        #modal-close:hover {
+            color: #ff4d4d;
+        }
+
+        #modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: calc(80vh - 50px);
+        }
+
+        #modal-body h4 {
+            color: #FFA500;
+            border-bottom: 1px dashed #555;
+            padding-bottom: 5px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        #modal-body strong {
+            color: #fff;
+            min-width: 120px;
+            display: inline-block;
+        }
+        #modal-body p {
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+        #modal-body ul {
+            list-style: none;
+            padding-left: 10px;
+        }
+        #modal-body li {
+            margin-bottom: 3px;
+        }
+
+        .highlighted-state {
+            stroke: #FFA500;
+            weight: 3;
+            opacity: 1;
+            fillOpacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- Modal Structure -->
+<div id="modal-overlay"></div>
+<div id="info-modal">
+    <div id="modal-header">
+        <h2 id="modal-title">State Dossier</h2>
+        <button id="modal-close" title="Close">×</button>
+    </div>
+    <div id="modal-body">
+        <p>Awaiting Target Acquisition...</p>
+    </div>
+</div>
+
+<script>
+    // Initialize Leaflet Map
+    const map = L.map('map').setView([39.8283, -98.5795], 4);
+
+    // Add Base Tile Layer (Dark Theme)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a> | Intel Feed Active',
+        subdomains: 'abcd',
+        maxZoom: 19
+    }).addTo(map);
+
+    // State Data Object
+    const stateData = {
+        "Alabama": { population: 5097641, governor: "Kay Ivey", party: "R", capital: "Montgomery", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Alaska": { population: 733962, governor: "Mike Dunleavy", party: "R", capital: "Juneau", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Arizona": { population: 7431344, governor: "Katie Hobbs", party: "D", capital: "Phoenix", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Arkansas": { population: 3067732, governor: "Sarah Huckabee Sanders", party: "R", capital: "Little Rock", officials: {}, demographics: {}, notes: "Data Needed" },
+        "California": { externalHTML: true },
+        "Colorado": { population: 5877610, governor: "Jared Polis", party: "D", capital: "Denver", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Connecticut": { population: 3617176, governor: "Ned Lamont", party: "D", capital: "Hartford", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Delaware": { population: 1031890, governor: "John Carney", party: "D", capital: "Dover", officials: {}, demographics: {}, notes: "Data Needed" },
+        "District of Columbia": { population: 678972, governor: "Muriel Bowser (Mayor)", party: "D", capital: "Washington D.C.", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Florida": { population: 22610726, governor: "Ron DeSantis", party: "R", capital: "Tallahassee", officials: { senators: ["Marco Rubio", "Rick Scott"] }, demographics: { median_income: 67917 }, notes: "High priority target" },
+        "Georgia": { population: 11029227, governor: "Brian Kemp", party: "R", capital: "Atlanta", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Hawaii": { population: 1435138, governor: "Josh Green", party: "D", capital: "Honolulu", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Idaho": { population: 1964723, governor: "Brad Little", party: "R", capital: "Boise", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Illinois": { population: 12549689, governor: "J. B. Pritzker", party: "D", capital: "Springfield", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Indiana": { population: 6862199, governor: "Eric Holcomb", party: "R", capital: "Indianapolis", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Iowa": { population: 3207004, governor: "Kim Reynolds", party: "R", capital: "Des Moines", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Kansas": { population: 2940546, governor: "Laura Kelly", party: "D", capital: "Topeka", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Kentucky": { population: 4526154, governor: "Andy Beshear", party: "D", capital: "Frankfort", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Louisiana": { population: 4573749, governor: "Jeff Landry", party: "R", capital: "Baton Rouge", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Maine": { population: 1395722, governor: "Janet Mills", party: "D", capital: "Augusta", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Maryland": { population: 6180177, governor: "Wes Moore", party: "D", capital: "Annapolis", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Massachusetts": { population: 7001399, governor: "Maura Healey", party: "D", capital: "Boston", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Michigan": { population: 10037261, governor: "Gretchen Whitmer", party: "D", capital: "Lansing", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Minnesota": { population: 5737915, governor: "Tim Walz", party: "D", capital: "Saint Paul", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Mississippi": { population: 2939690, governor: "Tate Reeves", party: "R", capital: "Jackson", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Missouri": { population: 6196156, governor: "Mike Parson", party: "R", capital: "Jefferson City", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Montana": { population: 1132812, governor: "Greg Gianforte", party: "R", capital: "Helena", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Nebraska": { population: 1978379, governor: "Jim Pillen", party: "R", capital: "Lincoln", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Nevada": { population: 3194176, governor: "Joe Lombardo", party: "R", capital: "Carson City", officials: {}, demographics: {}, notes: "Data Needed" },
+        "New Hampshire": { population: 1402054, governor: "Chris Sununu", party: "R", capital: "Concord", officials: {}, demographics: {}, notes: "Data Needed" },
+        "New Jersey": { population: 9290841, governor: "Phil Murphy", party: "D", capital: "Trenton", officials: {}, demographics: {}, notes: "Data Needed" },
+        "New Mexico": { population: 2114371, governor: "Michelle Lujan Grisham", party: "D", capital: "Santa Fe", officials: {}, demographics: {}, notes: "Data Needed" },
+        "New York": { population: 19571216, governor: "Kathy Hochul", party: "D", capital: "Albany", officials: { senators: ["Chuck Schumer", "Kirsten Gillibrand"] }, demographics: { median_income: 81386 }, notes: "Major operation zone" },
+        "North Carolina": { population: 10835491, governor: "Roy Cooper", party: "D", capital: "Raleigh", officials: {}, demographics: {}, notes: "Data Needed" },
+        "North Dakota": { population: 783926, governor: "Doug Burgum", party: "R", capital: "Bismarck", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Ohio": { population: 11785935, governor: "Mike DeWine", party: "R", capital: "Columbus", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Oklahoma": { population: 4053824, governor: "Kevin Stitt", party: "R", capital: "Oklahoma City", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Oregon": { population: 4233358, governor: "Tina Kotek", party: "D", capital: "Salem", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Pennsylvania": { population: 12961683, governor: "Josh Shapiro", party: "D", capital: "Harrisburg", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Rhode Island": { population: 1095962, governor: "Dan McKee", party: "D", capital: "Providence", officials: {}, demographics: {}, notes: "Data Needed" },
+        "South Carolina": { population: 5373555, governor: "Henry McMaster", party: "R", capital: "Columbia", officials: {}, demographics: {}, notes: "Data Needed" },
+        "South Dakota": { population: 919318, governor: "Kristi Noem", party: "R", capital: "Pierre", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Tennessee": { population: 7126489, governor: "Bill Lee", party: "R", capital: "Nashville", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Texas": { population: 30503301, governor: "Greg Abbott", party: "R", capital: "Austin", officials: { senators: ["John Cornyn", "Ted Cruz"] }, demographics: { median_income: 73035 }, notes: "Significant activity detected" },
+        "Utah": { population: 3417734, governor: "Spencer Cox", party: "R", capital: "Salt Lake City", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Vermont": { population: 647464, governor: "Phil Scott", party: "R", capital: "Montpelier", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Virginia": { population: 8715698, governor: "Glenn Youngkin", party: "R", capital: "Richmond", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Washington": { population: 7785786, governor: "Jay Inslee", party: "D", capital: "Olympia", officials: {}, demographics: {}, notes: "Data Needed" },
+        "West Virginia": { population: 1770071, governor: "Jim Justice", party: "R", capital: "Charleston", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Wisconsin": { population: 5910955, governor: "Tony Evers", party: "D", capital: "Madison", officials: {}, demographics: {}, notes: "Data Needed" },
+        "Wyoming": { population: 584057, governor: "Mark Gordon", party: "R", capital: "Cheyenne", officials: {}, demographics: {}, notes: "Data Needed" }
+    };
+
+    // Styling Function for States
+    function styleState(feature) {
+        const stateName = feature.properties.name;
+        const data = stateData[stateName];
+        let fillColor = '#555';
+
+        if (data && data.party) {
+            fillColor = data.party === 'R' ? '#b33030' : // Red for Republicans
+                        data.party === 'D' ? '#306b8e' : // Blue for Democrats
+                        '#555'; // Grey for others
+        } else if (data && data.externalHTML) {
+            fillColor = '#306b8e'; // Default to blue for California
+        }
+
+        return {
+            fillColor: fillColor,
+            weight: 1,
+            opacity: 1,
+            color: '#888',
+            fillOpacity: 0.65
+        };
+    }
+
+    // Interaction Functions
+    let geojsonLayer;
+    let lastClickedLayer = null;
+
+    async function showStateInfo(e) {
+        const layer = e.target;
+        const stateName = layer.feature.properties.name;
+        const data = stateData[stateName];
+
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+
+        modalTitle.textContent = `${stateName} :: Intel Dossier`;
+        modalBody.innerHTML = `<p>Loading intelligence data...</p>`;
+
+        document.getElementById('modal-overlay').style.display = 'block';
+        document.getElementById('info-modal').style.display = 'block';
+
+        // Highlight the state
+        if (lastClickedLayer && lastClickedLayer !== layer) {
+             geojsonLayer.resetStyle(lastClickedLayer);
+        }
+
+        layer.setStyle({
+            weight: 3,
+            color: '#FFA500',
+            dashArray: '',
+            fillOpacity: 0.8
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            layer.bringToFront();
+        }
+        lastClickedLayer = layer;
+
+        try {
+            if (data && data.externalHTML && stateName === "California") {
+                const response = await fetch('/states/california.html');
+                if (!response.ok) throw new Error('Failed to load California data');
+                modalBody.innerHTML = await response.text();
+            } else {
+                let htmlContent = `<h4>Asset Identifiers:</h4>`;
+                htmlContent += `<p><strong>Designation:</strong> ${stateName}</p>`;
+                htmlContent += `<p><strong>Capital:</strong> ${data.capital || 'Unknown'}</p>`;
+                htmlContent += `<p><strong>Affiliation Code:</strong> ${data.party || 'Undetermined'} (${data.party === 'R' ? 'Red' : data.party === 'D' ? 'Blue' : 'Grey'})</p>`;
+
+                htmlContent += `<h4>Population Analysis:</h4>`;
+                htmlContent += `<p><strong>Estimated Subjects:</strong> ${data.population ? data.population.toLocaleString() : 'Count Pending'}</p>`;
+
+                htmlContent += `<h4>Command Structure:</h4>`;
+                htmlContent += `<p><strong>Governor:</strong> ${data.governor || 'Identity Unconfirmed'} (${data.party || '?'})</p>`;
+                if (data.officials) {
+                    if(data.officials.lt_governor) htmlContent += `<p><strong>Lt. Governor:</strong> ${data.officials.lt_governor}</p>`;
+                    if(data.officials.senators && data.officials.senators.length > 0) htmlContent += `<p><strong>Senators (Federal):</strong> ${data.officials.senators.join(' | ')}</p>`;
+                }
+
+                htmlContent += `<h4>Socio-Economic Profile:</h4>`;
+                if (data.demographics) {
+                     if(data.demographics.median_income) htmlContent += `<p><strong>Median Income Estimate:</strong> $${data.demographics.median_income.toLocaleString()}</p>`;
+                     if(data.demographics.ethnic_breakdown) htmlContent += `<p><strong>Ethnic Composition:</strong> ${data.demographics.ethnic_breakdown}</p>`;
+                } else {
+                    htmlContent += `<p>Detailed demographic analysis pending...</p>`;
+                }
+
+                htmlContent += `<h4>Field Notes & Observations:</h4>`;
+                htmlContent += `<p>${data.notes || 'No specific intel recorded.'}</p>`;
+
+                modalBody.innerHTML = htmlContent;
+            }
+        } catch (error) {
+            console.error(`Error loading data for ${stateName}:`, error);
+            modalBody.innerHTML = `<p>Error loading data. Showing basic info...</p>
+                                 <p><strong>State:</strong> ${stateName}</p>
+                                 <p><strong>Capital:</strong> ${data.capital || 'Unknown'}</p>`;
+        }
+
+        L.DomEvent.stopPropagation(e);
+    }
+
+    function closeModal() {
+        document.getElementById('modal-overlay').style.display = 'none';
+        document.getElementById('info-modal').style.display = 'none';
+        if (lastClickedLayer) {
+            geojsonLayer.resetStyle(lastClickedLayer);
+            lastClickedLayer = null;
+        }
+    }
+
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('modal-overlay').addEventListener('click', closeModal);
+
+    function onEachFeature(feature, layer) {
+        layer.on({
+            click: showStateInfo
+        });
+    }
+
+    // Load GeoJSON Data
+    const geoJsonUrl = 'https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json';
+
+    fetch(geoJsonUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status} retrieving GeoJSON`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            geojsonLayer = L.geoJSON(data, {
+                style: styleState,
+                onEachFeature: onEachFeature,
+                filter: function(feature) {
+                     return typeof stateData[feature.properties.name] !== 'undefined';
+                 }
+            }).addTo(map);
+            console.log("GeoJSON feed acquired. Map operational.");
+        })
+        .catch(error => {
+            console.error('Critical Failure loading GeoJSON feed:', error);
+             document.getElementById('modal-title').textContent = "System Alert!";
+             document.getElementById('modal-body').innerHTML = `<p style="color: #ff4d4d; font-weight: bold;">MAP DATA CORRUPTED OR UNAVAILABLE.</p><p>Could not load state boundaries. Verify GeoJSON source (${geoJsonUrl}) and network connection.</p><p>Error detail: ${error}</p>`;
+             document.getElementById('modal-overlay').style.display = 'block';
+             document.getElementById('info-modal').style.display = 'block';
+        });
+</script>
+</body>
+</html>
