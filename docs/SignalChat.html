@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Houthi PC Small Group - Recreated Log</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Styles closer to the original screenshots (iOS/Telegram Light Theme) */
+        body {
+            background-color: #ffffff; color: #000000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .disclaimer {
+            background-color: #fffbeb; color: #92400e; padding: 10px 15px;
+            font-size: 0.8rem; text-align: center; border-bottom: 1px solid #fde68a;
+            margin-bottom: 15px;
+        }
+        .disclaimer a { color: #065f46; text-decoration: underline; }
+
+        .message-container {
+            display: flex; align-items: flex-start;
+            margin-bottom: 20px; /* Slightly reduced margin between messages */
+            padding: 0 10px;
+        }
+        .avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 500; color: white; margin-right: 10px;
+            flex-shrink: 0; font-size: 0.95rem;
+        }
+        .message-details {
+             flex-grow: 1; /* Allow details to take remaining space */
+        }
+        .sender-name {
+            font-weight: 600; color: #3478f6; font-size: 0.9rem;
+            margin-bottom: 3px; /* Space between name and bubble */
+        }
+        .message-bubble {
+            background-color: #e5e5ea; padding: 8px 12px; border-radius: 18px;
+            max-width: fit-content; /* Bubble size adjusts to content */
+            word-wrap: break-word;
+            /* Removed display: inline-block to allow block children */
+        }
+        .message-text {
+            /* Styles for the main text if needed, otherwise defaults are fine */
+            display: inline; /* Allow timestamp to potentially sit beside short text */
+        }
+        .message-meta {
+            display: inline-block; /* Keep inline but allow margins */
+            margin-left: 10px; /* Space between text and timestamp */
+            margin-top: 5px; /* Add space if it wraps below */
+            font-size: 0.7rem; color: #8e8e93; white-space: nowrap;
+            vertical-align: baseline; /* Align with text bottom */
+        }
+        .timestamp-icon { margin-left: 3px; font-size: 0.65rem; }
+
+        .system-message {
+            text-align: center; font-size: 0.75rem; color: #8e8e93;
+            margin: 20px auto; background-color: #f0f0f0; padding: 4px 8px;
+            border-radius: 10px; display: table;
+        }
+        .header {
+            background-color: #f7f7f7; padding: 10px 15px 15px 15px;
+            border-bottom: 1px solid #d1d1d6; text-align: center;
+            position: sticky; top: 0; z-index: 10;
+        }
+        .header-title { font-size: 1.05rem; font-weight: 600; color: #000000; }
+        .header-subtitle { font-size: 0.8rem; color: #8e8e93; }
+        .disappearing-notice { font-size: 0.75rem; color: #8e8e93; margin-top: 5px; }
+        .disappearing-icon { font-size: 0.7rem; margin-right: 4px; }
+
+        /* Avatar Colors */
+        .bg-avatar-m { background-color: #7857fe; } .bg-avatar-j { background-color: #007aff; }
+        .bg-avatar-t { background-color: #ff3b30; } .bg-avatar-s { background-color: #34c759; }
+        .bg-avatar-p { background-color: #ff9500; } .bg-avatar-d { background-color: #5ac8fa; }
+        .bg-avatar-w { background-color: #8e8e93; } .bg-avatar-a { background-color: #af52de; }
+        .bg-avatar-b { background-color: #5856d6; } .bg-avatar-jg { background-color: #ff9500; }
+        .bg-avatar-jr { background-color: #5ac8fa; } .bg-avatar-jk { background-color: #8e8e93; }
+        .bg-avatar-sb { background-color: #ffcc00; } .bg-avatar-wb { background-color: #ff2d55; }
+        .bg-avatar-sw { background-color: #4cd964; } .bg-avatar-sm { background-color: #ff9500; }
+        .bg-avatar-dk { background-color: #5ac8fa; }
+
+        /* Member List Styling */
+        .member-list-container { margin-top: 40px; padding: 20px 15px; border-top: 1px solid #d1d1d6; background-color: #f7f7f7; }
+        .member-list-title { font-size: 0.9rem; font-weight: 600; color: #8e8e93; margin-bottom: 15px; text-transform: uppercase; }
+        .member-list-item { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid #e5e5ea; }
+        .member-list-item:last-child { border-bottom: none; }
+        .member-name { font-size: 0.95rem; color: #000000; margin-left: 15px; }
+        .member-admin-tag { font-size: 0.8rem; color: #8e8e93; margin-left: auto; }
+
+        /* Source Images Section */
+        .source-images-section { padding: 20px 15px; margin-top: 30px; border-top: 2px solid #d1d1d6; background-color: #f9fafb; }
+        .source-images-section h3 { font-size: 1rem; font-weight: 600; margin-bottom: 10px; color: #374151; }
+        .source-images-section ul { list-style: disc; margin-left: 20px; }
+        .source-images-section li { font-size: 0.85rem; color: #6b7280; margin-bottom: 5px; }
+    </style>
+</head>
+<body class="pt-5">
+
+    <div class="disclaimer max-w-2xl mx-auto">
+        <i class="fas fa-info-circle mr-1"></i> This chat log was recreated from screenshots.
+        <a href="#source-images">See source images list below.</a>
+    </div>
+
+    <div class="header">
+        <div class="header-title">Houthi PC small group</div>
+        <div class="header-subtitle">19 members</div>
+        <div class="disappearing-notice">
+            <i class="fas fa-clock disappearing-icon"></i>Disappearing messages were set to 1 week
+        </div>
+    </div>
+
+    <div class="py-4 max-w-2xl mx-auto">
+
+        <!-- Image 10: Group Creation & Initial POCs -->
+        <div class="system-message">Yesterday</div>
+        <div class="system-message"><i class="fas fa-user-plus text-xs mr-1"></i>Michael Waltz added you to the group.</div>
+        <div class="system-message"><i class="fas fa-user-plus text-xs mr-1"></i>MAR added MAR.</div>
+
+        <!-- Message Structure Example -->
+        <div class="message-container">
+            <div class="avatar bg-avatar-m">M</div>
+            <div class="message-details">
+                 <div class="sender-name">Michael Waltz</div>
+                 <div class="message-bubble">
+                     <span class="message-text">
+                         Team- establishing a principles group for coordination on Houthis, particularly for over the next 72 hours. My deputy Alex Wong is pulling together a tiger team at deputies/agency Chief of Staff level following up from the meeting in the Sit Room this morning for action items and will be sending that out later this evening.
+                         <br><br>
+                         Pls provide the best staff POC from your team for us to coordinate with over the next couple days and over the weekend. Thx
+                     </span>
+                     <span class="message-meta">4:28 PM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+            <div class="avatar bg-avatar-m">M</div>
+             <div class="message-details">
+                <div class="sender-name">MAR</div>
+                <div class="message-bubble">
+                    <span class="message-text">Mike Needham for State</span>
+                    <span class="message-meta">4:29 PM <i class="far fa-clock timestamp-icon"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="message-container">
+            <div class="avatar bg-avatar-j">JV</div>
+             <div class="message-details">
+                <div class="sender-name">JD Vance</div>
+                <div class="message-bubble">
+                    <span class="message-text">Andy baker for VP</span>
+                    <span class="message-meta">4:29 PM <i class="far fa-clock timestamp-icon"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="message-container">
+            <div class="avatar bg-avatar-t">T</div>
+             <div class="message-details">
+                <div class="sender-name">TG</div>
+                <div class="message-bubble">
+                    <span class="message-text">Joe Kent for DNI</span>
+                    <span class="message-meta">4:30 PM <i class="far fa-clock timestamp-icon"></i></span>
+                </div>
+            </div>
+        </div>
+         <div class="message-container">
+            <div class="avatar bg-avatar-sb">SB</div>
+            <div class="message-details">
+                <div class="sender-name">Scott B</div>
+                 <div class="message-bubble">
+                    <span class="message-text">Dan Katz for Treasury</span>
+                    <span class="message-meta">4:39 PM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+            <div class="avatar bg-avatar-p">P</div>
+            <div class="message-details">
+                <div class="sender-name">Pete Hegseth</div>
+                 <div class="message-bubble">
+                    <span class="message-text">Dan Caldwell for DoD</span>
+                     <span class="message-meta">4:53 PM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+            <div class="avatar bg-avatar-b">B</div>
+            <div class="message-details">
+                <div class="sender-name">Brian</div>
+                 <div class="message-bubble">
+                    <span class="message-text">Brian McCormack for NSC</span>
+                     <span class="message-meta">6:34 PM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+
+        <div class="system-message">Today</div>
+
+        <!-- Image 9: Morning Strategy/Concerns (Part 1) -->
+        <div class="message-container">
+            <div class="avatar bg-avatar-m">M</div>
+            <div class="message-details">
+                <div class="sender-name">Michael Waltz</div>
+                 <div class="message-bubble">
+                     <span class="message-text">
+                         Team, you should have a statement of conclusions with taskings per the Presidents guidance this morning in your high side inboxes.
+                         <br><br>
+                         State and DOD, we developed suggested notification lists for regional Allies and partners.
+                         <br><br>
+                         Joint Staff is sending this am a more specific sequence of events in the coming days and we will work w DOD to ensure COS, OVP and POTUS are briefed.
+                     </span>
+                     <span class="message-meta">8:05 AM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+            <div class="avatar bg-avatar-j">JV</div>
+            <div class="message-details">
+                <div class="sender-name">JD Vance</div>
+                 <div class="message-bubble">
+                     <span class="message-text">
+                         Team, I am out for the day doing an economic event in Michigan. But I think we are making a mistake.
+                         <br><br>
+                         3 percent of US trade runs through the suez. 40 percent of European trade does. There is a real risk that the public doesn't understand this or why it's necessary.
+                         <br><br>
+                         The strongest reason to do this is, as POTUS said, to send a message. But I am not sure the president is aware how inconsistent this is with his message on Europe right now. There's a further risk that we see a moderate to severe spike in oil prices.
+                         <br><br>
+                         I am willing to support the consensus of the team and keep these concerns to myself. But there is a strong argument for delaying this a month, doing the messaging work on why this matters, seeing where the economy is, etc.
+                     </span>
+                     <span class="message-meta">8:16 AM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+
+        <!-- Image 7: Morning Strategy/Concerns (Part 2) -->
+        <div class="message-container">
+            <div class="avatar bg-avatar-jk">JK</div>
+            <div class="message-details">
+                <div class="sender-name">Joe Kent</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        There is nothing time sensitive driving the time line. We'll have the exact same options in a month.
+                        <br><br>
+                        The Israelis will likely take strikes & therefore ask us for more support to replenish whatever they use against the Houthis. But that's a minor factor.
+                        <br><br>
+                        I will send you the unclass data we pulled on BAM shipping.
+                    </span>
+                     <span class="message-meta">8:22 AM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+            <div class="avatar bg-avatar-jr">JR</div>
+            <div class="message-details">
+                <div class="sender-name">John Ratcliffe</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        From CIA perspective, we are mobilizing assets to support now but a delay would not negatively impact us and additional time would be used to identify better starting points for coverage on Houthi leadership
+                    </span>
+                     <span class="message-meta">8:26 AM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+            <div class="avatar bg-avatar-p">P</div>
+            <div class="message-details">
+                <div class="sender-name">Pete Hegseth</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        VP:
+                        <br>
+                        I understand your concerns — and fully support you raising w/ POTUS. Important considerations, most of which are tough to know how they play out (economy, Ukraine peace, Gaza, etc). I think messaging is going to be tough no matter what — nobody knows who the Houthis are — which is why we would need to stay focused on: 1) Biden failed & 2) Iran funded.
+                        <br><br>
+                        Waiting a few weeks or a month does not fundamentally change the calculus. 2 immediate risks on waiting: 1) this leaks, and we look indecisive; 2) Israel takes an action first — or Gaza cease fire falls apart — and we don’t get to start this on our own terms. We can manage both.
+                        <br><br>
+                        We are prepared to execute, and if I had final go or no go vote, I believe we should. This not about the Houthis. I see it as two things: 1) Restoring Freedom of Nav(igation), a core national interest; and 2) Reestablish deterrence, which Biden cratered.
+                    </span>
+                     <span class="message-meta">Today <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+             </div>
+        </div>
+
+        <!-- Image 8 & 6: Morning Strategy/Concerns (Part 3 - Euro focus) -->
+        <div class="message-container">
+             <div class="avatar bg-avatar-m">M</div>
+             <div class="message-details">
+                <div class="sender-name">Michael Waltz</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        But, we can easily pause. And if we do, I will do all we can to enforce 100% OPSEC. I welcome other thoughts.
+                    </span>
+                     <span class="message-meta">8:27 AM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+             <div class="avatar bg-avatar-m">M</div>
+             <div class="message-details">
+                <div class="sender-name">Michael Waltz</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        The trade figures we have are 15% of global and 30% of container. It's difficult to break that down to US. Specific because much of the container either going through the red sea still or around the Cape of Good Hope our components going to Europe that turns into manufactured goods for transatlantic trade to the United States.
+                        <br><br>
+                        Whether we pull the plug or not today European navies do not have the capability to defend against the types of sophisticated, antiship, cruise missiles, and drones the Houthis are now using. So whether it's now or several weeks from now, it will have to be the United States that reopens these shipping lanes. Per the president's request we are working with DOD and State to determine how to compile the cost associated and levy them on the Europeans.
+                    </span>
+                     <span class="message-meta">8:32 AM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="system-message"><i class="fas fa-user-plus text-xs mr-1"></i>Michael Waltz added S M.</div>
+        <div class="message-container">
+             <div class="avatar bg-avatar-m">M</div>
+             <div class="message-details">
+                <div class="sender-name">Michael Waltz</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        As we stated in the in the first PC we have a fundamental decision of allowing the sea lanes to remain closed or to re-open them now or later, we are the only ones with the capability unfortunately.
+                        <br><br>
+                        From a messaging standpoint we absolutely ad this to of horribles on why the Europeans must invest in their defense.
+                    </span>
+                     <span class="message-meta">8:42 AM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+
+        <!-- Image 5: Morning Strategy/Concerns (Part 4 - Euro cost/Messaging) -->
+        <div class="message-container">
+            <div class="avatar bg-avatar-j">JV</div>
+            <div class="message-details">
+                <div class="sender-name">JD Vance</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        @Pete Hegseth if you think we should do it let's go.
+                        <br><br>
+                        I just hate bailing Europe out again.
+                    </span>
+                    <span class="message-meta">8:45 AM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+            <div class="avatar bg-avatar-j">JV</div>
+            <div class="message-details">
+                <div class="sender-name">JD Vance</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        Let's just make sure our messaging is tight here. And if there are things we can do upfront to minimize risk to Saudi oil facilities we should do it.
+                    </span>
+                     <span class="message-meta">8:46 AM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+             <div class="avatar bg-avatar-p">P</div>
+             <div class="message-details">
+                <div class="sender-name">Pete Hegseth</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        VP: I fully share your loathing of European free-loading. It's PATHETIC.
+                        <br><br>
+                        But Mike is correct, we are the only ones on the planet (on our side of the ledger) who can do this. Nobody else even close. Question is timing. I feel like now is as good a time as any, given POTUS directive to reopen shipping lanes. I think we should go; but POTUS still retains 24 hours of decision space.
+                    </span>
+                     <span class="message-meta">8:49 AM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+            <div class="avatar bg-avatar-sm">SM</div>
+            <div class="message-details">
+                <div class="sender-name">S M</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        As I heard it, the president was clear: green light, but we soon make clear to Egypt and Europe what we expect in return. We also need to figure out how to enforce such a requirement. EG, if Europe doesn't remunerate, then what? If the US successfully restores freedom of navigation at great cost there needs to be some further economic gain extracted in return.
+                    </span>
+                     <span class="message-meta">9:35 AM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+         <div class="message-container">
+             <div class="avatar bg-avatar-p">P</div>
+             <div class="message-details">
+                <div class="sender-name">Pete Hegseth</div>
+                 <div class="message-bubble">
+                    <span class="message-text">Agree</span>
+                     <span class="message-meta">9:46 AM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+
+        <!-- Image 4: Operational Timeline -->
+        <div class="message-container">
+             <div class="avatar bg-avatar-p">P</div>
+             <div class="message-details">
+                <div class="sender-name">Pete Hegseth</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        TEAM UPDATE:
+                        <br><br>
+                        TIME NOW (1144et): Weather is FAVORABLE. Just CONFIRMED w/ CENTCOM we are a GO for mission launch.
+                        <br><br>
+                        1215et: F-18s LAUNCH (1st strike package)
+                        <br><br>
+                        1345: “Trigger Based” F-18 1st Strike Window Starts (Target Terrorist is @ his Known Location so SHOULD BE ON TIME) — also, Strike Drones Launch (MQ-9s)
+                        <br><br>
+                        1410: More F-18s LAUNCH (2nd strike package)
+                        <br><br>
+                        1415: Strike Drones on Target (THIS IS WHEN THE FIRST BOMBS WILL DEFINITELY DROP, pending earlier “Trigger Based” targets)
+                        <br><br>
+                        1536: F-18 2nd Strike Starts — also, first sea-based Tomahawks launched.
+                        <br><br>
+                        MORE TO FOLLOW (per timeline)
+                        <br><br>
+                        We are currently clean on OPSEC.
+                        <br><br>
+                        Godspeed to our Warriors.
+                    </span>
+                    <span class="message-meta">19m <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+         <div class="message-container">
+            <div class="avatar bg-avatar-j">JV</div>
+            <div class="message-details">
+                <div class="sender-name">JD Vance</div>
+                 <div class="message-bubble">
+                    <span class="message-text">I will say a prayer for victory 🙏<span class="text-yellow-400">🕯️</span>2️⃣</span>
+                    <span class="message-meta">12:13 PM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+
+        <!-- Image 3: Post-Strike Updates & Congrats -->
+        <div class="message-container">
+             <div class="avatar bg-avatar-m">M</div>
+             <div class="message-details">
+                <div class="sender-name">Michael Waltz</div>
+                 <div class="message-bubble">
+                    <span class="message-text">👊🇺🇸🔥</span>
+                     <span class="message-meta">30m <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+             <div class="avatar bg-avatar-m">M</div>
+             <div class="message-details">
+                <div class="sender-name">Michael Waltz</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        VP. building collapsed. Had multiple positive ID. Pete, Kurilla, the IC, amazing job.
+                    </span>
+                    <span class="message-meta">17m <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+             </div>
+        </div>
+         <div class="message-container">
+            <div class="avatar bg-avatar-j">JV</div>
+            <div class="message-details">
+                <div class="sender-name">JD Vance</div>
+                 <div class="message-bubble">
+                    <span class="message-text">What?</span>
+                     <span class="message-meta">12m <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+             <div class="avatar bg-avatar-m">M</div>
+             <div class="message-details">
+                <div class="sender-name">Michael Waltz</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        Typing too fast. The first target - their top missile guy - we had positive ID of him walking into his girlfriend's building and it's now collapsed.
+                    </span>
+                     <span class="message-meta">5m <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+            <div class="avatar bg-avatar-j">JV</div>
+            <div class="message-details">
+                <div class="sender-name">JD Vance</div>
+                 <div class="message-bubble">
+                    <span class="message-text">Excellent</span>
+                    <span class="message-meta">5m <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+            <div class="avatar bg-avatar-m">M</div>
+            <div class="message-details">
+                <div class="sender-name">MAR</div>
+                 <div class="message-bubble">
+                    <span class="message-text">Good Job Pete and your team!!</span>
+                     <span class="message-meta">5:14 PM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+             <div class="avatar bg-avatar-m">M</div>
+             <div class="message-details">
+                <div class="sender-name">Michael Waltz</div>
+                 <div class="message-bubble">
+                    <span class="message-text">The team in MAL did a great job as well.</span>
+                    <span class="message-meta">5:15 PM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+         <div class="message-container">
+            <div class="avatar bg-avatar-sm">SM</div>
+            <div class="message-details">
+                <div class="sender-name">S M</div>
+                 <div class="message-bubble">
+                    <span class="message-text">Great work all. Powerful start.</span>
+                     <span class="message-meta">5:18 PM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+             <div class="avatar bg-avatar-p">P</div>
+             <div class="message-details">
+                <div class="sender-name">Pete Hegseth</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        CENTCOM was/is on point. Great job all. More strikes ongoing for hours tonight, and will provide full initial report tomorrow. But on time, on target, and good readouts so far.
+                    </span>
+                    <span class="message-meta">5:20 PM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+         <div class="message-container">
+            <div class="avatar bg-avatar-s">S</div>
+            <div class="message-details">
+                <div class="sender-name">Susie Wiles</div>
+                 <div class="message-bubble">
+                    <span class="message-text">
+                        Kudos to all - most particularly those in theater and CENTCOM!
+                        <br>
+                        Really great. God bless.
+                    </span>
+                    <span class="message-meta">5:21 PM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+
+        <!-- Image 1: Later Congrats -->
+        <div class="message-container">
+             <div class="avatar bg-avatar-sw">SW</div>
+             <div class="message-details">
+                <div class="sender-name">Steve Witkoff</div>
+                 <div class="message-bubble">
+                    <span class="message-text">🙏🙏🙏💪🇺🇸🇺🇸</span>
+                     <span class="message-meta">5:47 PM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+        <div class="message-container">
+             <div class="avatar bg-avatar-t">T</div>
+             <div class="message-details">
+                <div class="sender-name">TG</div>
+                 <div class="message-bubble">
+                    <span class="message-text">Great work and effects!</span>
+                    <span class="message-meta">6:35 PM <i class="far fa-clock timestamp-icon"></i></span>
+                 </div>
+            </div>
+        </div>
+
+    </div> <!-- End Chat Message Area -->
+
+    <!-- Member List Section -->
+    <div class="member-list-container max-w-2xl mx-auto">
+        <div class="member-list-title">Members</div>
+        <div class="member-list-item"><div class="avatar bg-avatar-jg">JG</div><span class="member-name">You</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-m">M</div><span class="member-name">Michael Waltz</span><span class="member-admin-tag">Admin</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-sb">SB</div><span class="member-name">Scott B</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-wb">WB</div><span class="member-name">Walker Barrett</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-b">B</div><span class="member-name">Brian</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-b">B</div><span class="member-name">Brian</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-p">P</div><span class="member-name">Pete Hegseth</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-j">J</div><span class="member-name">Jacob</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-dk">DK</div><span class="member-name">Dan Katz</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-jk">JK</div><span class="member-name">Joe Kent</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-sm">SM</div><span class="member-name">S M</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-m">M</div><span class="member-name">MAR</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-m">M</div><span class="member-name">MAR</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-m">M</div><span class="member-name">Mike Needham</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-jr">JR</div><span class="member-name">John Ratcliffe</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-s">S</div><span class="member-name">Susie Wiles</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-t">T</div><span class="member-name">TG</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-j">JV</div><span class="member-name">JD Vance</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-sw">SW</div><span class="member-name">Steve Witkoff</span></div>
+        <div class="member-list-item"><div class="avatar bg-avatar-a">AW</div><span class="member-name">Alex Wong</span></div>
+    </div>
+
+<!-- Simple Image Grid -->
+<div id="source-images" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+    <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Source Images</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;">
+        <div style="text-align: center;">
+            <img src="Chat01.jpg" alt="Chat01" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+            <div style="margin-top: 5px; font-size: 0.9em;">Chat01.jpg</div>
+        </div>
+        <div style="text-align: center;">
+            <img src="Chat02.jpg" alt="Chat02" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+            <div style="margin-top: 5px; font-size: 0.9em;">Chat02.jpg</div>
+        </div>
+        <div style="text-align: center;">
+            <img src="Chat03.jpg" alt="Chat03" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+            <div style="margin-top: 5px; font-size: 0.9em;">Chat03.jpg</div>
+        </div>
+        <div style="text-align: center;">
+            <img src="Chat04.jpg" alt="Chat04" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+            <div style="margin-top: 5px; font-size: 0.9em;">Chat04.jpg</div>
+        </div>
+        <div style="text-align: center;">
+            <img src="Chat05.jpg" alt="Chat05" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+            <div style="margin-top: 5px; font-size: 0.9em;">Chat05.jpg</div>
+        </div>
+        <div style="text-align: center;">
+            <img src="Chat06.jpg" alt="Chat06" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+            <div style="margin-top: 5px; font-size: 0.9em;">Chat06.jpg</div>
+        </div>
+        <div style="text-align: center;">
+            <img src="Chat07.jpg" alt="Chat07" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+            <div style="margin-top: 5px; font-size: 0.9em;">Chat07.jpg</div>
+        </div>
+        <div style="text-align: center;">
+            <img src="Chat08.jpg" alt="Chat08" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+            <div style="margin-top: 5px; font-size: 0.9em;">Chat08.jpg</div>
+        </div>
+        <div style="text-align: center;">
+            <img src="Chat09.jpg" alt="Chat09" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+            <div style="margin-top: 5px; font-size: 0.9em;">Chat09.jpg</div>
+        </div>
+        <div style="text-align: center;">
+            <img src="Chat10.jpg" alt="Chat10" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+            <div style="margin-top: 5px; font-size: 0.9em;">Chat10.jpg</div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
