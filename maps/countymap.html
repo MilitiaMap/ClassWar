@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>US County Map (Low Res)</title>
+    <title>US County Map (Local Data)</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -38,22 +38,31 @@
     // 2. Add a base tile layer (e.g., OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | County Data: <a href="https://eric.clst.org/tech/usgeojson/">Eric Celeste/US Census Bureau (2010, 20m)</a>'
+        // Updated attribution slightly as data is now local, but source is the same
+        attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | County Data: US Census Bureau (2010, 20m, via eric.clst.org)'
     }).addTo(map);
 
-    // 3. Define the URL for the lowest resolution county GeoJSON data from Eric Celeste's page
-    const countyDataUrl = 'https://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_050_00_20m.json';
+    // 3. Define the RELATIVE URL for the local county GeoJSON data
+    //    Assumes 'json' folder is in the SAME directory as this HTML file.
+    const countyDataUrl = 'json/CountyData.json'; // <-- CHANGED PATH
 
     // 4. Fetch the GeoJSON data and add it to the map
-    fetch(countyDataUrl)
+    fetch(countyDataUrl) // <-- Uses the local path now
         .then(response => {
             if (!response.ok) {
+                // Check for 404 specifically for local files
+                if (response.status === 404) {
+                     throw new Error(`File not found at ${countyDataUrl}. Check path and filename.`);
+                }
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            // Check content type - sometimes servers send JSON as text/plain
+             // Check content type - important even for local files
              const contentType = response.headers.get("content-type");
-             if (!contentType || !contentType.includes("application/json")) {
-                 console.warn(`Received content-type "${contentType}". Attempting to parse as JSON anyway.`);
+             // Browsers might serve local .json as empty/null or application/octet-stream sometimes
+             if (contentType && !contentType.includes("application/json")) {
+                 console.warn(`Received content-type "${contentType}" for local file. Attempting to parse as JSON anyway.`);
+             } else if (!contentType) {
+                 console.warn(`Could not determine content-type for local file. Attempting to parse as JSON anyway.`);
              }
             return response.json(); // Parse the response body as JSON
         })
@@ -99,11 +108,11 @@
         .catch(error => {
             // Handle errors during fetch or parsing
             console.error('Error loading or parsing county GeoJSON:', error);
-            alert(`Failed to load county data from ${countyDataUrl}. See console for details.\nPossible issues: Data source offline, CORS policy, or data format error.`);
-            // Check for potential CORS issues if running locally
+            alert(`Failed to load county data from ${countyDataUrl}. See console for details.\nPossible issues: File path incorrect, file is not valid JSON, or browser security restrictions (try using a local web server).`);
+            // Check for potential CORS/security issues if running locally via file://
              if (window.location.protocol === 'file:') {
-                console.warn("Loading local HTML files (file://) that fetch remote data (https://) might be blocked by your browser's CORS policy. Try running a simple local web server.");
-            }
+                console.warn("Loading local files (file://) with fetch() can be restricted by browser security policies. Running a simple local web server is recommended for development.");
+             }
         });
 
 </script>
