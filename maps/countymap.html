@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>US County Map (Low Res)</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            height: 100%; /* Make map fill the body */
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script>
+    // 1. Initialize the map and set its view to the approximate center of the US
+    var map = L.map('map').setView([39.8283, -98.5795], 4); // Center of US, zoom level 4
+
+    // 2. Add a base tile layer (e.g., OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | County Data: <a href="https://eric.clst.org/tech/usgeojson/">Eric Celeste/US Census Bureau (2010, 20m)</a>'
+    }).addTo(map);
+
+    // 3. Define the URL for the lowest resolution county GeoJSON data from Eric Celeste's page
+    const countyDataUrl = 'https://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_050_00_20m.json';
+
+    // 4. Fetch the GeoJSON data and add it to the map
+    fetch(countyDataUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            // Check content type - sometimes servers send JSON as text/plain
+             const contentType = response.headers.get("content-type");
+             if (!contentType || !contentType.includes("application/json")) {
+                 console.warn(`Received content-type "${contentType}". Attempting to parse as JSON anyway.`);
+             }
+            return response.json(); // Parse the response body as JSON
+        })
+        .then(data => {
+            // Successfully fetched and parsed the data
+            console.log("County GeoJSON data loaded:", data);
+
+            // Add the GeoJSON layer to the map
+            L.geoJSON(data, {
+                style: function(feature) {
+                    // Style the county polygons
+                    return {
+                        color: "#007bff", // Outline color (blue)
+                        weight: 1,       // Outline width
+                        opacity: 0.6,    // Outline opacity
+                        fillColor: "#f0f8ff", // Fill color (aliceblue)
+                        fillOpacity: 0.1 // Fill opacity (mostly transparent)
+                    };
+                },
+                onEachFeature: function(feature, layer) {
+                    // Add a popup to each county feature
+                    if (feature.properties) {
+                        let popupContent = "<b>County Info</b><br>";
+                        // Common properties in Census GeoJSON files
+                        if (feature.properties.NAME) {
+                            popupContent += `Name: ${feature.properties.NAME}<br>`;
+                        }
+                        if (feature.properties.STATE) { // Might be STATEFP or similar
+                             popupContent += `State FIPS: ${feature.properties.STATE}<br>`;
+                        }
+                        if (feature.properties.COUNTY) { // Might be COUNTYFP or similar
+                             popupContent += `County FIPS: ${feature.properties.COUNTY}<br>`;
+                        }
+                         if (feature.properties.GEO_ID) {
+                             popupContent += `GEO ID: ${feature.properties.GEO_ID}<br>`;
+                         }
+                        // Add more properties if needed by inspecting the GeoJSON file
+                        layer.bindPopup(popupContent);
+                    }
+                }
+            }).addTo(map);
+        })
+        .catch(error => {
+            // Handle errors during fetch or parsing
+            console.error('Error loading or parsing county GeoJSON:', error);
+            alert(`Failed to load county data from ${countyDataUrl}. See console for details.\nPossible issues: Data source offline, CORS policy, or data format error.`);
+            // Check for potential CORS issues if running locally
+             if (window.location.protocol === 'file:') {
+                console.warn("Loading local HTML files (file://) that fetch remote data (https://) might be blocked by your browser's CORS policy. Try running a simple local web server.");
+            }
+        });
+
+</script>
+
+</body>
+</html>
