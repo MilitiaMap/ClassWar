@@ -96,7 +96,7 @@
             padding: 20px;
             overflow-y: auto;
             max-height: calc(80vh - 50px);
-            padding-bottom: 40px;
+            padding-bottom: 40px; /* Added padding to prevent cutoff */
         }
 
         #modal-body h4 {
@@ -162,87 +162,92 @@
         maxZoom: 19
     }).addTo(map);
 
-    // State Data Object with party affiliations and swing status
+    // Swing states list
+    const swingStates = new Set([
+        "Arizona",
+        "Georgia",
+        "Michigan",
+        "Nevada",
+        "North Carolina",
+        "Pennsylvania",
+        "Wisconsin"
+    ]);
+
+    // State Data Object with party affiliations
     const stateData = {
-        "Alabama": { externalHTML: true, party: "R", swing: false },
-        "Alaska": { externalHTML: true, party: "R", swing: false },
-        "Arizona": { externalHTML: true, party: "D", swing: true },
-        "Arkansas": { externalHTML: true, party: "R", swing: false },
-        "California": { externalHTML: true, party: "D", swing: false },
-        "Colorado": { externalHTML: true, party: "D", swing: false },
-        "Connecticut": { externalHTML: true, party: "D", swing: false },
-        "Delaware": { externalHTML: true, party: "D", swing: false },
-        "District of Columbia": { externalHTML: true, party: "D", swing: false },
-        "Florida": { externalHTML: true, party: "R", swing: true },
-        "Georgia": { externalHTML: true, party: "D", swing: true },
-        "Hawaii": { externalHTML: true, party: "D", swing: false },
-        "Idaho": { externalHTML: true, party: "R", swing: false },
-        "Illinois": { externalHTML: true, party: "D", swing: false },
-        "Indiana": { externalHTML: true, party: "R", swing: false },
-        "Iowa": { externalHTML: true, party: "R", swing: true },
-        "Kansas": { externalHTML: true, party: "R", swing: false },
-        "Kentucky": { externalHTML: true, party: "R", swing: false },
-        "Louisiana": { externalHTML: true, party: "R", swing: false },
-        "Maine": { externalHTML: true, party: "D", swing: false },
-        "Maryland": { externalHTML: true, party: "D", swing: false },
-        "Massachusetts": { externalHTML: true, party: "D", swing: false },
-        "Michigan": { externalHTML: true, party: "D", swing: true },
-        "Minnesota": { externalHTML: true, party: "D", swing: true },
-        "Mississippi": { externalHTML: true, party: "R", swing: false },
-        "Missouri": { externalHTML: true, party: "R", swing: false },
-        "Montana": { externalHTML: true, party: "R", swing: false },
-        "Nebraska": { externalHTML: true, party: "R", swing: false },
-        "Nevada": { externalHTML: true, party: "D", swing: true },
-        "New Hampshire": { externalHTML: true, party: "D", swing: true },
-        "New Jersey": { externalHTML: true, party: "D", swing: false },
-        "New Mexico": { externalHTML: true, party: "D", swing: false },
-        "New York": { externalHTML: true, party: "D", swing: false },
-        "North Carolina": { externalHTML: true, party: "D", swing: true },
-        "North Dakota": { externalHTML: true, party: "R", swing: false },
-        "Ohio": { externalHTML: true, party: "R", swing: true },
-        "Oklahoma": { externalHTML: true, party: "R", swing: false },
-        "Oregon": { externalHTML: true, party: "D", swing: false },
-        "Pennsylvania": { externalHTML: true, party: "D", swing: true },
-        "Rhode Island": { externalHTML: true, party: "D", swing: false },
-        "South Carolina": { externalHTML: true, party: "R", swing: false },
-        "South Dakota": { externalHTML: true, party: "R", swing: false },
-        "Tennessee": { externalHTML: true, party: "R", swing: false },
-        "Texas": { externalHTML: true, party: "R", swing: true },
-        "Utah": { externalHTML: true, party: "R", swing: false },
-        "Vermont": { externalHTML: true, party: "D", swing: false },
-        "Virginia": { externalHTML: true, party: "D", swing: false },
-        "Washington": { externalHTML: true, party: "D", swing: false },
-        "West Virginia": { externalHTML: true, party: "R", swing: false },
-        "Wisconsin": { externalHTML: true, party: "D", swing: true },
-        "Wyoming": { externalHTML: true, party: "R", swing: false }
+        "Alabama": { externalHTML: true, party: "R" },
+        "Alaska": { externalHTML: true, party: "R" },
+        "Arizona": { externalHTML: true, party: "D" },
+        "Arkansas": { externalHTML: true, party: "R" },
+        "California": { externalHTML: true, party: "D" },
+        "Colorado": { externalHTML: true, party: "D" },
+        "Connecticut": { externalHTML: true, party: "D" },
+        "Delaware": { externalHTML: true, party: "D" },
+        "District of Columbia": { externalHTML: true, party: "D" },
+        "Florida": { externalHTML: true, party: "R" },
+        "Georgia": { externalHTML: true, party: "R" },
+        "Hawaii": { externalHTML: true, party: "D" },
+        "Idaho": { externalHTML: true, party: "R" },
+        "Illinois": { externalHTML: true, party: "D" },
+        "Indiana": { externalHTML: true, party: "R" },
+        "Iowa": { externalHTML: true, party: "R" },
+        "Kansas": { externalHTML: true, party: "R" },
+        "Kentucky": { externalHTML: true, party: "R" },
+        "Louisiana": { externalHTML: true, party: "R" },
+        "Maine": { externalHTML: true, party: "D" },
+        "Maryland": { externalHTML: true, party: "D" },
+        "Massachusetts": { externalHTML: true, party: "D" },
+        "Michigan": { externalHTML: true, party: "D" },
+        "Minnesota": { externalHTML: true, party: "D" },
+        "Mississippi": { externalHTML: true, party: "R" },
+        "Missouri": { externalHTML: true, party: "R" },
+        "Montana": { externalHTML: true, party: "R" },
+        "Nebraska": { externalHTML: true, party: "R" },
+        "Nevada": { externalHTML: true, party: "D" },
+        "New Hampshire": { externalHTML: true, party: "D" },
+        "New Jersey": { externalHTML: true, party: "D" },
+        "New Mexico": { externalHTML: true, party: "D" },
+        "New York": { externalHTML: true, party: "D" },
+        "North Carolina": { externalHTML: true, party: "D" },
+        "North Dakota": { externalHTML: true, party: "R" },
+        "Ohio": { externalHTML: true, party: "R" },
+        "Oklahoma": { externalHTML: true, party: "R" },
+        "Oregon": { externalHTML: true, party: "D" },
+        "Pennsylvania": { externalHTML: true, party: "D" },
+        "Rhode Island": { externalHTML: true, party: "D" },
+        "South Carolina": { externalHTML: true, party: "R" },
+        "South Dakota": { externalHTML: true, party: "R" },
+        "Tennessee": { externalHTML: true, party: "R" },
+        "Texas": { externalHTML: true, party: "R" },
+        "Utah": { externalHTML: true, party: "R" },
+        "Vermont": { externalHTML: true, party: "D" },
+        "Virginia": { externalHTML: true, party: "D" },
+        "Washington": { externalHTML: true, party: "D" },
+        "West Virginia": { externalHTML: true, party: "R" },
+        "Wisconsin": { externalHTML: true, party: "D" },
+        "Wyoming": { externalHTML: true, party: "R" }
     };
 
-    // Styling Function for States with party colors and swing state indication
+    // Styling Function for States with party colors and swing states in purple
     function styleState(feature) {
         const stateName = feature.properties.name;
         const data = stateData[stateName];
         let fillColor = '#555';
-        let dashArray = null;
 
-        if (data) {
-            if (data.swing) {
-                // Purple gradient for swing states
-                fillColor = '#7d4a8a'; 
-                dashArray = '5, 5';
-            } else {
-                fillColor = data.party === 'R' ? '#b33030' : // Red for Republicans
-                           data.party === 'D' ? '#306b8e' : // Blue for Democrats
-                           '#555'; // Grey for others
-            }
+        if (swingStates.has(stateName)) {
+            fillColor = '#8a2be2'; // Purple for swing states
+        } else if (data && data.party) {
+            fillColor = data.party === 'R' ? '#b33030' : // Red for Republicans
+                        data.party === 'D' ? '#306b8e' : // Blue for Democrats
+                        '#555'; // Grey for others
         }
 
         return {
             fillColor: fillColor,
             weight: 1,
             opacity: 1,
-            color: data && data.swing ? '#b07fb9' : '#888', // Lighter purple border for swing states
-            dashArray: dashArray,
-            fillOpacity: 0.7
+            color: '#888',
+            fillOpacity: 0.65
         };
     }
 
@@ -282,6 +287,7 @@
         lastClickedLayer = layer;
 
         try {
+            // Convert state name to lowercase with hyphens for filename
             const filename = stateName.toLowerCase().replace(/\s+/g, '-') + '.html';
             const response = await fetch(`states/${filename}`);
             
@@ -289,6 +295,7 @@
                 throw new Error(`Failed to load ${stateName} data`);
             }
             let htmlContent = await response.text();
+            // Add padding breaks to ensure content isn't cut off
             htmlContent += '<br><br>';
             modalBody.innerHTML = htmlContent;
         } catch (error) {
@@ -297,7 +304,7 @@
                 <p style="color: #ff4d4d;">Failed to load intelligence data for ${stateName}.</p>
                 <p>Error: ${error.message}</p>
                 <p>Please ensure the file exists at: states/${stateName.toLowerCase().replace(/\s+/g, '-')}.html</p>
-                <br><br>
+                <br><br> <!-- Added padding here too -->
             `;
         }
 
