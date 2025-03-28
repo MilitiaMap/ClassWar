@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -122,7 +121,7 @@
             padding-bottom: 0.75rem;
             margin-bottom: 1.5rem;
             text-transform: uppercase;
-            display: flex;
+            display: flex; /* Needed for icon alignment and button positioning */
             align-items: center;
             gap: 0.75rem;
         }
@@ -369,6 +368,60 @@
               background-color: rgba(255, 255, 255, 0.2);
           }
 
+        /* --- Map Card --- */
+        .map-card {
+            /* Can span columns if desired, e.g., grid-column: span 2; */
+            /* Let's make it span 2 columns by default */
+            grid-column: 1 / -1; /* Span full width of the available grid columns */
+        }
+
+        .map-iframe-container {
+            width: 100%;
+             /* Use aspect-ratio for responsive height, or set a fixed height */
+             /* aspect-ratio: 16 / 9; */
+            height: 500px; /* Or adjust this fixed height as needed */
+            overflow: hidden; /* Hide potential scrollbars on container */
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            margin-top: -0.5rem; /* Pull closer to title like player */
+        }
+
+        .map-iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none; /* Remove iframe default border */
+            display: block; /* Remove potential bottom space */
+        }
+
+        .map-link-button {
+            margin-left: auto; /* Push button to the right */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-item-hover);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+            line-height: 1;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+            text-decoration: none; /* Override default link underline */
+            font-family: var(--font-body); /* Ensure consistent font */
+            cursor: pointer;
+        }
+        .map-link-button:hover {
+            background-color: var(--accent);
+            color: var(--bg-main);
+            border-color: var(--accent-hover);
+            text-decoration: none;
+        }
+        .map-link-button i {
+             font-size: 0.9em;
+             margin-left: 0.4em; /* Space between text and icon */
+        }
+
+
         /* --- Agafonkin Card (Special Styling) --- */
         .dedication-card blockquote {
             border-left: 3px solid var(--accent);
@@ -393,6 +446,24 @@
             font-family: var(--font-mono);
         }
 
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 768px) {
+            .map-card {
+                grid-column: auto; /* Revert to default single column flow */
+            }
+            .map-iframe-container {
+                height: 400px; /* Adjust height for smaller screens */
+            }
+            .card-title {
+                font-size: 1.1rem; /* Slightly smaller title on mobile */
+            }
+             .map-link-button {
+                 font-size: 0.75rem;
+                 padding: 0.25rem 0.5rem;
+            }
+        }
+
+
     </style>
 </head>
 <body>
@@ -413,6 +484,25 @@
         -->
 
         <div class="grid-layout">
+
+             <!-- === MAP CARD === -->
+             <div class="info-card map-card">
+                 <h2 class="card-title">
+                    <i class="fas fa-map-marked-alt"></i> Area Overview
+                    <a href="/maps/MainMap.html" target="_blank" class="map-link-button" title="Open Full Map">
+                        Full Map <i class="fas fa-external-link-alt"></i>
+                    </a>
+                 </h2>
+                 <div class="map-iframe-container">
+                    <iframe
+                        src="/maps/MainMap.html"
+                        title="Embedded Interactive Map"
+                        loading="lazy"
+                    ></iframe>
+                 </div>
+             </div>
+            <!-- === END MAP CARD === -->
+
 
             <!-- === AUDIO PLAYER CARD === -->
             <!-- ADD 'audio-player-card' class -->
@@ -451,14 +541,7 @@
 
                     <!-- 4. Playlist -->
                     <ul class="player-playlist" id="player-playlist">
-                        <!--
-                        EASY UPDATE AREA: AUDIO
-                        Copy and paste the <li...> block below for each new track.
-                        - Update data-src="path/to/your/audiofile.mp3"
-                        - Update the <a> href="path/to/your/audiofile.mp3"
-                        - Update the download="Desired Filename.mp3"
-                        - Update the text inside <span class="playlist-item-title">Your Track Title</span>
-                        -->
+                        <!-- Audio List Items -->
                         <li class="playlist-item" data-src="../audio/VenezuelanDeportation.mp3">
                             <div class="playlist-item-info">
                                 <span class="playlist-item-icon"><i class="fas fa-play"></i></span>
@@ -531,13 +614,7 @@
                  <div class="related-docs" style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
                      <h3 style="font-size: 1rem; color: var(--text-secondary); margin-bottom: 1rem; text-transform: uppercase; font-family: var(--font-mono);">Related Documents:</h3>
                      <ul class="content-list">
-                         <!--
-                         EASY UPDATE AREA: RELATED DOCS (Audio Card)
-                         Copy and paste the <li...> block below for each new related document.
-                         - Update href="path/to/your/document.pdf"
-                         - Update the icon class if needed (e.g., fas fa-file-pdf)
-                         - Update the link text
-                         -->
+                         <!-- Related Docs List Items -->
                          <li><a href='/docs/MassDeportation.pdf' target="_blank"><i class="fas fa-file-pdf"></i> Mass Deportation Dossier</a></li>
                          <li><a href='/docs/Transgender2025.pdf' target="_blank"><i class="fas fa-file-pdf"></i> Trans Rights Attack Vector</a></li>
                          <!-- Add new related docs here -->
@@ -551,8 +628,8 @@
             <div class="info-card">
                 <h2 class="card-title"><i class="fas fa-shield-halved"></i> Intel Resources:</h2>
                 <ul class="content-list">
-                    <li><a href='/docs/signalchat.html' target="_blank"><i class="fas fa-file-lines"></i>Signal Chat (Reconstruction)</a></li>
-                    <li><a href='/docs/MeaslesInfo.html' target="_blank"><i class="fas fa-file-lines"></i>Measles Info ⚠</a></li>
+                    <li><a href='/docs/signalchat' target='_blank'><i class="fas fa-file-lines"></i>Signal Chat (Reconstruction)</a></li>
+                    <li><a href='/docs/measlesinfo' target='_blank'><i class="fas fa-file-lines"></i>Measles Info ⚠</a></li>
                     <li><a href='/docs/ICE.pdf' target="_blank"><i class="fas fa-file-lines"></i> ICE/Militia - Overview</a></li>
                     <li><a href='/docs/OtayMesa.pdf' target="_blank"><i class="fas fa-building"></i> Otay Mesa Detention Center</a></li>
                     <li><a href='/docs/ElSalvador.pdf' target="_blank"><i class="fas fa-landmark"></i> El Salvador Mega-Prison Case Study</a></li>
@@ -571,7 +648,7 @@
             <div class="info-card">
                 <h2 class="card-title"><i class="fas fa-external-link-alt"></i> External Reconnaissance</h2>
                  <ul class="content-list">
-                    <!-- EASY UPDATE AREA: LINKS/DOCS (Copy/Paste <li> block) -->
+                    <!-- External Links List Items -->
                     <li><a href='https://www.thealtmedia.com' target="_blank" rel="noopener noreferrer"><i class="fas fa-link"></i> The ALT Media</a></li>
                     <li><a href='https://www.realtimefascism.com/' target="_blank" rel="noopener noreferrer"><i class="fas fa-triangle-exclamation"></i> Realtime Fascism Tracker</a></li>
                     <li><a href='https://linktr.ee/revolution2025' target="_blank" rel="noopener noreferrer"><i class="fas fa-link"></i> Revolution 2025 Linktree</a></li>
@@ -580,12 +657,12 @@
             </div>
             <!-- === END External Links Card === -->
 
-            
+
             <!-- === Persons of Interest Card === -->
             <div class="info-card">
                 <h2 class="card-title"><i class="fas fa-user-secret"></i> Persons of Interest</h2>
                  <ul class="content-list">
-                    <!-- EASY UPDATE AREA: LINKS/DOCS (Copy/Paste <li> block) -->
+                    <!-- Persons of Interest List Items -->
                     <li><a href='/dox/CurtisYarvin'><i class="fas fa-user"></i> Curtis "Moldbug" Yarvin</a></li>
                     <li><a href='/dox/MarcLowellAndreessen'><i class="fas fa-user"></i> Marc Andreessen</a></li>
                     <li><a href='/dox/PeterAndreasThiel'><i class="fas fa-user"></i> Peter Thiel</a></li>
@@ -602,7 +679,7 @@
             <div class="info-card">
                 <h2 class="card-title"><i class="fas fa-brain"></i> Ideological Battlegrounds</h2>
                  <ul class="content-list">
-                     <!-- EASY UPDATE AREA: LINKS/DOCS (Copy/Paste <li> block) -->
+                     <!-- Ideologies List Items -->
                     <li><a href='/docs/NRx.pdf' target="_blank"><i class="fas fa-book-skull"></i> NRx Primer</a></li>
                     <li><a href='/docs/NetworkStates.pdf' target="_blank"><i class="fas fa-network-wired"></i> Network States Analysis</a></li>
                     <li><a href='/docs/DarkEnlightenment.pdf' target="_blank"><i class="fas fa-moon"></i> Dark Enlightenment Concepts</a></li>
@@ -649,187 +726,192 @@
 
             // DOM Elements
             const player = document.getElementById('audio-player');
-            if (!player) return; // Don't run script if player isn't on page
+            // Only init player if the element exists
+            if (player) {
+                const playlistElement = player.querySelector('#player-playlist');
+                const progressBar = player.querySelector('#progress-bar');
+                const progressWrapper = player.querySelector('#progress-bar-wrapper');
+                const currentTimeEl = player.querySelector('#current-time');
+                const durationEl = player.querySelector('#duration');
+                const trackTitleEl = player.querySelector('#player-track-title');
+                const playBtn = player.querySelector('#play-btn');
+                const pauseBtn = player.querySelector('#pause-btn');
+                const stopBtn = player.querySelector('#stop-btn');
+                const prevBtn = player.querySelector('#prev-btn');
+                const nextBtn = player.querySelector('#next-btn');
+                const volumeBtn = player.querySelector('#volume-btn');
+                const volumeSlider = player.querySelector('#volume-slider');
+                const volumeIcon = volumeBtn.querySelector('i');
+                let playlistItems = Array.from(playlistElement.querySelectorAll('.playlist-item')); // Use Array.from for easier methods
 
-            const playlistElement = player.querySelector('#player-playlist');
-            const progressBar = player.querySelector('#progress-bar');
-            const progressWrapper = player.querySelector('#progress-bar-wrapper');
-            const currentTimeEl = player.querySelector('#current-time');
-            const durationEl = player.querySelector('#duration');
-            const trackTitleEl = player.querySelector('#player-track-title');
-            const playBtn = player.querySelector('#play-btn');
-            const pauseBtn = player.querySelector('#pause-btn');
-            const stopBtn = player.querySelector('#stop-btn');
-            const prevBtn = player.querySelector('#prev-btn');
-            const nextBtn = player.querySelector('#next-btn');
-            const volumeBtn = player.querySelector('#volume-btn');
-            const volumeSlider = player.querySelector('#volume-slider');
-            const volumeIcon = volumeBtn.querySelector('i');
-            let playlistItems = Array.from(playlistElement.querySelectorAll('.playlist-item')); // Use Array.from for easier methods
+                // --- Helper Functions ---
+                const formatTime = (seconds) => {
+                    if (isNaN(seconds) || !isFinite(seconds)) return '0:00';
+                    const mins = Math.floor(seconds / 60);
+                    const secs = Math.floor(seconds % 60);
+                    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                };
 
-            // --- Helper Functions ---
-            const formatTime = (seconds) => {
-                if (isNaN(seconds) || !isFinite(seconds)) return '0:00';
-                const mins = Math.floor(seconds / 60);
-                const secs = Math.floor(seconds % 60);
-                return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-            };
+                const updateProgress = () => {
+                    if (!currentTrack || !isPlaying) return;
+                    const seek = currentTrack.seek() || 0;
+                    const duration = currentTrack.duration() || 0;
+                    const progressPercent = duration ? (seek / duration) * 100 : 0;
+                    progressBar.style.width = `${progressPercent}%`;
+                    currentTimeEl.textContent = formatTime(seek);
+                    // Only update duration display when it's valid and hasn't been set yet
+                    if (duration > 0 && durationEl.textContent === '0:00') {
+                        durationEl.textContent = formatTime(duration);
+                    }
+                };
 
-            const updateProgress = () => {
-                if (!currentTrack || !isPlaying) return;
-                const seek = currentTrack.seek() || 0;
-                const duration = currentTrack.duration() || 0;
-                const progressPercent = duration ? (seek / duration) * 100 : 0;
-                progressBar.style.width = `${progressPercent}%`;
-                currentTimeEl.textContent = formatTime(seek);
-                // Only update duration display when it's valid and hasn't been set yet
-                 if (duration > 0 && durationEl.textContent === '0:00') {
-                    durationEl.textContent = formatTime(duration);
-                }
-            };
+                const startProgressUpdate = () => {
+                    clearInterval(updateInterval);
+                    updateProgress(); // Update immediately
+                    updateInterval = setInterval(updateProgress, 500);
+                };
 
-             const startProgressUpdate = () => {
-                clearInterval(updateInterval);
-                updateProgress(); // Update immediately
-                updateInterval = setInterval(updateProgress, 500);
-            };
+                const stopProgressUpdate = () => clearInterval(updateInterval);
 
-            const stopProgressUpdate = () => clearInterval(updateInterval);
+                const updateVolumeIcon = () => {
+                    if (isMuted || currentVolume === 0) volumeIcon.className = 'fas fa-volume-xmark';
+                    else if (currentVolume < 0.5) volumeIcon.className = 'fas fa-volume-low';
+                    else volumeIcon.className = 'fas fa-volume-high';
+                };
 
-            const updateVolumeIcon = () => {
-                if (isMuted || currentVolume === 0) volumeIcon.className = 'fas fa-volume-xmark';
-                else if (currentVolume < 0.5) volumeIcon.className = 'fas fa-volume-low';
-                else volumeIcon.className = 'fas fa-volume-high';
-            };
-
-            const resetPlayerUI = () => {
-                progressBar.style.width = '0%';
-                currentTimeEl.textContent = '0:00';
-                durationEl.textContent = '0:00';
-                trackTitleEl.textContent = 'Select Briefing';
-                playBtn.style.display = 'inline-flex';
-                pauseBtn.style.display = 'none';
-                playlistItems.forEach(item => item.classList.remove('playing'));
-            };
+                const resetPlayerUI = () => {
+                    progressBar.style.width = '0%';
+                    currentTimeEl.textContent = '0:00';
+                    durationEl.textContent = '0:00';
+                    trackTitleEl.textContent = 'Select Briefing';
+                    playBtn.style.display = 'inline-flex';
+                    pauseBtn.style.display = 'none';
+                    playlistItems.forEach(item => item.classList.remove('playing'));
+                };
 
 
-            // --- Core Player Functions ---
-            const playTrack = (index) => {
-                if (currentTrack) {
-                    currentTrack.stop();
-                    stopProgressUpdate();
-                }
+                // --- Core Player Functions ---
+                const playTrack = (index) => {
+                    if (currentTrack) {
+                        currentTrack.stop();
+                        stopProgressUpdate();
+                    }
 
-                 // Ensure index is valid and wraps around
-                if (playlistItems.length === 0) return;
-                if (index < 0) index = playlistItems.length - 1;
-                else if (index >= playlistItems.length) index = 0;
+                    // Ensure index is valid and wraps around
+                    if (playlistItems.length === 0) return;
+                    if (index < 0) index = playlistItems.length - 1;
+                    else if (index >= playlistItems.length) index = 0;
 
-                currentTrackIndex = index;
-                const trackItem = playlistItems[index];
-                const trackSrc = trackItem.getAttribute('data-src');
-                const trackName = trackItem.querySelector('.playlist-item-title')?.textContent || 'Loading...';
+                    currentTrackIndex = index;
+                    const trackItem = playlistItems[index];
+                    const trackSrc = trackItem.getAttribute('data-src');
+                    const trackName = trackItem.querySelector('.playlist-item-title')?.textContent || 'Loading...';
 
-                // Reset duration for new track
-                durationEl.textContent = '0:00';
+                    // Reset duration for new track
+                    durationEl.textContent = '0:00';
 
-                currentTrack = new Howl({
-                    src: [trackSrc],
-                    html5: true,
-                    volume: isMuted ? 0 : currentVolume,
-                    onplay: () => {
-                        isPlaying = true;
-                        playBtn.style.display = 'none';
-                        pauseBtn.style.display = 'inline-flex';
-                        trackTitleEl.textContent = trackName;
-                        durationEl.textContent = formatTime(currentTrack.duration()); // Try updating duration here
-                        startProgressUpdate();
-                        playlistItems.forEach(item => item.classList.remove('playing'));
-                        trackItem.classList.add('playing');
-                    },
-                    onload: () => {
-                        // Update duration once loaded if not already set onplay
-                        if (durationEl.textContent === '0:00' && currentTrack.duration()) {
-                            durationEl.textContent = formatTime(currentTrack.duration());
-                        }
-                    },
-                    onpause: () => { isPlaying = false; playBtn.style.display = 'inline-flex'; pauseBtn.style.display = 'none'; stopProgressUpdate(); },
-                    onstop: () => { isPlaying = false; stopProgressUpdate(); resetPlayerUI(); currentTrackIndex = -1; },
-                    onend: () => { playNext(); },
-                    onloaderror: (id, err) => { console.error("Howler Load Error:", id, err); trackTitleEl.textContent = `LOAD ERR: ${trackName}`; resetPlayerUI(); },
-                    onplayerror: (id, err) => { console.error("Howler Play Error:", id, err); trackTitleEl.textContent = `PLAY ERR: ${trackName}`; resetPlayerUI(); }
+                    currentTrack = new Howl({
+                        src: [trackSrc],
+                        html5: true,
+                        volume: isMuted ? 0 : currentVolume,
+                        onplay: () => {
+                            isPlaying = true;
+                            playBtn.style.display = 'none';
+                            pauseBtn.style.display = 'inline-flex';
+                            trackTitleEl.textContent = trackName;
+                            durationEl.textContent = formatTime(currentTrack.duration()); // Try updating duration here
+                            startProgressUpdate();
+                            playlistItems.forEach(item => item.classList.remove('playing'));
+                            trackItem.classList.add('playing');
+                        },
+                        onload: () => {
+                            // Update duration once loaded if not already set onplay
+                            if (durationEl.textContent === '0:00' && currentTrack.duration()) {
+                                durationEl.textContent = formatTime(currentTrack.duration());
+                            }
+                        },
+                        onpause: () => { isPlaying = false; playBtn.style.display = 'inline-flex'; pauseBtn.style.display = 'none'; stopProgressUpdate(); },
+                        onstop: () => { isPlaying = false; stopProgressUpdate(); resetPlayerUI(); currentTrackIndex = -1; },
+                        onend: () => { playNext(); },
+                        onloaderror: (id, err) => { console.error("Howler Load Error:", id, err); trackTitleEl.textContent = `LOAD ERR: ${trackName}`; resetPlayerUI(); },
+                        onplayerror: (id, err) => { console.error("Howler Play Error:", id, err); trackTitleEl.textContent = `PLAY ERR: ${trackName}`; resetPlayerUI(); }
+                    });
+                    currentTrack.play();
+                };
+
+                const playNext = () => playTrack(currentTrackIndex + 1);
+
+                const playPrev = () => {
+                    if (currentTrack && currentTrack.seek() > 3) {
+                        currentTrack.seek(0);
+                        if (!isPlaying) currentTrack.play(); // Restart if paused
+                    } else {
+                        playTrack(currentTrackIndex - 1);
+                    }
+                };
+
+                // --- Event Listeners ---
+                playBtn.addEventListener('click', () => {
+                    if (currentTrack && !isPlaying) currentTrack.play();
+                    else if (!currentTrack) playTrack(0); // Play first if nothing selected
                 });
-                currentTrack.play();
-            };
+                pauseBtn.addEventListener('click', () => { if (currentTrack && isPlaying) currentTrack.pause(); });
+                stopBtn.addEventListener('click', () => { if (currentTrack) currentTrack.stop(); });
+                prevBtn.addEventListener('click', playPrev);
+                nextBtn.addEventListener('click', playNext);
 
-            const playNext = () => playTrack(currentTrackIndex + 1);
+                progressWrapper.addEventListener('click', (e) => {
+                    if (!currentTrack || !currentTrack.duration()) return;
+                    const rect = progressWrapper.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    const width = rect.width;
+                    const seekPercent = Math.max(0, Math.min(1, clickX / width));
+                    currentTrack.seek(currentTrack.duration() * seekPercent);
+                    updateProgress(); // Update UI immediately
+                });
 
-            const playPrev = () => {
-                if (currentTrack && currentTrack.seek() > 3) {
-                    currentTrack.seek(0);
-                     if (!isPlaying) currentTrack.play(); // Restart if paused
-                } else {
-                    playTrack(currentTrackIndex - 1);
-                }
-            };
+                volumeSlider.addEventListener('input', (e) => {
+                    currentVolume = parseFloat(e.target.value);
+                    isMuted = currentVolume === 0;
+                    Howler.volume(currentVolume);
+                    if (currentTrack) currentTrack.volume(currentVolume);
+                    updateVolumeIcon();
+                });
 
-            // --- Event Listeners ---
-            playBtn.addEventListener('click', () => {
-                if (currentTrack && !isPlaying) currentTrack.play();
-                else if (!currentTrack) playTrack(0); // Play first if nothing selected
-            });
-            pauseBtn.addEventListener('click', () => { if (currentTrack && isPlaying) currentTrack.pause(); });
-            stopBtn.addEventListener('click', () => { if (currentTrack) currentTrack.stop(); });
-            prevBtn.addEventListener('click', playPrev);
-            nextBtn.addEventListener('click', playNext);
+                volumeBtn.addEventListener('click', () => {
+                    isMuted = !isMuted;
+                    const newVolume = isMuted ? 0 : (currentVolume > 0 ? currentVolume : 0.5); // Use stored volume or default if unmuting from 0
+                    if(!isMuted) currentVolume = newVolume; // Store the volume level if unmuting
+                    volumeSlider.value = newVolume;
+                    Howler.volume(newVolume);
+                    if (currentTrack) currentTrack.volume(newVolume);
+                    updateVolumeIcon();
+                });
 
-            progressWrapper.addEventListener('click', (e) => {
-                if (!currentTrack || !currentTrack.duration()) return;
-                const rect = progressWrapper.getBoundingClientRect();
-                const clickX = e.clientX - rect.left;
-                const width = rect.width;
-                const seekPercent = Math.max(0, Math.min(1, clickX / width));
-                currentTrack.seek(currentTrack.duration() * seekPercent);
-                updateProgress(); // Update UI immediately
-            });
+                playlistItems.forEach((item, index) => {
+                    const infoArea = item.querySelector('.playlist-item-info');
+                    const downloadBtn = item.querySelector('.playlist-item-download');
 
-            volumeSlider.addEventListener('input', (e) => {
-                currentVolume = parseFloat(e.target.value);
-                isMuted = currentVolume === 0;
+                    // Click on info area (icon or title) to play
+                    if (infoArea) {
+                        infoArea.addEventListener('click', () => playTrack(index));
+                    }
+
+                    // Prevent download click from triggering play
+                    if (downloadBtn) {
+                        downloadBtn.addEventListener('click', (e) => e.stopPropagation());
+                    }
+                });
+
+                // --- Initial Setup ---
+                volumeSlider.value = currentVolume;
                 Howler.volume(currentVolume);
-                if (currentTrack) currentTrack.volume(currentVolume);
                 updateVolumeIcon();
-            });
 
-             volumeBtn.addEventListener('click', () => {
-                isMuted = !isMuted;
-                const newVolume = isMuted ? 0 : (currentVolume > 0 ? currentVolume : 0.5); // Use stored volume or default if unmuting from 0
-                if(!isMuted) currentVolume = newVolume; // Store the volume level if unmuting
-                volumeSlider.value = newVolume;
-                Howler.volume(newVolume);
-                if (currentTrack) currentTrack.volume(newVolume);
-                updateVolumeIcon();
-            });
+            } // End of if(player) check
 
-            playlistItems.forEach((item, index) => {
-                const infoArea = item.querySelector('.playlist-item-info');
-                const downloadBtn = item.querySelector('.playlist-item-download');
+            // No specific JS needed for the map iframe or link button beyond HTML/CSS
 
-                // Click on info area (icon or title) to play
-                if (infoArea) {
-                    infoArea.addEventListener('click', () => playTrack(index));
-                }
-
-                // Prevent download click from triggering play
-                if (downloadBtn) {
-                    downloadBtn.addEventListener('click', (e) => e.stopPropagation());
-                }
-            });
-
-            // --- Initial Setup ---
-            volumeSlider.value = currentVolume;
-            Howler.volume(currentVolume);
-            updateVolumeIcon();
         });
     </script>
 
