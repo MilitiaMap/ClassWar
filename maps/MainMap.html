@@ -96,6 +96,7 @@
             padding: 20px;
             overflow-y: auto;
             max-height: calc(80vh - 50px);
+            padding-bottom: 40px; /* Added padding to prevent cutoff */
         }
 
         #modal-body h4 {
@@ -161,65 +162,75 @@
         maxZoom: 19
     }).addTo(map);
 
-    // State Data Object - All states marked for external HTML
+    // State Data Object with party affiliations
     const stateData = {
-        "Alabama": { externalHTML: true },
-        "Alaska": { externalHTML: true },
-        "Arizona": { externalHTML: true },
-        "Arkansas": { externalHTML: true },
-        "California": { externalHTML: true },
-        "Colorado": { externalHTML: true },
-        "Connecticut": { externalHTML: true },
-        "Delaware": { externalHTML: true },
-        "District of Columbia": { externalHTML: true },
-        "Florida": { externalHTML: true },
-        "Georgia": { externalHTML: true },
-        "Hawaii": { externalHTML: true },
-        "Idaho": { externalHTML: true },
-        "Illinois": { externalHTML: true },
-        "Indiana": { externalHTML: true },
-        "Iowa": { externalHTML: true },
-        "Kansas": { externalHTML: true },
-        "Kentucky": { externalHTML: true },
-        "Louisiana": { externalHTML: true },
-        "Maine": { externalHTML: true },
-        "Maryland": { externalHTML: true },
-        "Massachusetts": { externalHTML: true },
-        "Michigan": { externalHTML: true },
-        "Minnesota": { externalHTML: true },
-        "Mississippi": { externalHTML: true },
-        "Missouri": { externalHTML: true },
-        "Montana": { externalHTML: true },
-        "Nebraska": { externalHTML: true },
-        "Nevada": { externalHTML: true },
-        "New Hampshire": { externalHTML: true },
-        "New Jersey": { externalHTML: true },
-        "New Mexico": { externalHTML: true },
-        "New York": { externalHTML: true },
-        "North Carolina": { externalHTML: true },
-        "North Dakota": { externalHTML: true },
-        "Ohio": { externalHTML: true },
-        "Oklahoma": { externalHTML: true },
-        "Oregon": { externalHTML: true },
-        "Pennsylvania": { externalHTML: true },
-        "Rhode Island": { externalHTML: true },
-        "South Carolina": { externalHTML: true },
-        "South Dakota": { externalHTML: true },
-        "Tennessee": { externalHTML: true },
-        "Texas": { externalHTML: true },
-        "Utah": { externalHTML: true },
-        "Vermont": { externalHTML: true },
-        "Virginia": { externalHTML: true },
-        "Washington": { externalHTML: true },
-        "West Virginia": { externalHTML: true },
-        "Wisconsin": { externalHTML: true },
-        "Wyoming": { externalHTML: true }
+        "Alabama": { externalHTML: true, party: "R" },
+        "Alaska": { externalHTML: true, party: "R" },
+        "Arizona": { externalHTML: true, party: "D" },
+        "Arkansas": { externalHTML: true, party: "R" },
+        "California": { externalHTML: true, party: "D" },
+        "Colorado": { externalHTML: true, party: "D" },
+        "Connecticut": { externalHTML: true, party: "D" },
+        "Delaware": { externalHTML: true, party: "D" },
+        "District of Columbia": { externalHTML: true, party: "D" },
+        "Florida": { externalHTML: true, party: "R" },
+        "Georgia": { externalHTML: true, party: "R" },
+        "Hawaii": { externalHTML: true, party: "D" },
+        "Idaho": { externalHTML: true, party: "R" },
+        "Illinois": { externalHTML: true, party: "D" },
+        "Indiana": { externalHTML: true, party: "R" },
+        "Iowa": { externalHTML: true, party: "R" },
+        "Kansas": { externalHTML: true, party: "R" },
+        "Kentucky": { externalHTML: true, party: "R" },
+        "Louisiana": { externalHTML: true, party: "R" },
+        "Maine": { externalHTML: true, party: "D" },
+        "Maryland": { externalHTML: true, party: "D" },
+        "Massachusetts": { externalHTML: true, party: "D" },
+        "Michigan": { externalHTML: true, party: "D" },
+        "Minnesota": { externalHTML: true, party: "D" },
+        "Mississippi": { externalHTML: true, party: "R" },
+        "Missouri": { externalHTML: true, party: "R" },
+        "Montana": { externalHTML: true, party: "R" },
+        "Nebraska": { externalHTML: true, party: "R" },
+        "Nevada": { externalHTML: true, party: "D" },
+        "New Hampshire": { externalHTML: true, party: "D" },
+        "New Jersey": { externalHTML: true, party: "D" },
+        "New Mexico": { externalHTML: true, party: "D" },
+        "New York": { externalHTML: true, party: "D" },
+        "North Carolina": { externalHTML: true, party: "D" },
+        "North Dakota": { externalHTML: true, party: "R" },
+        "Ohio": { externalHTML: true, party: "R" },
+        "Oklahoma": { externalHTML: true, party: "R" },
+        "Oregon": { externalHTML: true, party: "D" },
+        "Pennsylvania": { externalHTML: true, party: "D" },
+        "Rhode Island": { externalHTML: true, party: "D" },
+        "South Carolina": { externalHTML: true, party: "R" },
+        "South Dakota": { externalHTML: true, party: "R" },
+        "Tennessee": { externalHTML: true, party: "R" },
+        "Texas": { externalHTML: true, party: "R" },
+        "Utah": { externalHTML: true, party: "R" },
+        "Vermont": { externalHTML: true, party: "D" },
+        "Virginia": { externalHTML: true, party: "D" },
+        "Washington": { externalHTML: true, party: "D" },
+        "West Virginia": { externalHTML: true, party: "R" },
+        "Wisconsin": { externalHTML: true, party: "D" },
+        "Wyoming": { externalHTML: true, party: "R" }
     };
 
-    // Styling Function for States
+    // Styling Function for States with party colors
     function styleState(feature) {
+        const stateName = feature.properties.name;
+        const data = stateData[stateName];
+        let fillColor = '#555';
+
+        if (data && data.party) {
+            fillColor = data.party === 'R' ? '#b33030' : // Red for Republicans
+                        data.party === 'D' ? '#306b8e' : // Blue for Democrats
+                        '#555'; // Grey for others
+        }
+
         return {
-            fillColor: '#306b8e', // Default blue for all states
+            fillColor: fillColor,
             weight: 1,
             opacity: 1,
             color: '#888',
@@ -270,13 +281,17 @@
             if (!response.ok) {
                 throw new Error(`Failed to load ${stateName} data`);
             }
-            modalBody.innerHTML = await response.text();
+            let htmlContent = await response.text();
+            // Add padding breaks to ensure content isn't cut off
+            htmlContent += '<br><br>';
+            modalBody.innerHTML = htmlContent;
         } catch (error) {
             console.error(`Error loading data for ${stateName}:`, error);
             modalBody.innerHTML = `
                 <p style="color: #ff4d4d;">Failed to load intelligence data for ${stateName}.</p>
                 <p>Error: ${error.message}</p>
                 <p>Please ensure the file exists at: states/${stateName.toLowerCase().replace(/\s+/g, '-')}.html</p>
+                <br><br> <!-- Added padding here too -->
             `;
         }
 
@@ -324,7 +339,7 @@
         .catch(error => {
             console.error('Critical Failure loading GeoJSON feed:', error);
              document.getElementById('modal-title').textContent = "System Alert!";
-             document.getElementById('modal-body').innerHTML = `<p style="color: #ff4d4d; font-weight: bold;">MAP DATA CORRUPTED OR UNAVAILABLE.</p><p>Could not load state boundaries. Verify GeoJSON source (${geoJsonUrl}) and network connection.</p><p>Error detail: ${error}</p>`;
+             document.getElementById('modal-body').innerHTML = `<p style="color: #ff4d4d; font-weight: bold;">MAP DATA CORRUPTED OR UNAVAILABLE.</p><p>Could not load state boundaries. Verify GeoJSON source (${geoJsonUrl}) and network connection.</p><p>Error detail: ${error}</p><br><br>`;
              document.getElementById('modal-overlay').style.display = 'block';
              document.getElementById('info-modal').style.display = 'block';
         });
